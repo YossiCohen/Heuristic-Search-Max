@@ -47,7 +47,7 @@ namespace MaSib
                 System.Console.WriteLine(@"when the dimention is set to 7, intra-snake spread is 2");
                 System.Console.WriteLine(@"and inter-snake spread is 3, the starting locations are 0-(0000000)");
                 System.Console.WriteLine(@"and 127-(1111111) so we have 2 snakes");
-                System.Console.WriteLine(@"MaSiB problem=box s0=0 s1=127 alg=astar-od dim=7 snakeSpread=2 boxSpread=3");
+                System.Console.WriteLine(@"MaSiB problem=box-od s0=0 s1=127 alg=dfbnb dim=7 snakeSpread=2 boxSpread=3 boxh=snakes-sum snakeh=reachable");
                 return;
             }
 
@@ -74,6 +74,10 @@ namespace MaSib
             ISnakeHeuristic snakeh;
             IBoxHeuristic boxh;
             ISolver solver;
+            if (!splitedArgs.ContainsKey("boxh")) //default boxh
+            {
+                splitedArgs.Add("boxh","none");
+            }
             switch (splitedArgs["boxh"])
             {
                 case "none":
@@ -88,7 +92,10 @@ namespace MaSib
                     break;
             }
 
-
+            if (!splitedArgs.ContainsKey("snakeh")) //default snakeh
+            {
+                splitedArgs.Add("snakeh", "none");
+            }
             switch (splitedArgs["snakeh"])
             {
                 case "none":
