@@ -4,12 +4,19 @@ Multi Agent Snake In the Box
 Solver project for the SIB problem with heuristic search
 
 Implemented in C# you can find here:
+
 Algorithms:
+
 A* & DFBnB - Maximal varient
 
-Snake - single snake
+Problems:
+
+Snake - Single snake in the box
+
 Box - Multiple snakes with cartesian product of all snakes when expending a node
-Box-od - Instead of cartesian product, we are using operator decomposition - as offered by Trevor Standley in 2010 paper 'Finding Optimal Solutions to Cooperative Pathfinding Problems.' https://pdfs.semanticscholar.org/2529/f40c4f79ef24165dbb1a8327770e37cced2d.pdf
+
+Box-od - Instead of cartesian product, we are using operator decomposition
+
 
 The project runs as an console application that gets arguments and write the output solution (and some other stuff) to a file in the folder "RunningLogs" that will be created in the process path.
 
@@ -45,5 +52,14 @@ and inter-snake spread is 3, the starting locations are 0-(0000000)
 and 127-(1111111) so we have 2 snakes
 MaSiB problem=box-od s0=0 s1=127 alg=dfbnb dim=7 snakeSpread=2 boxSpread=3 boxh=snakes-sum snakeh=reachable
 ```
+Build:
+
+The release is configured to 64bit since the problem can really grow huge with the right parameters
+
+Ref:
+
+'Finding Optimal Solutions to Cooperative Pathfinding Problems.' by Trevor Standley, 2010 - https://pdfs.semanticscholar.org/2529/f40c4f79ef24165dbb1a8327770e37cced2d.pdf
+
+'Solving the Snake in the Box Problem with Heuristic Search - First Results' by Palombo et al. - http://www.bgu.ac.il/~felner/2015/SoCS/solving-snake-box.pdf
 
 Have fun!
