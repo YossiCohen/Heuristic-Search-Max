@@ -29,9 +29,9 @@ namespace MaSibTest
             World w = new World(5, 3);
             var heuristicFunc = new SnakeNoneHeuristic();
             Snake snake = new Snake(w, 0, heuristicFunc);
-            DfBnbMax astar = new DfBnbMax(snake);
-            astar.Run();
-            var maxGoal = astar.GetMaxGoal();
+            DfBnbMax dfBnbMax = new DfBnbMax(snake);
+            dfBnbMax.Run(1);
+            var maxGoal = dfBnbMax.GetMaxGoal();
             Assert.IsNotNull(maxGoal);
         }
 
@@ -42,9 +42,9 @@ namespace MaSibTest
             var heuristicFunc = new SnakeNoneHeuristic();
             int[] snakeHeads = new int[] { 0, 127 };
             Box b = new Box(w, snakeHeads,new BoxNoneHeuristic(), heuristicFunc);
-            DfBnbMax astar = new DfBnbMax(b);
-            astar.Run();
-            var maxGoal = astar.GetMaxGoal();
+            DfBnbMax dfBnbMax = new DfBnbMax(b);
+            dfBnbMax.Run(1);
+            var maxGoal = dfBnbMax.GetMaxGoal();
             Assert.IsNotNull(maxGoal);
         }
 

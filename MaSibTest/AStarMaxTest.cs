@@ -30,7 +30,7 @@ namespace MaSibTest
             var heuristicFunc = new SnakeNoneHeuristic();
             Snake snake = new Snake(w, 0, heuristicFunc);
             AStarMax astar = new AStarMax(snake);
-            astar.Run();
+            astar.Run(1);
             var maxGoal = astar.GetMaxGoal();
             Assert.IsNotNull(maxGoal);
         }
@@ -43,7 +43,7 @@ namespace MaSibTest
             int[] snakeHeads = new int[] { 0, 127 };
             Box b = new Box(w, snakeHeads, new BoxNoneHeuristic(), heuristicFunc);
             AStarMax astar = new AStarMax(b);
-            astar.Run();
+            astar.Run(1);
             var maxGoal = astar.GetMaxGoal();
             Assert.IsNotNull(maxGoal);
         }

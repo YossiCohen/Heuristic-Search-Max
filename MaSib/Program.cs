@@ -19,7 +19,7 @@ namespace MaSib
         {
             if (args.Length == 0)
             {
-                System.Console.WriteLine(@"SIB A* Solver - Please Provide arguments to run:");
+                System.Console.WriteLine(@"Please Provide arguments to run:");
                 System.Console.WriteLine(@"all args should be in the form of: [key]=[value] with space between them");
                 System.Console.WriteLine(@"Arguments:");
                 System.Console.WriteLine(@"----------");
@@ -34,6 +34,7 @@ namespace MaSib
                 System.Console.WriteLine(@"dim:         the number of dimentions for the problem (N)");
                 System.Console.WriteLine(@"snakeSpread: the intra-snake spread (sK)");
                 System.Console.WriteLine(@"boxSpread:   the inter-snake spread (bK)");
+                System.Console.WriteLine(@"timeLimit:   limit run time to X minutes (default 120), 0 for no time limit");
                 System.Console.WriteLine(@"memTest:     if set to true, will not solve nothing, only fill memory");
                 System.Console.WriteLine(@"             allocation to check 64bit issue");
                 System.Console.WriteLine(@"");
@@ -73,7 +74,7 @@ namespace MaSib
             INode initState;
             ISnakeHeuristic snakeh;
             IBoxHeuristic boxh;
-            ISolver solver;
+            Solver solver;
             if (!splitedArgs.ContainsKey("boxh")) //default boxh
             {
                 splitedArgs.Add("boxh","none");
@@ -112,7 +113,12 @@ namespace MaSib
                     return;
                     break;
             }
-
+            
+            if (!splitedArgs.ContainsKey("timelimit")) //default snakeh
+            {
+                splitedArgs.Add("timelimit", "120");
+            }
+            int timelimit = Int32.Parse(splitedArgs["timelimit"]);
 
             if (splitedArgs["problem"].Equals("snake"))
             {
@@ -171,7 +177,7 @@ namespace MaSib
 
 
             var startTime = DateTime.Now;
-            solver.Run();
+            var howEnded = solver.Run(timelimit);
             var totalTime = DateTime.Now - startTime;
             var goal = solver.GetMaxGoal();
             Log.WriteLineIf("[[TotalTime(MS):" + totalTime.TotalMilliseconds + "]]", TraceLevel.Off);
@@ -181,6 +187,7 @@ namespace MaSib
             Log.WriteLineIf("[[G-Value:" + goal.g + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[GoalBits:" + goal.GetBitsString() + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Goal:" + goal.GetIntString() + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[HowEnded:" + Enum.GetName(typeof(State), howEnded) + "]]", TraceLevel.Off);
             var sLoop = 0;
             while (splitedArgs.ContainsKey("s" + sLoop))
             {

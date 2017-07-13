@@ -8,43 +8,22 @@ using Common;
 
 namespace MaSib.Algorithms
 {
-    public enum State
-    {
-        Searching,Ended
-    }
 
-    public class AStarMax : ISolver
+    public class AStarMax : Solver
     {
-        private INode candidateGoalNode;
+        
         private SortedList<int, INode> openList;
-//        private SortedList<int, INode> closedList;
 
-        public int Expended { get; private set; }
-        public int Generated { get; private set; }
-        public int Pruned { get; private set; }
-
-        public AStarMax(INode initailNode)
+        public AStarMax(INode initailNode):base(initailNode)
         {
-            this.candidateGoalNode = initailNode;
             var duplicateComparer = new MaxComparer();
             openList = new SortedList<int, INode>(duplicateComparer);
             openList.Add(initailNode);
-            Expended = 0;
-            Generated = 0;
-            Pruned = 0;  //Will stay 0 - just implementing ISolver
         }
 
-        public State Run()
-        {
-            while (true)
-            {
-                State s = Step();
-                if (s != State.Searching)
-                    return s;
-            }
-        }
 
-        public State Step()
+
+        internal override State Step()
         {
             // stop condition
             if (openList.IsEmpty())
@@ -75,10 +54,7 @@ namespace MaSib.Algorithms
             return State.Searching;
         }
 
-        public INode GetMaxGoal()
-        {
-            return candidateGoalNode;
-        }
+
 
 
     }

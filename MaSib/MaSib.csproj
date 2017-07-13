@@ -48,7 +48,7 @@
     <Compile Include="Algorithms\DfBnbMax.cs" />
     <Compile Include="Algorithms\AStarMax.cs" />
     <Compile Include="Algorithms\INode.cs" />
-    <Compile Include="Algorithms\ISolver.cs" />
+    <Compile Include="Algorithms\Solver.cs" />
     <Compile Include="Algorithms\Extensions.cs" />
     <Compile Include="Commons.cs" />
     <Compile Include="Common\Log.cs" />
