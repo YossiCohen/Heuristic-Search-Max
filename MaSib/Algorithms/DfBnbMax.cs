@@ -13,9 +13,6 @@ namespace MaSib.Algorithms
     {
         private Stack<INode> openList;
 
-        public int Expended { get; private set; }
-        public int Generated { get; private set; }
-        public int Pruned { get; private set; }
         public DfBnbMax(INode initailNode) : base(initailNode)
         {
             openList = new Stack<INode>();
