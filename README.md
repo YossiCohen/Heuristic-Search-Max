@@ -101,7 +101,11 @@ MaSiB problem=box-od s0=0 s1=127 alg=dfbnb dim=7 snakeSpread=2 boxSpread=3
 [12/07/2017 22:44:34|Info   ][[S1:127]]
 
 ```
+*Lab:*
 
+Python project that runs MASIB with many different combination of arguments
+
+if you want to summerize multiple runs into single CSV file just run ExpSum.exe in the outputs folder
 
 Ref:
 
