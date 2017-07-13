@@ -28,7 +28,7 @@ namespace MaSib
                 System.Console.WriteLine(@"             with arguments Sx=location");
                 System.Console.WriteLine(@"Sx:          starting location of snake number x, counting from 0");
                 System.Console.WriteLine(@"             when using snake you can have only 1 Sx argument");
-                System.Console.WriteLine(@"snakeH:      [none/legal/reachable] the snake heuristic");
+                System.Console.WriteLine(@"snakeH:      [none/snakes-sum] the snake heuristic");
                 System.Console.WriteLine(@"boxH:        [none/legal/reachable] the box heuristic");
                 System.Console.WriteLine(@"alg:         [astar/dfbnb] the solving algorithm");
                 System.Console.WriteLine(@"dim:         the number of dimentions for the problem (N)");
