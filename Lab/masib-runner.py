@@ -5,6 +5,7 @@ algorithms = ['astar', 'dfbnb']
 problems = ['snake', 'box', 'box-od']
 snake_heuristics = ['none', 'legal', 'reachable']
 box_heuristics = ['none', 'snakes-sum']
+# dimentions_spreads_list = [(5, 2), (5, 3), (6, 2), (6, 3), (6, 4), (7, 2), (7, 3), (7, 4), (7, 5), (8, 3), (8, 4), (8, 5), (8, 6), (9, 4), (9, 5), (9, 6), (9, 7)] # only relevant with time aspect
 dimentions_spreads_list = [(5, 2), (5, 3), (6, 2), (6, 3), (6, 4), (7, 3), (7, 4), (7, 5), (8, 4), (8, 5), (8, 6), (9, 5), (9, 6), (9, 7)] # only relevant with time aspect
 dims_dict = defaultdict(list)
 for k, v in dimentions_spreads_list:
@@ -23,6 +24,8 @@ for alg in algorithms:
                             if prob == 'snake' and did_snake_once:
                                 continue
                             if prob == 'snake' and boxh != 'none':
+                                continue
+                            if bx_sprd < snk_sprd:
                                 continue
                             states = ['s0=0']
                             if prob != 'snake':
