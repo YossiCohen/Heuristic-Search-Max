@@ -1,25 +1,52 @@
 <script src="https://unpkg.com/vue"></script>
-<H1>MA-SIB free spots checker</H1>
-<div id="app">
-    <H2>Hypercube dimentions:</H2>
-    <input id='dim' v-model.number="dim" type="number" />
-    <H2>Snake spread:</H2>
-    <input id='snakeSpread' v-model.number="snakeSpread" type="number" />
-    <H2>Box spread (-1 for snake only):</H2>
-    <input id='boxSpread' v-model.number="boxSpread" type="number" />
-    <H2>Sequences (internal separated by -, external separated by |):</H2>
-    <H4>I.E:|0-1-3|422-486-230|, use decimal mode, not binary</H4>
-    <textarea id='sequance' v-model="sequance"> </textarea>
-    <br/> data:
-    <br/> {{sequance}}
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<div id="app" class="row form-horizontal">
+    <div class="form-group">
+        <H1 class="col-lg-offset-2">MA-SIB free spots checker</H1> </div>
+    <div class="form-group">
+        <br/>
+        <label for="dim" class="col-lg-offset-2 col-lg-3 control-label">Hypercube dimentions:</label>
+        <div class="col-lg-5">
+            <input id='dim' v-model.number="dim" type="number" class="form-control" /> </div>
+    </div>
+    <div class="form-group">
+        <label for="snakeSpread" class="col-lg-offset-2 col-lg-3 control-label">Intra-Snake spread:</label>
+        <div class="col-lg-5">
+            <input id='snakeSpread' v-model.number="snakeSpread" type="number" class="form-control" /> </div>
+    </div>
+    <div class="form-group">
+        <label for="boxSpread" class="col-lg-offset-2 col-lg-3 control-label">Inter-Snake spread (box):</label>
+        <div class="col-lg-5">
+            <input id='boxSpread' v-model.number="boxSpread" type="number" class="form-control" /> </div>
+    </div>
+    <div class="form-group">
+        <label for="sequance" class="col-lg-offset-2 col-lg-3 control-label"> Sequences (internal separated by -, external separated by |):
+            <br/> <small>I.E: |0-1-3|422-486-230| for two snakes, use decimal - not binary!</small> </label>
+        <div class="col-lg-5">
+            <textarea id='sequance' v-model="sequance" class="form-control"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <button v-on:click="calculateFreeSpots" class="btn btn-primary col-lg-offset-2 col-lg-3">Calculate!</button>
+         <div class="col-lg-5">
+        <label>Calculate empty locations & basic validation of snakes - i.e. Dimentions & intra-snake hamming distance is 1</label>
+        </div>
+    </div>
     <br/>
-    <button v-on:click="calculateFreeSpots">Calculate!</button>
-    <br/> Snakes Locations: {{snakeSpot.length}}<br/>
-    {{snakeSpot}}<br/>
-    <br/> IntraSnake Free Spots: {{intraSnakeFreeSpot.length}}<br/>
-    {{intraSnakeFreeSpot}}<br/>
-    <br/> InterSnake Free Spots: {{interSnakeFreeSpot.length}}<br/>
-    {{interSnakeFreeSpot}}<br/><br/>
+    <br/>
+    <div class="row">
+        <div class="col-lg-offset-2 col-lg-10">
+            <br/> Snakes Locations: {{snakeSpot.length}}
+            <br/> {{snakeSpot}}
+            <br/>
+            <br/> IntraSnake Free Spots: {{intraSnakeFreeSpot.length}}
+            <br/> {{intraSnakeFreeSpot}}
+            <br/>
+            <br/> InterSnake Free Spots: {{interSnakeFreeSpot.length}}
+            <br/> {{interSnakeFreeSpot}}
+        </div>
+    </div>
 </div>
 <script>
     var cleanArray = function (actual) {
@@ -61,6 +88,16 @@
         }
         return distance;
     };
+    var validSnakes = function (snakes) {
+        let valid = true;
+        let maxDimValue = Math.pow(2, dim);
+        for (let i = 0; i < snakes.length && valid; i++) {
+            for (let j = 0; j < snakes[i].length-1 && valid; j++) {
+                valid = hammingDistance(snakes[i][j], snakes[i][j+1])==1;
+            }
+        }
+        return valid;
+    };
     var app = new Vue({
         el: '#app'
         , data: {
@@ -74,9 +111,9 @@
         }
         , methods: {
             calculateFreeSpots: function () {
-            this.snakeSpot =  new Array()
-            this.intraSnakeFreeSpot = new Array()
-            this.interSnakeFreeSpot = new Array()
+                this.snakeSpot = new Array()
+                this.intraSnakeFreeSpot = new Array()
+                this.interSnakeFreeSpot = new Array()
                 let maxDimValue = Math.pow(2, this.dim);
                 var partsOfStr = this.sequance.split('|');
                 var cleaned = cleanArray(partsOfStr);
@@ -86,9 +123,13 @@
                 }
                 var snakes = snakesAsInt(cleaned);
                 if (!validDim(snakes, this.dim)) {
-                    alert('dimentions error')
+                    alert('dimentions error');
+                    return;
                 }
-                debugger;
+                if (!validSnakes(snakes)) {
+                    alert('snakes are invalid!');
+                    return;
+                }
                 for (let loc = 0; loc < maxDimValue; loc++) {
                     let locFound = false;
                     let allIntraHammingGood = true;
@@ -98,21 +139,22 @@
                             if (loc == snakes[i][j]) {
                                 this.snakeSpot.push(loc);
                                 locFound = true;
-                            } else {
+                            }
+                            else {
                                 let distance = hammingDistance(loc, snakes[i][j]);
-                                if (this.snakeSpread > distance){
+                                if (this.snakeSpread > distance) {
                                     allIntraHammingGood = false;
                                 }
-                                if (this.boxSpread > distance){
+                                if (this.boxSpread > distance) {
                                     allInterHammingGood = false;
                                 }
                             }
                         }
                     }
-                    if (!locFound && allIntraHammingGood){
+                    if (!locFound && allIntraHammingGood) {
                         this.intraSnakeFreeSpot.push(loc);
                     }
-                    if (!locFound && allInterHammingGood){
+                    if (!locFound && allInterHammingGood) {
                         this.interSnakeFreeSpot.push(loc);
                     }
                 }
