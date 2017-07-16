@@ -1,9 +1,17 @@
 <script src="https://unpkg.com/vue"></script>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <div id="app" class="row form-horizontal container">
     <div class="form-group">
-        <H1 class="col-xs-offset-2 col-lg-offset-2">MA-SIB free spots checker</H1> </div>
+        <H1 class="col-xs-offset-2 col-lg-offset-2">MA-SIB free spots checker</H1> 
+    </div>
+    <div class="form-group">
+        <a type="button" class="btn btn-default col-xs-offset-2 col-xs-3" aria-label="Left Align" href="https://github.com/YossiCohen/MA-SIB">
+         <span class="fa fa-github fa-lg" aria-hidden="true"></span> Get the source on GitHub
+        </a>
+    </div>
+
     <div class="form-group">
         <br/>
         <label for="dim" class="col-xs-offset-2 col-xs-3 control-label">Hypercube dimentions:</label>
@@ -48,6 +56,8 @@
         </div>
     </div>
 </div>
+
+
 <script>
     var cleanArray = function (actual) {
         var newArray = new Array();
