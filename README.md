@@ -101,6 +101,11 @@ MaSiB problem=box-od s0=0 s1=127 alg=dfbnb dim=7 snakeSpread=2 boxSpread=3
 [12/07/2017 22:44:34|Info   ][[S1:127]]
 
 ```
+
+you can validate your results at:
+https://yossicohen.github.io/MA-SIB/
+
+
 *Lab:*
 
 Python project that runs MASIB with many different combination of arguments
