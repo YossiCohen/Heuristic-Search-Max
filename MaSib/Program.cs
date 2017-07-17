@@ -188,6 +188,10 @@ namespace MaSib
             Log.WriteLineIf("[[GoalBits:" + goal.GetBitsString() + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Goal:" + goal.GetIntString() + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[HowEnded:" + Enum.GetName(typeof(State), howEnded) + "]]", TraceLevel.Off);
+            //TODO Improve how ended - no solution - ilegle start stat
+            //TODO add free spots
+            //TODO Refactor BOX&OD to abstract
+
             var sLoop = 0;
             while (splitedArgs.ContainsKey("s" + sLoop))
             {
