@@ -8,18 +8,11 @@ using MaSib.Domain.SIB;
 
 namespace MaSib
 {
-    public class Box : INode, IBox
+    public class BoxCartez : Box, INode
     {
-        public const int MAX_DIM = 8;
-        [DebuggerDisplay("{this.GetBitsString(),nq}")]
-        private IBoxHeuristic heuristicFunction;
-        private int gValue;
-        private int hValue;
 
-        public World world { get; internal set; }
-        public Snake[] snakes { get; internal set; }
-
-        public Box(World world, int[] snakesStartLocations, IBoxHeuristic heuristicFunction, ISnakeHeuristic heuristicForSnakes)
+        public BoxCartez(World world, int[] snakesStartLocations, IBoxHeuristic heuristicFunction, 
+            ISnakeHeuristic heuristicForSnakes) : base(world, snakesStartLocations, heuristicFunction, heuristicForSnakes)
         {
             this.world = world;
             snakes = new Snake[snakesStartLocations.Length];
@@ -32,42 +25,11 @@ namespace MaSib
             hValue = this.heuristicFunction.calc_h(this);
         }
 
-        private Box(World world, Snake[] snakes, IBoxHeuristic heuristicFunction) 
+        private BoxCartez(World world, Snake[] snakes, IBoxHeuristic heuristicFunction) : base(world, snakes, heuristicFunction)
         {
-            this.world = world;
-            this.snakes = snakes;
-            calculateGValue();
-            this.heuristicFunction = heuristicFunction;
-            hValue = this.heuristicFunction.calc_h(this);
-
         }
 
-        private void calculateGValue()
-        {
-            gValue = 0;
-            for (int i = 0; i < snakes.Length; i++)
-            {
-                gValue += snakes[i].g;
-            }
-        }
-        public int NumberOfSnake {
-            get { return snakes.Length; }
-        }
-
-        public int f
-        {
-            get { return g + h; }
-        }
-        public int h {
-            get { return hValue; }
-        }
-
-        public int g
-        {
-            get { return gValue; }
-        }
-
-        public LinkedList<INode> Children {
+        public override LinkedList<INode>  Children {
             get
             {
                 var tmpList = CartesianProductOfSnakesChilds();
@@ -76,13 +38,13 @@ namespace MaSib
             }
         }
 
-        private LinkedList<INode> RemoveDuplicationOfCurrentNode(LinkedList<INode> boxList)  //TODO: maby not needed - need better solution
+        private LinkedList<INode> RemoveDuplicationOfCurrentNode(LinkedList<INode> boxList)  //TODO: maybe not needed - need better solution
         {
             LinkedList<INode> result = new LinkedList<INode>();
             bool allSameSnakes;
             foreach (var box in boxList)
             {
-                Box b = (Box)box;
+                BoxCartez b = (BoxCartez)box;
                 allSameSnakes = true;
                 for (int i = 0; i < b.snakes.Length; i++)//i snake
                 {
@@ -108,7 +70,7 @@ namespace MaSib
             bool spreadFaultFound;
             foreach (var box in boxList)
             {
-                Box b = (Box)box;
+                BoxCartez b = (BoxCartez)box;
                 spreadFaultFound = false;
                 for (int i = 0; i < b.snakes.Length; i++)//i snake
                 {
@@ -120,7 +82,7 @@ namespace MaSib
                         }
                         for (int k = 0; k < b.snakes[j].tail.Length; k++)
                         {
-                            if (world.HammingDistance(b.snakes[i].Head, b.snakes[j].tail[k]) < world.BoxSpread)
+                            if (World.HammingDistance(b.snakes[i].Head, b.snakes[j].tail[k]) < world.BoxSpread)
                             {
                                 spreadFaultFound = true;
                                 break;
@@ -180,7 +142,7 @@ namespace MaSib
                     values[i] = allSnakesChildes[i][indexes[i]];
 
                 Snake[] snakes = Array.ConvertAll(values, prop => (Snake) prop);
-                result.AddLast(new Box(world, snakes, heuristicFunction));  //parent = this 
+                result.AddLast(new BoxCartez(world, snakes, heuristicFunction));  //parent = this 
 
                 // increment indexes
                 int incrementIndex = listCount - 1;
@@ -196,36 +158,7 @@ namespace MaSib
             }
             return result;
         }
-
-
-        public string GetBitsString()
-        {
-            StringBuilder sb = new StringBuilder("|");
-            foreach (var snake in snakes)
-            {
-                sb.Append(snake.GetBitsString());
-                sb.Append("|");
-            }
-            return sb.ToString();
-        }
-
-        public string GetIntString()
-        {
-            StringBuilder sb = new StringBuilder("|");
-            foreach (var snake in snakes)
-            {
-                sb.Append(snake.GetIntString());
-                sb.Append("|");
-            }
-            return sb.ToString();
-        }
-
-        public override string ToString()
-        {
-            return String.Format("G:{0} Bits:{1}", g,GetBitsString());
-        }
-
-
+        
     }
 
 }

@@ -8,7 +8,7 @@ namespace MaSib.Domain.SIB
 {
     public class BoxSnakesSumHeuristic : IBoxHeuristic
     {
-        public int calc_h(IBox b)
+        public int calc_h(Box b)
         {
             var h = 0;
             foreach (var bSnake in b.snakes)

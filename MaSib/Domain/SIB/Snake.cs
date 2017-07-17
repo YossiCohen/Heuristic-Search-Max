@@ -121,7 +121,7 @@ namespace MaSib
                 found = false;
                 for (int i = 0; i < c.tail.Length - world.SnakeSpread; i++) 
                 {
-                    if (world.HammingDistance(c.Head, c.tail[i]) < world.SnakeSpread)
+                    if (World.HammingDistance(c.Head, c.tail[i]) < world.SnakeSpread)
                     {
                         found = true;
                         break;
@@ -191,18 +191,7 @@ namespace MaSib
 
         public static bool ValidOneStepOfSnake(int a, int b)
         {
-            int numberOfGroups = 0;
-            var bits = (int) a ^ b;
-            for (int i = 0; i < Box.MAX_DIM; i++)
-            {
-                var bit = bits & 1;
-                if ( bit == 1)
-                {
-                    numberOfGroups++;
-                }
-                bits >>= 1;
-            }
-            return numberOfGroups == 1;
+            return World.HammingDistance(a,b) == 1;
         }
 
         public static int FlipBitAt(int source, int idx)

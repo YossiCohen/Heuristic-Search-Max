@@ -107,7 +107,7 @@ namespace MaSibTest
             World w = new World(3, 2);
             int a = 3; // 011
             int b = 2; // 010
-            Assert.AreEqual(1, w.HammingDistance(a,b));
+            Assert.AreEqual(1, World.HammingDistance(a,b));
         }
 
         [TestMethod]
@@ -116,7 +116,7 @@ namespace MaSibTest
             World w = new World(3, 2);
             int a = 7; // 111
             int b = 2; // 010
-            Assert.AreEqual(2, w.HammingDistance(a, b));
+            Assert.AreEqual(2, World.HammingDistance(a, b));
         }
 
         [TestMethod]
@@ -125,7 +125,7 @@ namespace MaSibTest
             World w = new World(3, 2);
             int a = 7; // 111
             int b = 0; // 010
-            Assert.AreEqual(3, w.HammingDistance(a, b));
+            Assert.AreEqual(3, World.HammingDistance(a, b));
         }
     }
 }

@@ -19,7 +19,7 @@ namespace MaSib.Domain.SIB
                 bool valid = true;
                 foreach (var part in s.tail)
                 {
-                    if (world.HammingDistance(i, part) < world.SnakeSpread)
+                    if (World.HammingDistance(i, part) < world.SnakeSpread)
                     {
                         valid = false;
                         break;

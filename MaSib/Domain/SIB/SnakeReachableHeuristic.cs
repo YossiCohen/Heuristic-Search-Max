@@ -35,7 +35,7 @@ namespace MaSib.Domain.SIB
 //                    foreach (var part in s.tail)
                     for (byte j=0; j<s.tail.Length-world.SnakeSpread; j++)
                     {
-                        if (world.HammingDistance(dfsNode, s.tail[j]) < world.SnakeSpread)
+                        if (World.HammingDistance(dfsNode, s.tail[j]) < world.SnakeSpread)
                         {
                             valid = false;
                             break;

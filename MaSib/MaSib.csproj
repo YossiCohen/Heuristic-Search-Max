@@ -54,7 +54,7 @@
     <Compile Include="Common\Log.cs" />
     <Compile Include="Common\TraceManager.cs" />
     <Compile Include="Domain\SIB\BoxOD.cs" />
-    <Compile Include="Domain\SIB\IBox.cs" />
+    <Compile Include="Domain\SIB\Box.cs" />
     <Compile Include="Domain\SIB\IBoxHeuristic.cs" />
     <Compile Include="Domain\SIB\ISnakeHeuristic.cs" />
     <Compile Include="Domain\SIB\BoxNoneHeuristic.cs" />
@@ -65,7 +65,7 @@
     <Compile Include="Domain\SIB\Snake.cs" />
     <Compile Include="Domain\SIB\SnakeNode.cs" />
     <Compile Include="Domain\SIB\World.cs" />
-    <Compile Include="Domain\SIB\Box.cs" />
+    <Compile Include="Domain\SIB\BoxCartez.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

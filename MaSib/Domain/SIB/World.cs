@@ -85,7 +85,7 @@ namespace MaSib
             return sb.ToString();
         }
 
-        public int HammingDistance(int a, int b)
+        public static int HammingDistance(int a, int b)
         {
             int val = a ^ b;
             int dist = 0;

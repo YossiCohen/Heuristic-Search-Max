@@ -7,70 +7,24 @@ using MaSib.Domain.SIB;
 
 namespace MaSib
 {
-    public class BoxOD : INode, IBox
+    public class BoxOD : Box, INode
     {
-        public const int MAX_DIM = 8;
-        [DebuggerDisplay("{this.GetBitsString(),nq}")]
-        private IBoxHeuristic heuristicFunction;
+
         private int operatorIndex;
-        private int gValue;
-        private int hValue;
 
-        public World world { get; internal set; }
-        public Snake[] snakes { get; internal set; }
-
-        public BoxOD(World world, int[] snakesStartLocations, IBoxHeuristic heuristicFunction, ISnakeHeuristic heuristicForSnakes)
+        public BoxOD(World world, int[] snakesStartLocations, IBoxHeuristic heuristicFunction, 
+            ISnakeHeuristic heuristicForSnakes) : base(world, snakesStartLocations, heuristicFunction, heuristicForSnakes)
         {
-            this.world = world;
-            snakes = new Snake[snakesStartLocations.Length];
-            for (int i = 0; i < snakesStartLocations.Length; i++)
-            {
-                snakes[i] = new Snake(world, snakesStartLocations[i], heuristicForSnakes, i==0); //TODO: do we used imprune on one snake???
-            }
-            calculateGValue();
-            this.heuristicFunction = heuristicFunction;
-            hValue = this.heuristicFunction.calc_h(this);
             operatorIndex = 0;
         }
 
-        private BoxOD(World world, Snake[] snakes, IBoxHeuristic heuristicFunction, int operatorIndex) //Box parent,
+        private BoxOD(World world, Snake[] snakes, IBoxHeuristic heuristicFunction, int operatorIndex) : base(world, snakes, heuristicFunction)
         {
-            this.world = world;
-//            this.Parent = parent;
-            this.snakes = snakes;
-            calculateGValue();
-            this.heuristicFunction = heuristicFunction;
-            hValue = this.heuristicFunction.calc_h(this);
             this.operatorIndex = operatorIndex;
         }
 
-        private void calculateGValue()
-        {
-            gValue = 0;
-            for (int i = 0; i < snakes.Length; i++)
-            {
-                gValue += snakes[i].g;
-            }
-        }
-        public int NumberOfSnake {
-            get { return snakes.Length; }
-        }
 
-        public int f
-        {
-            get { return g + h; }
-        }
-        public int h {
-            get { return hValue; }
-        }
-
-        public int g
-        {
-            get { return gValue; }
-        }
-//        public INode Parent { get; set; }
-
-        public LinkedList<INode> Children {
+        public override LinkedList<INode> Children {
             get
             {
                 var tmpList = GetChildrenByOperatorDecomposition();
@@ -96,7 +50,7 @@ namespace MaSib
                         }
                         for (int k = 0; k < b.snakes[j].tail.Length; k++)
                         {
-                            if (world.HammingDistance(b.snakes[i].Head, b.snakes[j].tail[k]) < world.BoxSpread)
+                            if (World.HammingDistance(b.snakes[i].Head, b.snakes[j].tail[k]) < world.BoxSpread)
                             {
                                 spreadFaultFound = true;
                                 break;
@@ -146,32 +100,6 @@ namespace MaSib
         }
 
 
-        public string GetBitsString()
-        {
-            StringBuilder sb = new StringBuilder("|");
-            foreach (var snake in snakes)
-            {
-                sb.Append(snake.GetBitsString());
-                sb.Append("|");
-            }
-            return sb.ToString();
-        }
-
-        public string GetIntString()
-        {
-            StringBuilder sb = new StringBuilder("|");
-            foreach (var snake in snakes)
-            {
-                sb.Append(snake.GetIntString());
-                sb.Append("|");
-            }
-            return sb.ToString();
-        }
-
-        public override string ToString()
-        {
-            return String.Format("G:{0} Bits:{1}", g, GetBitsString());
-        }
     }
 
 }

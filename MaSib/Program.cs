@@ -132,7 +132,7 @@ namespace MaSib
                     heads.Add(Int32.Parse(splitedArgs["s" + i]));
                     i++;
                 }
-                initState = new Box(w,heads.ToArray(), boxh, snakeh);
+                initState = new BoxCartez(w,heads.ToArray(), boxh, snakeh);
             }
             else if (splitedArgs["problem"].Equals("box-od"))
             {
