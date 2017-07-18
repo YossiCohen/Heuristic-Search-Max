@@ -30,9 +30,20 @@
     </div>
     <div class="form-group">
         <label for="sequance" class="col-xs-offset-2 col-xs-3 control-label"> Sequences (internal separated by -, external separated by |):
-            <br/> <small>I.E: |0-1-3|422-486-230| for two snakes, use decimal - not binary!</small> </label>
+            <br/> <small>I.E: |0-1-3|422-486-230| for two snakes.</small> </label>
         <div class="col-xs-5">
-            <textarea id='sequance' v-model="sequance" class="form-control"></textarea>
+            <textarea id='sequance' v-model="sequance" class="form-control" style="resize:vertical"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-offset-5 col-xs-3 control-radio">
+            <input type="radio" id="dec" value="Dec" v-model="seqMode">
+            <label for="one">Decimal</label>
+        </div>
+        <div class="col-xs-3 control-radio">
+            <input type="radio" id="bin" value="Bin" v-model="seqMode">
+            <label for="two">Binary</label>
+            <br>
         </div>
     </div>
     <div class="form-group">
@@ -46,13 +57,22 @@
     <div class="row">
         <div class="col-xs-offset-2 col-xs-8">
             <br/> Snakes Locations: {{snakeSpot.length}}
-            <br/> {{snakeSpot}}
+            <br/>
+            <span v-for="(spot,idx) in snakeSpot">
+                [{{spot}}]
+            </span>
             <br/>
             <br/> IntraSnake Free Spots: {{intraSnakeFreeSpot.length}}
-            <br/> {{intraSnakeFreeSpot}}
+            <br/>
+            <span v-for="(spot,idx) in intraSnakeFreeSpot">
+                [{{spot}}]
+            </span>
             <br/>
             <br/> InterSnake Free Spots: {{interSnakeFreeSpot.length}}
-            <br/> {{interSnakeFreeSpot}}
+            <br/> 
+            <span v-for="(spot,idx) in interSnakeFreeSpot">
+                [{{spot}}]
+            </span>
         </div>
     </div>
 </div>
@@ -68,13 +88,14 @@
         }
         return newArray;
     };
-    var snakesAsInt = function (snakesStr) {
+    var snakesAsInt = function (snakesStr, radix) {
+        
         var snakes = new Array();
         for (let i = 0; i < snakesStr.length; i++) {
             var strSnake = snakesStr[i].split('-');
             var intSnake = new Array();
             for (let j = 0; j < strSnake.length; j++) {
-                intSnake.push(Number(strSnake[j]));
+                intSnake.push(parseInt(strSnake[j],radix));
             }
             snakes.push(intSnake);
         }
@@ -108,6 +129,12 @@
         }
         return valid;
     };
+    var addLeadingZeros = function (list, dim) {
+        zeros = Array(dim+1).join("0")
+        for (var i = 0; i < list.length; i++) {
+            list[i]=zeros.substr(list[i].length)+list[i];
+        }
+    };
     var app = new Vue({
         el: '#app'
         , data: {
@@ -118,9 +145,11 @@
             , snakeSpot: new Array()
             , intraSnakeFreeSpot: new Array()
             , interSnakeFreeSpot: new Array()
+            , seqMode: 'Dec'
         }
         , methods: {
             calculateFreeSpots: function () {
+                let radix = this.seqMode == 'Bin' ? 2 :10;
                 this.snakeSpot = new Array()
                 this.intraSnakeFreeSpot = new Array()
                 this.interSnakeFreeSpot = new Array()
@@ -131,7 +160,7 @@
                     alert('no input');
                     return;
                 }
-                var snakes = snakesAsInt(cleaned);
+                var snakes = snakesAsInt(cleaned, radix);
                 if (!validDim(snakes, this.dim)) {
                     alert('dimentions error');
                     return;
@@ -144,10 +173,11 @@
                     let locFound = false;
                     let allIntraHammingGood = true;
                     let allInterHammingGood = true;
+                    debugger;
                     for (let i = 0; i < snakes.length && !locFound; i++) {
                         for (let j = 0; j < snakes[i].length && !locFound; j++) {
                             if (loc == snakes[i][j]) {
-                                this.snakeSpot.push(loc);
+                                this.snakeSpot.push(loc.toString(radix));
                                 locFound = true;
                             }
                             else {
@@ -162,11 +192,17 @@
                         }
                     }
                     if (!locFound && allIntraHammingGood) {
-                        this.intraSnakeFreeSpot.push(loc);
+                        this.intraSnakeFreeSpot.push(loc.toString(radix));
                     }
                     if (!locFound && allInterHammingGood) {
-                        this.interSnakeFreeSpot.push(loc);
+                        this.interSnakeFreeSpot.push(loc.toString(radix));
                     }
+                }
+                debugger;
+                if (radix == 2){
+                    addLeadingZeros(this.snakeSpot, this.dim);
+                    addLeadingZeros(this.intraSnakeFreeSpot, this.dim);
+                    addLeadingZeros(this.interSnakeFreeSpot, this.dim);
                 }
             }
         }
