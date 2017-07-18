@@ -75,7 +75,7 @@ namespace MaSib
 
         public int g
         {
-            get { return tail.Length; }
+            get { return tail.Length-1; }
         }
 
 //        public INode Parent { get; set; }
