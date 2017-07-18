@@ -108,9 +108,9 @@ https://yossicohen.github.io/MA-SIB/
 
 *Lab:*
 
-Python project that runs MASIB with many different combination of arguments
+Python project that runs MASIB with many different combination of arguments - this is just a simple example, feel free to modify and create your own experiment
 
-if you want to summerize multiple runs into single CSV file just run ExpSum.exe in the outputs folder
+if you want to summerize multiple runs into single CSV file just run ExpSum.exe in the outputs folder (the source for this EXE is in the project ExperimentSummarizer)
 
 Ref:
 
