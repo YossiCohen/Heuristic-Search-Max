@@ -6,12 +6,35 @@
     <div class="form-group">
         <H1 class="col-xs-offset-2 col-lg-offset-2">MA-SIB free spots checker</H1> 
     </div>
+
     <div class="form-group">
         <a type="button" class="btn btn-default col-xs-offset-2 col-xs-3" aria-label="Left Align" href="https://github.com/YossiCohen/MA-SIB">
          <span class="fa fa-github fa-lg" aria-hidden="true"></span> Get the source on GitHub
         </a>
     </div>
-
+    <div class="row">
+        <div class="col-xs-offset-2 col-xs-8">
+            <h3>Sample Sequances</h3>
+            <div class="form-group">
+                <div class="control-button col-xs-4" >
+                    <button v-on:click="twoSnakesFourDec" class="btn btn-primary">Optimal - 2 Snakes on Dim 4</button>
+                </div>
+                <div class="control-button col-xs-4">
+                    <button v-on:click="singleSnakeSevenBin" class="btn btn-primary">Optimal - 1 Snake on Dim 7</button>
+                </div>
+                <div class="control-button col-xs-4">
+                    <button v-on:click="nonOptTwoSnakesFourDec" class="btn btn-primary">NonOptimal - 2 Snakes</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-offset-2 col-xs-8">
+            <div class="form-group">
+                <div class="control-button col-xs-4">
+                    <button v-on:click="threeSnakesSixDec" class="btn btn-primary">3 Snakes Dim 6 Example</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="form-group">
         <br/>
         <label for="dim" class="col-xs-offset-2 col-xs-3 control-label">Hypercube dimentions:</label>
@@ -75,6 +98,7 @@
             </span>
         </div>
     </div>
+
 </div>
 
 
@@ -138,10 +162,10 @@
     var app = new Vue({
         el: '#app'
         , data: {
-            snakeSpread: 2
-            , boxSpread: 3
-            , dim: 4
-            , sequance: '|0|5|'
+            snakeSpread: 0
+            , boxSpread: 0
+            , dim: 0
+            , sequance: ''
             , snakeSpot: new Array()
             , intraSnakeFreeSpot: new Array()
             , interSnakeFreeSpot: new Array()
@@ -204,7 +228,35 @@
                     addLeadingZeros(this.intraSnakeFreeSpot, this.dim);
                     addLeadingZeros(this.interSnakeFreeSpot, this.dim);
                 }
-            }
+            },
+            twoSnakesFourDec: function() {
+                this.seqMode = 'Dec';
+                this.sequance = '|0-1-3-7|10-14-12-13|';
+                this.dim = 4;
+                this.snakeSpread = 2;
+                this.boxSpread = 3;
+            },
+            nonOptTwoSnakesFourDec: function() {
+                this.seqMode = 'Dec';
+                this.sequance = '|0-1-3|15-13-12|';
+                this.dim = 4;
+                this.snakeSpread = 2;
+                this.boxSpread = 3;
+            },
+            singleSnakeSevenBin: function() {
+                this.seqMode = 'Bin';
+                this.sequance = '0000000-0000001-0000011-0000111-0001111-0011111-0111111-0110111-0110011-0110001-0110000-0111000-0111100-0011100-0010100-0010110-0010010-0011010-0001010-0101010-0100010-0100110-0100100-0100101-0101101-0101001-1101001-1100001-1100011-1100111-1101111-1101110-1001110-1000110-1000100-1000101-1001101-1011101-1111101-1110101-1110100-1110110-1110010-1111010-1111011-1011011-1010011-1010001-1010000-1011000-1001000';
+                this.dim = 7;
+                this.snakeSpread = 2;
+                this.boxSpread = 2;
+            },
+            threeSnakesSixDec: function() {
+                this.seqMode = 'Dec';
+                this.sequance = '|0-32-34|24-28-60|7-23-55|';
+                this.dim = 6;
+                this.snakeSpread = 2;
+                this.boxSpread = 3;
+            },
         }
     });
 </script>
