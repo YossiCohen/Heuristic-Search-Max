@@ -11,7 +11,7 @@ using MaSib.Domain.SIB;
 
 namespace MaSib
 {
-    public class Snake: INode
+    public class Snake: ISibNode
     {
         private int head;
         private int visitedDim;
@@ -221,6 +221,29 @@ namespace MaSib
                 sb.Append(i);
             }
             return sb.ToString();
+        }
+
+        public List<int> GetSnakeSpreadFreeSpots()
+        {
+            List<int> freeSpots = new List<int>();
+            for (int i = 0; i < world.MaxPlacesInDimention; i++)
+            {
+                bool valid = true;
+                foreach (var part in tail)
+                {
+                    if (World.HammingDistance(i, part) < world.SnakeSpread)
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                if (valid)
+                {
+                    freeSpots.Add(i);
+                }
+
+            }
+            return freeSpots;
         }
     }
 }

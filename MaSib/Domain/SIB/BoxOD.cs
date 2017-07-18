@@ -7,7 +7,7 @@ using MaSib.Domain.SIB;
 
 namespace MaSib
 {
-    public class BoxOD : Box, INode
+    public class BoxOD : Box
     {
 
         private int operatorIndex;
@@ -22,7 +22,6 @@ namespace MaSib
         {
             this.operatorIndex = operatorIndex;
         }
-
 
         public override LinkedList<INode> Children {
             get
@@ -98,8 +97,7 @@ namespace MaSib
             }
             return result;
         }
-
-
+        
     }
 
 }

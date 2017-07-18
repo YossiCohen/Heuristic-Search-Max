@@ -56,6 +56,7 @@
     <Compile Include="Domain\SIB\BoxOD.cs" />
     <Compile Include="Domain\SIB\Box.cs" />
     <Compile Include="Domain\SIB\IBoxHeuristic.cs" />
+    <Compile Include="Domain\SIB\ISibNode.cs" />
     <Compile Include="Domain\SIB\ISnakeHeuristic.cs" />
     <Compile Include="Domain\SIB\BoxNoneHeuristic.cs" />
     <Compile Include="Domain\SIB\BoxSnakesSumHeuristic.cs" />

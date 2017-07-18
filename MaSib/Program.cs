@@ -71,7 +71,7 @@ namespace MaSib
             }
             
             World w = new World(n, sk, bk);
-            INode initState;
+            ISibNode initState;
             ISnakeHeuristic snakeh;
             IBoxHeuristic boxh;
             Solver solver;
@@ -179,7 +179,7 @@ namespace MaSib
             var startTime = DateTime.Now;
             var howEnded = solver.Run(timelimit);
             var totalTime = DateTime.Now - startTime;
-            var goal = solver.GetMaxGoal();
+            var goal = (ISibNode) solver.GetMaxGoal();
             Log.WriteLineIf("[[TotalTime(MS):" + totalTime.TotalMilliseconds + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Expended:" + solver.Expended + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Generated:" + solver.Generated + "]]", TraceLevel.Off);
@@ -188,9 +188,12 @@ namespace MaSib
             Log.WriteLineIf("[[GoalBits:" + goal.GetBitsString() + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Goal:" + goal.GetIntString() + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[HowEnded:" + Enum.GetName(typeof(State), howEnded) + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[SnakeSpreadFreeSpots:" + string.Join(",",goal.GetSnakeSpreadFreeSpots()) + "]]", TraceLevel.Off);
+            if (goal is Box)
+            {
+                Log.WriteLineIf("[[BoxSpreadFreeSpots:" + string.Join(",", ((Box)goal).GetBoxSpreadFreeSpots()) + "]]", TraceLevel.Off);
+            }
             //TODO Improve how ended - no solution - ilegle start stat
-            //TODO add free spots
-            //TODO Refactor BOX&OD to abstract
 
             var sLoop = 0;
             while (splitedArgs.ContainsKey("s" + sLoop))

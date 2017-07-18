@@ -8,24 +8,16 @@ using MaSib.Domain.SIB;
 
 namespace MaSib
 {
-    public class BoxCartez : Box, INode
+    public class BoxCartez : Box
     {
 
         public BoxCartez(World world, int[] snakesStartLocations, IBoxHeuristic heuristicFunction, 
             ISnakeHeuristic heuristicForSnakes) : base(world, snakesStartLocations, heuristicFunction, heuristicForSnakes)
         {
-            this.world = world;
-            snakes = new Snake[snakesStartLocations.Length];
-            for (int i = 0; i < snakesStartLocations.Length; i++)
-            {
-                snakes[i] = new Snake(world, snakesStartLocations[i], heuristicForSnakes, i==0); //TODO: do we used imprune on one snake???
-            }
-            this.heuristicFunction = heuristicFunction;
-            calculateGValue();
-            hValue = this.heuristicFunction.calc_h(this);
         }
 
-        private BoxCartez(World world, Snake[] snakes, IBoxHeuristic heuristicFunction) : base(world, snakes, heuristicFunction)
+        private BoxCartez(World world, Snake[] snakes, IBoxHeuristic heuristicFunction)
+            : base(world, snakes, heuristicFunction)
         {
         }
 

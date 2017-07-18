@@ -8,7 +8,7 @@ namespace MaSib.Algorithms
 {
     public enum State
     {
-        Searching, Ended, StoppedByTime
+        Searching, Ended, StoppedByTime, IllegalStartState
     }
 
     public abstract class Solver
@@ -36,10 +36,19 @@ namespace MaSib.Algorithms
             var startTime = DateTime.Now;
             while (true)
             {
-                
                 State s = Step();
                 if (s != State.Searching)
-                    return s;
+                {
+                    if (Expended == 1) //Only one expand and not continued searching?
+                    {
+                        return State.IllegalStartState;
+                    }
+                    else
+                    {
+                        return s;
+                    }
+                }
+                    
                 if (timelimit != 0 && DateTime.Now.Subtract(startTime).TotalMinutes >= timelimit)
                 {
                     return State.StoppedByTime;

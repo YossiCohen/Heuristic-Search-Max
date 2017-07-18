@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using MaSib.Algorithms;
 
 namespace MaSib.Domain.SIB
 {
-    public abstract class Box
+    public abstract class Box : ISibNode
     {
         public World world { get; internal set;}
         public Snake[] snakes { get; internal set; }
@@ -95,6 +96,69 @@ namespace MaSib.Domain.SIB
         public override string ToString()
         {
             return String.Format("G:{0} Bits:{1}", g, GetBitsString());
+        }
+
+
+        public List<int> GetSnakeSpreadFreeSpots()
+        {
+            List<int> freeSpots = new List<int>();
+            for (int i = 0; i < world.MaxPlacesInDimention; i++)
+            {
+                bool valid = true;
+                foreach (var snake in snakes)
+                {
+                    foreach (var part in snake.tail)
+                    {
+                        if (World.HammingDistance(i, part) < world.SnakeSpread)
+                        {
+                            valid = false;
+                            break;
+                        }
+                    }
+                    if (!valid)
+                    {
+                        break;
+                    }
+                }
+
+                if (valid)
+                {
+                    freeSpots.Add(i);
+                }
+
+            }
+            return freeSpots;
+        }
+
+        public List<int> GetBoxSpreadFreeSpots()
+        {
+            List<int> freeSpots = new List<int>();
+            for (int i = 0; i < world.MaxPlacesInDimention; i++)
+            {
+                bool valid = true;
+                foreach (var snake in snakes)
+                {
+                    foreach (var part in snake.tail)
+                    {
+                        if (World.HammingDistance(i, part) < world.BoxSpread)
+                        {
+                            valid = false;
+                            break;
+                        }
+                    }
+                    if (!valid)
+                    {
+                        break;
+                    }
+                }
+
+                if (valid)
+                {
+                    freeSpots.Add(i);
+                }
+
+            }
+            return freeSpots;
         }
     }
 }
