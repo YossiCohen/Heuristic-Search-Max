@@ -190,12 +190,12 @@ namespace MaSib
             Log.WriteLineIf("[[HowEnded:" + Enum.GetName(typeof(State), howEnded) + "]]", TraceLevel.Off);
             var snakeFreeSpots = goal.GetSnakeSpreadFreeSpots();
             Log.WriteLineIf("[[SnakeSpreadFreeSpotsCount:" + snakeFreeSpots.Count + "]]", TraceLevel.Off);
-            Log.WriteLineIf("[[SnakeSpreadFreeSpotsPlaces:" + string.Join(",", snakeFreeSpots) + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[SnakeSpreadFreeSpotsPlaces:" + string.Join("-", snakeFreeSpots) + "]]", TraceLevel.Off);
             if (goal is Box)
             {
                 var boxFreeSpots = ((Box)goal).GetBoxSpreadFreeSpots();
                 Log.WriteLineIf("[[BoxSpreadFreeSpotsCount:" + boxFreeSpots.Count  + "]]", TraceLevel.Off);
-                Log.WriteLineIf("[[BoxSpreadFreeSpotsPlaces:" + string.Join(",",boxFreeSpots)  + "]]", TraceLevel.Off);
+                Log.WriteLineIf("[[BoxSpreadFreeSpotsPlaces:" + string.Join("-",boxFreeSpots)  + "]]", TraceLevel.Off);
             }
 
             var sLoop = 0;
