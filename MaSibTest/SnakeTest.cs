@@ -71,18 +71,18 @@ namespace MaSibTest
         public void Generate_GenerateWithoutDimentionsAndGValue_ReturnsChildSnakesSomeLevels()
         {
             Snake s = new Snake(world, 0, heuristicFunc, true);
-            Assert.AreEqual(1, s.g);
+            Assert.AreEqual(0, s.g);
             var lstGen = s.Children;
-            Assert.AreEqual(2, lstGen.Last.Value.g);
+            Assert.AreEqual(1, lstGen.Last.Value.g);
             Assert.IsNotNull(lstGen);
             var lstGen2 = lstGen.Last.Value.Children;
-            Assert.AreEqual(3, lstGen2.Last.Value.g);
+            Assert.AreEqual(2, lstGen2.Last.Value.g);
             Assert.IsNotNull(lstGen2);
             var lstGen3 = lstGen2.Last.Value.Children;
-            Assert.AreEqual(4, lstGen3.Last.Value.g);
+            Assert.AreEqual(3, lstGen3.Last.Value.g);
             Assert.IsNotNull(lstGen3);
             var lstGen41 = lstGen3.First.Value.Children;
-            Assert.AreEqual(5, lstGen41.Last.Value.g);
+            Assert.AreEqual(4, lstGen41.Last.Value.g);
             Assert.IsNotNull(lstGen41);
         }
 
