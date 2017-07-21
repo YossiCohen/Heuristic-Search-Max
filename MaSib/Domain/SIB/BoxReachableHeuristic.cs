@@ -1,19 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace MaSib.Domain.SIB
 {
-    public class SnakeReachableHeuristic : ISnakeHeuristic
+    public class BoxReachableHeuristic : IBoxHeuristic
     {
-        public int calc_h(Snake s)
+        public int calc_h(Box b)
         {
-            World world = s.world;
+            World world = b.world;
             int dim = world.Dimentions;
             int basicSearchNode;
+
             List<int> open = new List<int>();
             int reachable = 0;
             bool[] closed = new bool[world.MaxPlacesInDimention];
-            open.Add(s.Head);
+
+            int minimalSpread = Math.Min(world.SnakeSpread, world.BoxSpread);
+            foreach (var bSnake in b.snakes)
+            {
+                open.Add(bSnake.Head);
+            }
 
             while (open.Count > 0)
             {
@@ -29,14 +38,22 @@ namespace MaSib.Domain.SIB
                     }
                     closed[basicSearchNode] = true;
                     bool valid = true;
-                    for (byte j=0; j<s.tail.Length-world.SnakeSpread; j++)
+                    foreach (var bSnake in b.snakes)
                     {
-                        if (World.HammingDistance(basicSearchNode, s.tail[j]) < world.SnakeSpread)
+                        for (byte j = 0; j < bSnake.tail.Length - minimalSpread; j++)
                         {
-                            valid = false;
+                            if (World.HammingDistance(basicSearchNode, bSnake.tail[j]) < minimalSpread)
+                            {
+                                valid = false;
+                                break;
+                            }
+                        }
+                        if (!valid)
+                        {
                             break;
                         }
                     }
+                    
                     if (valid)
                     {
                         reachable++;
@@ -48,6 +65,5 @@ namespace MaSib.Domain.SIB
             return reachable;
 
         }
-
     }
 }

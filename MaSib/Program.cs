@@ -29,7 +29,7 @@ namespace MaSib
                 System.Console.WriteLine(@"Sx:          starting location of snake number x, counting from 0");
                 System.Console.WriteLine(@"             when using snake you can have only 1 Sx argument");
                 System.Console.WriteLine(@"snakeH:      [none/legal/reachable] the snake heuristic");
-                System.Console.WriteLine(@"boxH:        [none/snakes-sum] the box heuristic");
+                System.Console.WriteLine(@"boxH:        [none/snakes-sum/legal/reachable] the box heuristic");
                 System.Console.WriteLine(@"alg:         [astar/dfbnb] the solving algorithm");
                 System.Console.WriteLine(@"dim:         the number of dimentions for the problem (N)");
                 System.Console.WriteLine(@"snakeSpread: the intra-snake spread (sK)");
@@ -69,7 +69,7 @@ namespace MaSib
             {
                 Log.WriteLineIf("boxSpread not found, setting it to:2", TraceLevel.Warning);
             }
-            
+
             World w = new World(n, sk, bk);
             ISibNode initState;
             ISnakeHeuristic snakeh;
@@ -86,6 +86,12 @@ namespace MaSib
                     break;
                 case "snakes-sum":
                     boxh = new BoxSnakesSumHeuristic();
+                    break;
+                case "legal":
+                    boxh = new BoxLegalHeuristic();
+                    break;
+                case "reachable":
+                    boxh = new BoxReachableHeuristic();
                     break;
                 default:
                     Log.WriteLineIf("Box heuristic: "+ splitedArgs["boxh"] + " is not supported!", TraceLevel.Error);

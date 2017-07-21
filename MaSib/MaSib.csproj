@@ -55,11 +55,13 @@
     <Compile Include="Common\TraceManager.cs" />
     <Compile Include="Domain\SIB\BoxOD.cs" />
     <Compile Include="Domain\SIB\Box.cs" />
+    <Compile Include="Domain\SIB\BoxReachableHeuristic.cs" />
     <Compile Include="Domain\SIB\IBoxHeuristic.cs" />
     <Compile Include="Domain\SIB\ISibNode.cs" />
     <Compile Include="Domain\SIB\ISnakeHeuristic.cs" />
     <Compile Include="Domain\SIB\BoxNoneHeuristic.cs" />
     <Compile Include="Domain\SIB\BoxSnakesSumHeuristic.cs" />
+    <Compile Include="Domain\SIB\BoxLegalHeuristic.cs" />
     <Compile Include="Domain\SIB\SnakeReachableHeuristic.cs" />
     <Compile Include="Domain\SIB\SnakeNoneHeuristic.cs" />
     <Compile Include="Domain\SIB\SnakeLegalHeuristic.cs" />
