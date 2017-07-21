@@ -4,7 +4,7 @@ from collections import defaultdict
 algorithms = ['astar', 'dfbnb']
 problems = ['snake', 'box', 'box-od']
 snake_heuristics = ['none', 'legal', 'reachable']
-box_heuristics = ['none', 'snakes-sum']
+box_heuristics = ['none', 'snakes-sum', 'legal', 'reachable']
 # dimentions_spreads_list = [(5, 2), (5, 3), (6, 2), (6, 3), (6, 4), (7, 2), (7, 3), (7, 4), (7, 5), (8, 3), (8, 4), (8, 5), (8, 6), (9, 4), (9, 5), (9, 6), (9, 7)] # only relevant with time aspect
 dimentions_spreads_list = [(5, 2), (5, 3), (6, 2), (6, 3), (6, 4), (7, 3), (7, 4), (7, 5), (8, 4), (8, 5), (8, 6), (9, 5), (9, 6), (9, 7)] # only relevant with time aspect
 dims_dict = defaultdict(list)
