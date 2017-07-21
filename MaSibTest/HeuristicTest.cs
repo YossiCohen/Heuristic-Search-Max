@@ -78,6 +78,14 @@ namespace MaSibTest
             Assert.AreEqual(0, b.g);
             Assert.AreEqual(128, b.h);
             Assert.AreEqual(128, b.f);
+            var lstGen = b.Children;
+            Assert.AreEqual(2, lstGen.Last.Value.g);
+            Assert.AreEqual(126, lstGen.Last.Value.h);
+            Assert.AreEqual(128, lstGen.Last.Value.f);
+            lstGen = lstGen.Last.Value.Children;
+            Assert.AreEqual(4, lstGen.Last.Value.g);
+            Assert.AreEqual(124, lstGen.Last.Value.h);
+            Assert.AreEqual(128, lstGen.Last.Value.f);
         }
     }
 

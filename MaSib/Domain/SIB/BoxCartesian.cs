@@ -8,15 +8,15 @@ using MaSib.Domain.SIB;
 
 namespace MaSib
 {
-    public class BoxCartez : Box
+    public class BoxCartesian : Box
     {
 
-        public BoxCartez(World world, int[] snakesStartLocations, IBoxHeuristic heuristicFunction, 
+        public BoxCartesian(World world, int[] snakesStartLocations, IBoxHeuristic heuristicFunction, 
             ISnakeHeuristic heuristicForSnakes) : base(world, snakesStartLocations, heuristicFunction, heuristicForSnakes)
         {
         }
 
-        private BoxCartez(World world, Snake[] snakes, IBoxHeuristic heuristicFunction)
+        private BoxCartesian(World world, Snake[] snakes, IBoxHeuristic heuristicFunction)
             : base(world, snakes, heuristicFunction)
         {
         }
@@ -36,7 +36,7 @@ namespace MaSib
             bool allSameSnakes;
             foreach (var box in boxList)
             {
-                BoxCartez b = (BoxCartez)box;
+                BoxCartesian b = (BoxCartesian)box;
                 allSameSnakes = true;
                 for (int i = 0; i < b.snakes.Length; i++)//i snake
                 {
@@ -62,7 +62,7 @@ namespace MaSib
             bool spreadFaultFound;
             foreach (var box in boxList)
             {
-                BoxCartez b = (BoxCartez)box;
+                BoxCartesian b = (BoxCartesian)box;
                 spreadFaultFound = false;
                 for (int i = 0; i < b.snakes.Length; i++)//i snake
                 {
@@ -134,7 +134,7 @@ namespace MaSib
                     values[i] = allSnakesChildes[i][indexes[i]];
 
                 Snake[] snakes = Array.ConvertAll(values, prop => (Snake) prop);
-                result.AddLast(new BoxCartez(world, snakes, heuristicFunction));  //parent = this 
+                result.AddLast(new BoxCartesian(world, snakes, heuristicFunction));  //parent = this 
 
                 // increment indexes
                 int incrementIndex = listCount - 1;
