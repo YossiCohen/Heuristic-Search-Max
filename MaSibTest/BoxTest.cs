@@ -32,7 +32,7 @@ namespace MaSibTest
         public void Create_NewBoxWithSnakes_CountsTwoSnakes()
         {
             int[] snakeHeads = new int[] {0, 63};
-            BoxCartez b = new BoxCartez(world, snakeHeads, heuristicForBox, heuristicForSnakes);
+            BoxCartesian b = new BoxCartesian(world, snakeHeads, heuristicForBox, heuristicForSnakes);
             Assert.AreEqual(2, b.NumberOfSnake);
         }
 
@@ -40,7 +40,7 @@ namespace MaSibTest
         public void Generate_BoxGenerateSnakes_SomeValidSnakesAreCreated()
         {
             int[] snakeHeads = new int[] { 0, 127 };
-            BoxCartez b = new BoxCartez(world, snakeHeads, heuristicForBox, heuristicForSnakes);
+            BoxCartesian b = new BoxCartesian(world, snakeHeads, heuristicForBox, heuristicForSnakes);
             LinkedList<INode> boxes = b.Children;
             Assert.AreEqual(7, boxes.Count);
         }
@@ -49,7 +49,7 @@ namespace MaSibTest
         public void Generate_BoxGenerateFourSnakes_SomeValidSnakesAreCreated()
         {
             int[] snakeHeads = new int[] { 0, 63, 15, 27 };
-            BoxCartez b = new BoxCartez(world, snakeHeads, heuristicForBox, heuristicForSnakes);
+            BoxCartesian b = new BoxCartesian(world, snakeHeads, heuristicForBox, heuristicForSnakes);
             LinkedList<INode> boxes = b.Children;
             Assert.AreEqual(4, boxes.Count);
         }
@@ -58,7 +58,7 @@ namespace MaSibTest
         public void Generate_BoxGenerateTwoSnakesBadSpread_PruneAll()
         {
             int[] snakeHeads = new int[] { 0, 3};
-            BoxCartez b = new BoxCartez(world, snakeHeads, heuristicForBox, heuristicForSnakes);
+            BoxCartesian b = new BoxCartesian(world, snakeHeads, heuristicForBox, heuristicForSnakes);
             LinkedList<INode> boxes = b.Children;
             Assert.AreEqual(0, boxes.Count);
         }

@@ -74,7 +74,7 @@ namespace MaSibTest
         {
             World w = new World(7, 2, 3);
             int[] snakeHeads = new int[] { 0, 127 };
-            BoxCartez b = new BoxCartez(w, snakeHeads, new BoxSnakesSumHeuristic(), new SnakeLegalHeuristic());
+            BoxCartesian b = new BoxCartesian(w, snakeHeads, new BoxSnakesSumHeuristic(), new SnakeLegalHeuristic());
             Assert.AreEqual(0, b.g);
             Assert.AreEqual(128, b.h);
             Assert.AreEqual(128, b.f);

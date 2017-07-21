@@ -41,7 +41,7 @@ namespace MaSibTest
             World w = new World(7, 2, 3);
             var heuristicFunc = new SnakeNoneHeuristic();
             int[] snakeHeads = new int[] { 0, 127 };
-            BoxCartez b = new BoxCartez(w, snakeHeads, new BoxNoneHeuristic(), heuristicFunc);
+            BoxCartesian b = new BoxCartesian(w, snakeHeads, new BoxNoneHeuristic(), heuristicFunc);
             AStarMax astar = new AStarMax(b);
             astar.Run(1);
             var maxGoal = astar.GetMaxGoal();
