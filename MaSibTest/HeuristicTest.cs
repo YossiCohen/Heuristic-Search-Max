@@ -79,12 +79,12 @@ namespace MaSibTest
             Assert.AreEqual(128, b.h);
             Assert.AreEqual(128, b.f);
             var lstGen = b.Children;
-            Assert.AreEqual(2, lstGen.Last.Value.g);
-            Assert.AreEqual(126, lstGen.Last.Value.h);
+            Assert.AreEqual(1, lstGen.Last.Value.g);
+            Assert.AreEqual(127, lstGen.Last.Value.h);
             Assert.AreEqual(128, lstGen.Last.Value.f);
             lstGen = lstGen.Last.Value.Children;
-            Assert.AreEqual(4, lstGen.Last.Value.g);
-            Assert.AreEqual(124, lstGen.Last.Value.h);
+            Assert.AreEqual(2, lstGen.Last.Value.g);
+            Assert.AreEqual(126, lstGen.Last.Value.h);
             Assert.AreEqual(128, lstGen.Last.Value.f);
         }
 
@@ -98,17 +98,17 @@ namespace MaSibTest
             Assert.AreEqual(114, b.h);
             Assert.AreEqual(114, b.f);
             var lstGen = b.Children;
-            Assert.AreEqual(2, lstGen.Last.Value.g);
-            Assert.AreEqual(102, lstGen.Last.Value.h);
-            Assert.AreEqual(104, lstGen.Last.Value.f);
+            Assert.AreEqual(1, lstGen.Last.Value.g);
+            Assert.AreEqual(108, lstGen.Last.Value.h);
+            Assert.AreEqual(109, lstGen.Last.Value.f);
             lstGen = lstGen.First.Value.Children;
-            Assert.AreEqual(4, lstGen.Last.Value.g);
-            Assert.AreEqual(92, lstGen.Last.Value.h);
-            Assert.AreEqual(96, lstGen.Last.Value.f);
+            Assert.AreEqual(3, lstGen.Last.Value.g);
+            Assert.AreEqual(97, lstGen.Last.Value.h);
+            Assert.AreEqual(100, lstGen.Last.Value.f);
             lstGen = lstGen.First.Value.Children;
-            Assert.AreEqual(6, lstGen.Last.Value.g);
-            Assert.AreEqual(82, lstGen.Last.Value.h);
-            Assert.AreEqual(88, lstGen.Last.Value.f);
+            Assert.AreEqual(5, lstGen.Last.Value.g);
+            Assert.AreEqual(87, lstGen.Last.Value.h);
+            Assert.AreEqual(92, lstGen.Last.Value.f);
         }
 
         [TestMethod]
@@ -121,17 +121,17 @@ namespace MaSibTest
             Assert.AreEqual(126, b.h);
             Assert.AreEqual(126, b.f);
             var lstGen = b.Children;
-            Assert.AreEqual(2, lstGen.Last.Value.g);
+            Assert.AreEqual(1, lstGen.Last.Value.g);
             Assert.AreEqual(126, lstGen.Last.Value.h);
-            Assert.AreEqual(128, lstGen.Last.Value.f);
+            Assert.AreEqual(127, lstGen.Last.Value.f);
             lstGen = lstGen.First.Value.Children;
-            Assert.AreEqual(4, lstGen.Last.Value.g);
-            Assert.AreEqual(110, lstGen.Last.Value.h);
-            Assert.AreEqual(114, lstGen.Last.Value.f);
+            Assert.AreEqual(3, lstGen.Last.Value.g);
+            Assert.AreEqual(118, lstGen.Last.Value.h);
+            Assert.AreEqual(121, lstGen.Last.Value.f);
             lstGen = lstGen.First.Value.Children;
-            Assert.AreEqual(6, lstGen.Last.Value.g);
-            Assert.AreEqual(98, lstGen.Last.Value.h);
-            Assert.AreEqual(104, lstGen.Last.Value.f);
+            Assert.AreEqual(5, lstGen.Last.Value.g);
+            Assert.AreEqual(104, lstGen.Last.Value.h);
+            Assert.AreEqual(109, lstGen.Last.Value.f);
         }
     }
 

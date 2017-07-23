@@ -38,9 +38,9 @@ namespace MaSibTest
         [TestMethod]
         public void Run_NewAStarBox()
         {
-            World w = new World(7, 2, 3);
+            World w = new World(5, 2, 2);
             var heuristicFunc = new SnakeNoneHeuristic();
-            int[] snakeHeads = new int[] { 0, 127 };
+            int[] snakeHeads = new int[] { 0, 31 };
             BoxCartesian b = new BoxCartesian(w, snakeHeads, new BoxNoneHeuristic(), heuristicFunc);
             AStarMax astar = new AStarMax(b);
             astar.Run(1);

@@ -38,10 +38,10 @@ namespace MaSibTest
         [TestMethod]
         public void Run_NewAStarBox()
         {
-            World w = new World(7, 2, 3);
+            World w = new World(5, 2,2);
             var heuristicFunc = new SnakeNoneHeuristic();
-            int[] snakeHeads = new int[] { 0, 127 };
-            BoxCartesian b = new BoxCartesian(w, snakeHeads,new BoxNoneHeuristic(), heuristicFunc);
+            int[] snakeHeads = new int[] { 0, 31 };
+            BoxOD b = new BoxOD(w, snakeHeads,new BoxNoneHeuristic(), heuristicFunc);
             DfBnbMax dfBnbMax = new DfBnbMax(b);
             dfBnbMax.Run(1);
             var maxGoal = dfBnbMax.GetMaxGoal();

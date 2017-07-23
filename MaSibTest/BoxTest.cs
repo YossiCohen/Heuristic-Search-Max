@@ -42,7 +42,7 @@ namespace MaSibTest
             int[] snakeHeads = new int[] { 0, 127 };
             BoxCartesian b = new BoxCartesian(world, snakeHeads, heuristicForBox, heuristicForSnakes);
             LinkedList<INode> boxes = b.Children;
-            Assert.AreEqual(7, boxes.Count);
+            Assert.AreEqual(15, boxes.Count);
         }
 
         [TestMethod]
@@ -51,7 +51,7 @@ namespace MaSibTest
             int[] snakeHeads = new int[] { 0, 63, 15, 27 };
             BoxCartesian b = new BoxCartesian(world, snakeHeads, heuristicForBox, heuristicForSnakes);
             LinkedList<INode> boxes = b.Children;
-            Assert.AreEqual(4, boxes.Count);
+            Assert.AreEqual(28, boxes.Count);
         }
 
         [TestMethod]
