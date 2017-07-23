@@ -26,11 +26,37 @@ namespace MaSib
             {
                 var tmpList = CartesianProductOfSnakesChilds();
                 tmpList = RemoveChildsByBoxSpread(tmpList);
-                return RemoveDuplicationOfCurrentNode(tmpList);
+                tmpList = RemoveByLengthConstraint(tmpList);
+                tmpList = RemoveDuplicationOfCurrentNode(tmpList);
+                return tmpList;
             }
         }
 
-        private LinkedList<INode> RemoveDuplicationOfCurrentNode(LinkedList<INode> boxList)  //TODO: maybe not needed - need better solution
+        private LinkedList<INode> RemoveByLengthConstraint(LinkedList<INode> boxList)
+        {
+            LinkedList<INode> result = new LinkedList<INode>();
+            int maxLength;
+            int minLength;
+            foreach (var box in boxList)
+            {
+                BoxCartesian b = (BoxCartesian)box;
+                maxLength = Int32.MinValue;
+                minLength = Int32.MaxValue;
+                for (int i = 0; i < b.snakes.Length; i++)//i snake
+                {
+                    maxLength = Math.Max(maxLength, b.snakes[i].tail.Length);
+                    minLength = Math.Min(minLength, b.snakes[i].tail.Length);
+                }
+
+                if (maxLength - minLength <= 1)
+                {
+                    result.AddLast(b);
+                }
+            }
+            return result;
+        }
+
+        private LinkedList<INode> RemoveDuplicationOfCurrentNode(LinkedList<INode> boxList)
         {
             LinkedList<INode> result = new LinkedList<INode>();
             bool allSameSnakes;
@@ -109,10 +135,7 @@ namespace MaSib
             {
                 var childrenList = snake.Children.ToList();
                 sum_childs += childrenList.Count;
-                if (childrenList.Count == 0)
-                {
-                    childrenList.Add(snake); //One child is the non moving snake to allow imbalanced results
-                }
+                childrenList.Add(snake); //One child is the non moving snake to allow imbalanced results
                 allSnakesChildes.Add(childrenList);
             }
             if (sum_childs == 0)
@@ -134,7 +157,7 @@ namespace MaSib
                     values[i] = allSnakesChildes[i][indexes[i]];
 
                 Snake[] snakes = Array.ConvertAll(values, prop => (Snake) prop);
-                result.AddLast(new BoxCartesian(world, snakes, heuristicFunction));  //parent = this 
+                result.AddLast(new BoxCartesian(world, snakes, heuristicFunction)); 
 
                 // increment indexes
                 int incrementIndex = listCount - 1;
