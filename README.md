@@ -1,7 +1,8 @@
 # MA-SIB
-Multi Agent Snake In the Box
+Multi Agent Snake In the Box 
 
-Solver project for the SIB problem with heuristic search
+Solver project for the Multi Agent SIB problem with heuristic search
+More details at: https://github.com/YossiCohen/MA-SIB/blob/master/docs/ma-sib.pdf
 
 Implemented in C# you can find here:
 
