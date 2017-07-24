@@ -167,7 +167,7 @@ namespace MaSib
             LinkedList<INode> result = new LinkedList<INode>();
             var loopMax = Math.Min(visitedDim, world.Dimentions);
             int newHeadPosition;
-            for (byte i = 0; i < visitedDim; i++)
+            for (int i = 0; i < visitedDim; i++)
             {
                 newHeadPosition = FlipBitAt(head, i);
                 if (this.g > 1)

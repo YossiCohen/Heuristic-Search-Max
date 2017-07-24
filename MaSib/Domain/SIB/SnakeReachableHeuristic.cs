@@ -20,7 +20,7 @@ namespace MaSib.Domain.SIB
                 int current = open.First();
                 closed[current] = true;
                 open.Remove(current);
-                for (byte i = 0; i < dim; i++)
+                for (int i = 0; i < dim; i++)
                 {
                     basicSearchNode = Snake.FlipBitAt(current, i);
                     if (closed[basicSearchNode])
@@ -29,7 +29,7 @@ namespace MaSib.Domain.SIB
                     }
                     closed[basicSearchNode] = true;
                     bool valid = true;
-                    for (byte j=0; j<s.tail.Length-world.SnakeSpread; j++)
+                    for (int j=0; j<s.tail.Length-world.SnakeSpread; j++)
                     {
                         if (World.HammingDistance(basicSearchNode, s.tail[j]) < world.SnakeSpread)
                         {
