@@ -18,8 +18,9 @@ def Solve_MASIB(algorithm, problem, snake_heuristic, box_heuristic, dimension, s
     snakes_combinations = choose(lst, number_of_agents - 1)
     print('Running MaSib Solver for {} times, later, use ExpSum.exe or read the log files to find the optimal solution'.format(len(snakes_combinations)))
 
+    total_launces = 0
     for snakes_list in snakes_combinations:
-        total_launces = 1
+        total_launces += 1
         print('Running MaSib - Launch number: {} of {}'.format(total_launces, len(snakes_combinations)))
 
         states = ['s0=0']
