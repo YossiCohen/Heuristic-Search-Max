@@ -53,6 +53,7 @@
     <Compile Include="Commons.cs" />
     <Compile Include="Common\Log.cs" />
     <Compile Include="Common\TraceManager.cs" />
+    <Compile Include="Domain\SIB\BoxShortestSnakeReachableHeuristic.cs" />
     <Compile Include="Domain\SIB\BoxOD.cs" />
     <Compile Include="Domain\SIB\Box.cs" />
     <Compile Include="Domain\SIB\BoxReachableHeuristic.cs" />

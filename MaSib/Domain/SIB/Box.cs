@@ -43,10 +43,10 @@ namespace MaSib.Domain.SIB
 
         protected void calculateGValue()
         {
-            gValue = 0;
+            gValue = Int32.MaxValue;
             for (int i = 0; i < snakes.Length; i++)
             {
-                gValue += snakes[i].g;
+                gValue = Math.Min(snakes[i].g, gValue);
             }
         }
 

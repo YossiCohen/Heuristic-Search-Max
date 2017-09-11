@@ -70,69 +70,210 @@ namespace MaSibTest
 
 
         [TestMethod]
-        public void Calculate_RightBoxSnakesSumHeuristic()
+        public void Calculate_RightBoxCartesianSnakesSumHeuristic()
         {
             World w = new World(7, 2, 3);
             int[] snakeHeads = new int[] { 0, 127 };
-            BoxCartesian b = new BoxCartesian(w, snakeHeads, new BoxSnakesSumHeuristic(), new SnakeLegalHeuristic());
+            Box b = new BoxCartesian(w, snakeHeads, new BoxSnakesSumHeuristic(), new SnakeLegalHeuristic());
             Assert.AreEqual(0, b.g);
             Assert.AreEqual(128, b.h);
             Assert.AreEqual(128, b.f);
             var lstGen = b.Children;
-            Assert.AreEqual(1, lstGen.Last.Value.g);
+            Assert.AreEqual(0, lstGen.Last.Value.g);
             Assert.AreEqual(127, lstGen.Last.Value.h);
-            Assert.AreEqual(128, lstGen.Last.Value.f);
+            Assert.AreEqual(127, lstGen.Last.Value.f);
             lstGen = lstGen.Last.Value.Children;
-            Assert.AreEqual(2, lstGen.Last.Value.g);
+            Assert.AreEqual(1, lstGen.Last.Value.g);
             Assert.AreEqual(126, lstGen.Last.Value.h);
-            Assert.AreEqual(128, lstGen.Last.Value.f);
+            Assert.AreEqual(127, lstGen.Last.Value.f);
         }
 
         [TestMethod]
-        public void Calculate_RightBoxLegalHeuristic()
+        public void Calculate_RightBoxCartesianLegalHeuristic()
         {
             World w = new World(7, 2, 3);
             int[] snakeHeads = new int[] { 0, 127 };
-            BoxCartesian b = new BoxCartesian(w, snakeHeads, new BoxLegalHeuristic(), new SnakeNoneHeuristic());
+            Box b = new BoxCartesian(w, snakeHeads, new BoxLegalHeuristic(), new SnakeNoneHeuristic());
             Assert.AreEqual(0, b.g);
             Assert.AreEqual(114, b.h);
             Assert.AreEqual(114, b.f);
             var lstGen = b.Children;
-            Assert.AreEqual(1, lstGen.Last.Value.g);
+            Assert.AreEqual(0, lstGen.Last.Value.g);
             Assert.AreEqual(108, lstGen.Last.Value.h);
-            Assert.AreEqual(109, lstGen.Last.Value.f);
+            Assert.AreEqual(108, lstGen.Last.Value.f);
             lstGen = lstGen.First.Value.Children;
-            Assert.AreEqual(3, lstGen.Last.Value.g);
+            Assert.AreEqual(1, lstGen.Last.Value.g);
             Assert.AreEqual(97, lstGen.Last.Value.h);
-            Assert.AreEqual(100, lstGen.Last.Value.f);
+            Assert.AreEqual(98, lstGen.Last.Value.f);
             lstGen = lstGen.First.Value.Children;
-            Assert.AreEqual(5, lstGen.Last.Value.g);
+            Assert.AreEqual(2, lstGen.Last.Value.g);
             Assert.AreEqual(87, lstGen.Last.Value.h);
-            Assert.AreEqual(92, lstGen.Last.Value.f);
+            Assert.AreEqual(89, lstGen.Last.Value.f);
         }
 
         [TestMethod]
-        public void Calculate_RightBoxReachableHeuristic()
+        public void Calculate_RightBoxCartesianReachableHeuristic()
         {
             World w = new World(7, 2, 3);
             int[] snakeHeads = new int[] { 0, 127 };
-            BoxCartesian b = new BoxCartesian(w, snakeHeads, new BoxReachableHeuristic(), new SnakeNoneHeuristic());
+            Box b = new BoxCartesian(w, snakeHeads, new BoxReachableHeuristic(), new SnakeNoneHeuristic());
             Assert.AreEqual(0, b.g);
             Assert.AreEqual(126, b.h);
             Assert.AreEqual(126, b.f);
             var lstGen = b.Children;
+            Assert.AreEqual(0, lstGen.Last.Value.g);
+            Assert.AreEqual(126, lstGen.Last.Value.h);
+            Assert.AreEqual(126, lstGen.Last.Value.f);
+            lstGen = lstGen.First.Value.Children;
+            Assert.AreEqual(1, lstGen.Last.Value.g);
+            Assert.AreEqual(118, lstGen.Last.Value.h);
+            Assert.AreEqual(119, lstGen.Last.Value.f);
+            lstGen = lstGen.First.Value.Children;
+            Assert.AreEqual(2, lstGen.Last.Value.g);
+            Assert.AreEqual(104, lstGen.Last.Value.h);
+            Assert.AreEqual(106, lstGen.Last.Value.f);
+        }
+
+        [TestMethod]
+        public void Calculate_RightBoxCartesianShortestSnakeReachableHeuristic()
+        {
+            World w = new World(7, 2, 3);
+            int[] snakeHeads = new int[] { 0, 127 };
+            Box b = new BoxCartesian(w, snakeHeads, new BoxShortestSnakeReachableHeuristic(), new SnakeNoneHeuristic());
+            Assert.AreEqual(0, b.g);
+            Assert.AreEqual(127, b.h);
+            Assert.AreEqual(127, b.f);
+            var lstGen = b.Children;
+            Assert.AreEqual(0, lstGen.Last.Value.g);
+            Assert.AreEqual(127, lstGen.Last.Value.h);
+            Assert.AreEqual(127, lstGen.Last.Value.f);
+            lstGen = lstGen.First.Value.Children;
+            Assert.AreEqual(1, lstGen.Last.Value.g);
+            Assert.AreEqual(119, lstGen.Last.Value.h);
+            Assert.AreEqual(120, lstGen.Last.Value.f);
+            lstGen = lstGen.First.Value.Children;
+            Assert.AreEqual(2, lstGen.Last.Value.g);
+            Assert.AreEqual(105, lstGen.Last.Value.h);
+            Assert.AreEqual(107, lstGen.Last.Value.f);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [TestMethod]
+        public void Calculate_RightBoxODSnakesSumHeuristic()
+        {
+            World w = new World(7, 2, 3);
+            int[] snakeHeads = new int[] { 0, 127 };
+            Box b = new BoxOD(w, snakeHeads, new BoxSnakesSumHeuristic(), new SnakeLegalHeuristic());
+            Assert.AreEqual(0, b.g);
+            Assert.AreEqual(128, b.h);
+            Assert.AreEqual(128, b.f);
+            var lstGen = b.Children;
+            Assert.AreEqual(0, lstGen.Last.Value.g);
+            Assert.AreEqual(127, lstGen.Last.Value.h);
+            Assert.AreEqual(127, lstGen.Last.Value.f);
+            lstGen = lstGen.Last.Value.Children;
+            Assert.AreEqual(1, lstGen.Last.Value.g);
+            Assert.AreEqual(126, lstGen.Last.Value.h);
+            Assert.AreEqual(127, lstGen.Last.Value.f);
+        }
+
+        [TestMethod]
+        public void Calculate_RightBoxODLegalHeuristic()
+        {
+            World w = new World(7, 2, 3);
+            int[] snakeHeads = new int[] { 0, 127 };
+            Box b = new BoxOD(w, snakeHeads, new BoxLegalHeuristic(), new SnakeNoneHeuristic());
+            Assert.AreEqual(0, b.g);
+            Assert.AreEqual(114, b.h);
+            Assert.AreEqual(114, b.f);
+            var lstGen = b.Children;
+            Assert.AreEqual(0, lstGen.Last.Value.g);
+            Assert.AreEqual(108, lstGen.Last.Value.h);
+            Assert.AreEqual(108, lstGen.Last.Value.f);
+            lstGen = lstGen.First.Value.Children;
+            Assert.AreEqual(1, lstGen.Last.Value.g);
+            Assert.AreEqual(102, lstGen.Last.Value.h);
+            Assert.AreEqual(103, lstGen.Last.Value.f);
+            lstGen = lstGen.First.Value.Children;
+            Assert.AreEqual(1, lstGen.Last.Value.g);
+            Assert.AreEqual(97, lstGen.Last.Value.h);
+            Assert.AreEqual(98, lstGen.Last.Value.f);
+        }
+
+        [TestMethod]
+        public void Calculate_RightBoxODReachableHeuristic()
+        {
+            World w = new World(7, 2, 3);
+            int[] snakeHeads = new int[] { 0, 127 };
+            Box b = new BoxOD(w, snakeHeads, new BoxReachableHeuristic(), new SnakeNoneHeuristic());
+            Assert.AreEqual(0, b.g);
+            Assert.AreEqual(126, b.h);
+            Assert.AreEqual(126, b.f);
+            var lstGen = b.Children;
+            Assert.AreEqual(0, lstGen.Last.Value.g);
+            Assert.AreEqual(126, lstGen.Last.Value.h);
+            Assert.AreEqual(126, lstGen.Last.Value.f);
+            lstGen = lstGen.First.Value.Children;
             Assert.AreEqual(1, lstGen.Last.Value.g);
             Assert.AreEqual(126, lstGen.Last.Value.h);
             Assert.AreEqual(127, lstGen.Last.Value.f);
             lstGen = lstGen.First.Value.Children;
-            Assert.AreEqual(3, lstGen.Last.Value.g);
+            Assert.AreEqual(1, lstGen.Last.Value.g);
             Assert.AreEqual(118, lstGen.Last.Value.h);
-            Assert.AreEqual(121, lstGen.Last.Value.f);
-            lstGen = lstGen.First.Value.Children;
-            Assert.AreEqual(5, lstGen.Last.Value.g);
-            Assert.AreEqual(104, lstGen.Last.Value.h);
-            Assert.AreEqual(109, lstGen.Last.Value.f);
+            Assert.AreEqual(119, lstGen.Last.Value.f);
         }
+
+        [TestMethod]
+        public void Calculate_RightBoxODShortestSnakeReachableHeuristic()
+        {
+            World w = new World(7, 2, 3);
+            int[] snakeHeads = new int[] { 0, 127 };
+            Box b = new BoxOD(w, snakeHeads, new BoxShortestSnakeReachableHeuristic(), new SnakeNoneHeuristic());
+            Assert.AreEqual(0, b.g);
+            Assert.AreEqual(127, b.h);
+            Assert.AreEqual(127, b.f);
+            var lstGen = b.Children;
+            Assert.AreEqual(0, lstGen.Last.Value.g);
+            Assert.AreEqual(127, lstGen.Last.Value.h);
+            Assert.AreEqual(127, lstGen.Last.Value.f);
+            lstGen = lstGen.First.Value.Children;
+            Assert.AreEqual(1, lstGen.Last.Value.g);
+            Assert.AreEqual(127, lstGen.Last.Value.h);
+            Assert.AreEqual(128, lstGen.Last.Value.f);
+            lstGen = lstGen.First.Value.Children;
+            Assert.AreEqual(1, lstGen.Last.Value.g);
+            Assert.AreEqual(119, lstGen.Last.Value.h);
+            Assert.AreEqual(120, lstGen.Last.Value.f);
+            lstGen = lstGen.First.Value.Children;
+            Assert.AreEqual(2, lstGen.Last.Value.g);
+            Assert.AreEqual(111, lstGen.Last.Value.h);
+            Assert.AreEqual(113, lstGen.Last.Value.f);
+            lstGen = lstGen.First.Value.Children;
+            Assert.AreEqual(2, lstGen.Last.Value.g);
+            Assert.AreEqual(105, lstGen.Last.Value.h);
+            Assert.AreEqual(107, lstGen.Last.Value.f);
+            lstGen = lstGen.First.Value.Children;
+            Assert.AreEqual(3, lstGen.Last.Value.g);
+            Assert.AreEqual(99, lstGen.Last.Value.h);
+            Assert.AreEqual(102, lstGen.Last.Value.f);
+        }
+
+
     }
 
 }

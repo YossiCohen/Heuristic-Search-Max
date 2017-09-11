@@ -135,7 +135,7 @@ namespace MaSib
             {
                 var childrenList = snake.Children.ToList();
                 sum_childs += childrenList.Count;
-                childrenList.Add(snake); //One child is the non moving snake to allow imbalanced results
+                childrenList.Add(snake); //One child is the non moving snake to allow imbalanced results (Meeting with Roni - Disable wait moves should remove this but it will make cartesian wrong)
                 allSnakesChildes.Add(childrenList);
             }
             if (sum_childs == 0)
