@@ -36,7 +36,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,6 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\Combinatorics\Combinations.cs" />
+    <Compile Include="Algorithms\Combinatorics\GenerateOption.cs" />
+    <Compile Include="Algorithms\Combinatorics\IMetaCollection.cs" />
+    <Compile Include="Algorithms\Combinatorics\Permutations.cs" />
+    <Compile Include="Algorithms\Combinatorics\SmallPrimeUtility.cs" />
+    <Compile Include="Algorithms\Combinatorics\Variations.cs" />
     <Compile Include="Algorithms\DfBnbMax.cs" />
     <Compile Include="Algorithms\AStarMax.cs" />
     <Compile Include="Algorithms\INode.cs" />
@@ -53,6 +66,7 @@
     <Compile Include="Commons.cs" />
     <Compile Include="Common\Log.cs" />
     <Compile Include="Common\TraceManager.cs" />
+    <Compile Include="Domain\SIB\BoxVirtualNode.cs" />
     <Compile Include="Domain\SIB\BoxShortestSnakeReachableHeuristic.cs" />
     <Compile Include="Domain\SIB\BoxOD.cs" />
     <Compile Include="Domain\SIB\Box.cs" />

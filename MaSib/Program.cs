@@ -28,8 +28,10 @@ namespace MaSib
                 System.Console.WriteLine(@"             with arguments Sx=location");
                 System.Console.WriteLine(@"Sx:          starting location of snake number x, counting from 0");
                 System.Console.WriteLine(@"             when using snake you can have only 1 Sx argument");
+                System.Console.WriteLine(@"numOfSnakes: instead of Sx (above arg.), will generate all possible positions");
+                System.Console.WriteLine(@"             by using virtual node (box only)");
                 System.Console.WriteLine(@"snakeH:      [none/legal/reachable] the snake heuristic");
-                System.Console.WriteLine(@"boxH:        [none/snakes-sum/legal/reachable] the box heuristic");
+                System.Console.WriteLine(@"boxH:        [none/snakes-sum/legal/reachable/shortest] the box heuristic");
                 System.Console.WriteLine(@"alg:         [astar/dfbnb] the solving algorithm");
                 System.Console.WriteLine(@"dim:         the number of dimentions for the problem (N)");
                 System.Console.WriteLine(@"snakeSpread: the intra-snake spread (sK)");
@@ -93,6 +95,9 @@ namespace MaSib
                 case "reachable":
                     boxh = new BoxReachableHeuristic();
                     break;
+                case "shortest":
+                    boxh = new BoxShortestSnakeReachableHeuristic();
+                    break;
                 default:
                     Log.WriteLineIf("Box heuristic: "+ splitedArgs["boxh"] + " is not supported!", TraceLevel.Error);
                     return;
@@ -129,27 +134,49 @@ namespace MaSib
             if (splitedArgs["problem"].Equals("snake"))
             {
                 initState = new Snake(w,Int32.Parse(splitedArgs["s0"]), snakeh);
-            } else if (splitedArgs["problem"].Equals("box"))
-            {
-                List<int> heads = new List<int>();
-                int i = 0;
-                while (splitedArgs.ContainsKey("s"+i))
-                {
-                    heads.Add(Int32.Parse(splitedArgs["s" + i]));
-                    i++;
-                }
-                initState = new BoxCartesian(w,heads.ToArray(), boxh, snakeh);
             }
-            else if (splitedArgs["problem"].Equals("box-od"))
+            else if (splitedArgs["problem"].StartsWith("box"))
             {
-                List<int> heads = new List<int>();
-                int i = 0;
-                while (splitedArgs.ContainsKey("s" + i))
-                {
-                    heads.Add(Int32.Parse(splitedArgs["s" + i]));
-                    i++;
+                if (splitedArgs.ContainsKey("numofsnakes"))
+                {//virtual node
+                    if (splitedArgs["problem"].Equals("box"))
+                    {
+                        initState = new BoxVirtualNode<BoxCartesian>(w, Int32.Parse(splitedArgs["numofsnakes"]), boxh, snakeh);
+                    }
+                    else if (splitedArgs["problem"].Equals("box-od"))
+                    {
+                        initState = new BoxVirtualNode<BoxOD>(w, Int32.Parse(splitedArgs["numofsnakes"]), boxh, snakeh);
+                    }
+                    else
+                    {
+                        Log.WriteLineIf("Problem: " + splitedArgs["problem"] + " this box is not supported!", TraceLevel.Error);
+                        return;
+                    }
                 }
-                initState = new BoxOD(w, heads.ToArray(),boxh, snakeh);
+                else
+                {//User selected start positions
+                    List<int> heads = new List<int>();
+                    int i = 0;
+                    while (splitedArgs.ContainsKey("s" + i))
+                    {
+                        heads.Add(Int32.Parse(splitedArgs["s" + i]));
+                        i++;
+                    }
+                    if (splitedArgs["problem"].Equals("box"))
+                    {
+                        initState = new BoxCartesian(w, heads.ToArray(), boxh, snakeh);
+                    }
+                    else if (splitedArgs["problem"].Equals("box-od"))
+                    {
+                        initState = new BoxOD(w, heads.ToArray(), boxh, snakeh);
+                    }
+                    else
+                    {
+                        Log.WriteLineIf("Problem: " + splitedArgs["problem"] + " this box is not supported!", TraceLevel.Error);
+                        return;
+                    }
+                }
+                
             }
             else
             {
