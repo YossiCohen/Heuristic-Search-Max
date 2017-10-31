@@ -55,7 +55,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Grid\Grid\Grid.csproj">
+    <ProjectReference Include="..\Grid\Grid.csproj">
       <Project>{79fb8d3b-aecd-4bf6-a676-cc8640851d06}</Project>
       <Name>Grid</Name>
     </ProjectReference>

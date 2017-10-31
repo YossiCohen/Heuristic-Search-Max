@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0C281233-428E-44DE-A7BE-3D1746DE7217}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{79FB8D3B-AECD-4BF6-A676-CC8640851D06}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MaxSearchAlg</RootNamespace>
-    <AssemblyName>MaxSearchAlg</AssemblyName>
+    <RootNamespace>Grid</RootNamespace>
+    <AssemblyName>Grid</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -40,24 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AStarMax.cs" />
-    <Compile Include="Combinatorics\Combinations.cs" />
-    <Compile Include="Combinatorics\GenerateOption.cs" />
-    <Compile Include="Combinatorics\IMetaCollection.cs" />
-    <Compile Include="Combinatorics\Permutations.cs" />
-    <Compile Include="Combinatorics\SmallPrimeUtility.cs" />
-    <Compile Include="Combinatorics\Variations.cs" />
-    <Compile Include="DfBnbMax.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="INode.cs" />
-    <Compile Include="Solver.cs" />
+    <Compile Include="Domain\Location.cs" />
+    <Compile Include="Domain\World.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Commons\Commons\Common.csproj">
-      <Project>{b53fccbe-730a-4fe3-bbd3-d92b97ec457c}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
