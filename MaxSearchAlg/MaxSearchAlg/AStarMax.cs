@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Common;
 
-namespace MaSib.Algorithms
+namespace MaxSearchAlg
 {
 
     public class AStarMax : Solver

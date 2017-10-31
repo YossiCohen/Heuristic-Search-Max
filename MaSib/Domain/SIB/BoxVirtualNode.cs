@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using Facet.Combinatorics;
-using MaSib.Algorithms;
 using MaSib.Domain.SIB;
+using MaxSearchAlg;
 
 namespace MaSib
 {

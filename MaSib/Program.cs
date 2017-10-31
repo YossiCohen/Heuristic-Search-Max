@@ -8,8 +8,8 @@ using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
-using MaSib.Algorithms;
 using MaSib.Domain.SIB;
+using MaxSearchAlg;
 
 namespace MaSib
 {
@@ -207,6 +207,7 @@ namespace MaSib
             Log.WriteLineIf(@"[[BoxSpread:" + bk + "]]", TraceLevel.Info);
             Log.WriteLineIf(@"[[SnakeHeuristics:" + snakeh.GetType().Name + "]]", TraceLevel.Info);
             Log.WriteLineIf(@"[[BoxHeuristics:" + boxh.GetType().Name + "]]", TraceLevel.Info);
+            Log.WriteLineIf(@"[[NumOfSnakes:" + Int32.Parse(splitedArgs["numofsnakes"]) + "]]", TraceLevel.Info);
 
 
             var startTime = DateTime.Now;

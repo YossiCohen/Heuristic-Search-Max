@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using MaSib;
+﻿using MaSib;
 using MaSib.Domain.SIB;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7C706B23-4EAF-42DE-9711-3CAD44A05375}</ProjectGuid>
+    <ProjectGuid>{1957E401-1B97-4C36-8D8F-243580F2D75E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ma_sib_test</RootNamespace>
-    <AssemblyName>ma_sib_test</AssemblyName>
+    <RootNamespace>UnitTestProject1</RootNamespace>
+    <AssemblyName>UnitTestProject1</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,22 +50,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DfBnbMaxTest.cs" />
-    <Compile Include="AStarMaxTest.cs" />
-    <Compile Include="HeuristicTest.cs" />
-    <Compile Include="WorldTest.cs" />
-    <Compile Include="BoxTest.cs" />
-    <Compile Include="SnakeTest.cs" />
+    <Compile Include="LocationTest.cs" />
+    <Compile Include="GridTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MaxSearchAlg\MaxSearchAlg\MaxSearchAlg.csproj">
-      <Project>{0C281233-428E-44DE-A7BE-3D1746DE7217}</Project>
-      <Name>MaxSearchAlg</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MaSib\MaSib.csproj">
-      <Project>{9364b0f2-ac47-439d-8183-67adacf14e8e}</Project>
-      <Name>MaSib</Name>
+    <ProjectReference Include="..\..\Grid\Grid\Grid.csproj">
+      <Project>{79fb8d3b-aecd-4bf6-a676-cc8640851d06}</Project>
+      <Name>Grid</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

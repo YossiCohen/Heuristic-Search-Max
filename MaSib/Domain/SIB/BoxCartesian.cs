@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using MaSib.Algorithms;
 using MaSib.Domain.SIB;
+using MaxSearchAlg;
 
 namespace MaSib
 {

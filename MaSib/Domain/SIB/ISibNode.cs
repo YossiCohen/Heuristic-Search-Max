@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MaSib.Algorithms;
+using MaxSearchAlg;
 
 namespace MaSib.Domain.SIB
 {

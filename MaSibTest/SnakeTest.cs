@@ -3,7 +3,6 @@ using MaSib;
 using MaSib.Domain.SIB;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-
 namespace MaSibTest
 {
     [TestClass]

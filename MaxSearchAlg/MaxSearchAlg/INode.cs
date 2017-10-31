@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MaSib.Algorithms
+namespace MaxSearchAlg
 {
     public interface INode
     {

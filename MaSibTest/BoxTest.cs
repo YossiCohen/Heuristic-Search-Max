@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Facet.Combinatorics;
 using MaSib;
-using MaSib.Algorithms;
 using MaSib.Domain.SIB;
+using MaxSearchAlg;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 

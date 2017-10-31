@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using MaSib;
-using MaSib.Algorithms;
+﻿using MaSib;
 using MaSib.Domain.SIB;
+using MaxSearchAlg;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
