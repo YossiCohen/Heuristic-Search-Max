@@ -20,6 +20,11 @@ namespace Grid.Domain
 
         public Location Goal { get; }
 
+        public int LinearSize
+        {
+            get { return Width * Height; }
+        }
+
         private readonly BitArray _isBlockedLocations;
 
         public World(string gridString)
@@ -70,6 +75,10 @@ namespace Grid.Domain
             return _isBlockedLocations[loc.Y * Width + loc.X];
         }
 
+        public State GetInitialState()
+        {
+            return new State(this, new Location(Start));
+        }
     }
 
     public class GridStartNotFoundException : Exception
