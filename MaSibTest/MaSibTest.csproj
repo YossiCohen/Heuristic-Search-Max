@@ -59,9 +59,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MaxSearchAlg\MaxSearchAlg.csproj">
+    <ProjectReference Include="..\MaxSearchAlg\Algorithms.csproj">
       <Project>{0C281233-428E-44DE-A7BE-3D1746DE7217}</Project>
-      <Name>MaxSearchAlg</Name>
+      <Name>Algorithms</Name>
     </ProjectReference>
     <ProjectReference Include="..\MaSib\MaSib.csproj">
       <Project>{9364b0f2-ac47-439d-8183-67adacf14e8e}</Project>

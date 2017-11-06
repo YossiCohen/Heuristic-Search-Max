@@ -48,5 +48,6 @@ namespace Grid.Domain
         {
             return $"({this.x},{this.y})";
         }
+
     }
 }

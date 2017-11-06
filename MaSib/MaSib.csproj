@@ -81,9 +81,9 @@
       <Project>{b53fccbe-730a-4fe3-bbd3-d92b97ec457c}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MaxSearchAlg\MaxSearchAlg.csproj">
+    <ProjectReference Include="..\MaxSearchAlg\Algorithms.csproj">
       <Project>{0c281233-428e-44de-a7be-3d1746de7217}</Project>
-      <Name>MaxSearchAlg</Name>
+      <Name>Algorithms</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

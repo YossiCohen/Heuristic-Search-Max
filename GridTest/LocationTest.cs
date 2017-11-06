@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Grid.Domain;
 
-namespace UnitTestProject1
+namespace GridTest
 {
     [TestClass]
     public class LocationTest

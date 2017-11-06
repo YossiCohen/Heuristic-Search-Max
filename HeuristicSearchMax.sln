@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaSibTest", "MaSibTest\MaSi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpSum", "ExperimentSummarizer\ExpSum.csproj", "{FF6E9E88-8980-4A40-B401-CB1C1A9776F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaxSearchAlg", "MaxSearchAlg\MaxSearchAlg.csproj", "{0C281233-428E-44DE-A7BE-3D1746DE7217}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms", "MaxSearchAlg\Algorithms.csproj", "{0C281233-428E-44DE-A7BE-3D1746DE7217}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Commons\Common.csproj", "{B53FCCBE-730A-4FE3-BBD3-D92B97EC457C}"
 EndProject
@@ -146,6 +146,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7C706B23-4EAF-42DE-9711-3CAD44A05375} = {232DF79D-650C-4F33-97E3-9D62F3404DCE}
+		{1957E401-1B97-4C36-8D8F-243580F2D75E} = {232DF79D-650C-4F33-97E3-9D62F3404DCE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9EB8991B-ACFA-4684-A322-F2C47EEC79D9}
