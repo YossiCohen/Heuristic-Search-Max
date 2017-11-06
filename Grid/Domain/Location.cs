@@ -1,52 +1,60 @@
 ﻿
-using System;
-
 namespace Grid.Domain
 {
     public class Location
     {
 
-        public int x
+        public int X
         {
             get;
         }
-        public int y
+        public int Y
         {
             get;
         }
 
         public Location()
         {
-            this.x = 0;
-            this.y = 0;
+            X = 0;
+            Y = 0;
         }
 
         public Location(int x, int y)
         {
-            this.x = x;
-            this.y = y;
+            X = x;
+            Y = y;
         }
         public Location(Location other)
         {
-            this.x = other.x;
-            this.y = other.y;
+            X = other.X;
+            Y = other.Y;
         }
 
         public override bool Equals(object obj)
         {
-            var other = obj as Location;
-
-            if (other == null)
+            if (!(obj is Location other))
             {
                 return false;
             }
+            return X == other.X && Y == other.Y;
+        }
 
-            return (this.x == other.x) && (this.y == other.y);
+        protected bool Equals(Location other)
+        {
+            return X == other.X && Y == other.Y;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (X * 397) ^ Y;
+            }
         }
 
         public override string ToString()
         {
-            return $"({this.x},{this.y})";
+            return $"({X},{Y})";
         }
 
     }

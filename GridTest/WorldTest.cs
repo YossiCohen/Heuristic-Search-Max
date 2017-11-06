@@ -77,9 +77,9 @@ namespace GridTest
             World w = new World(gridAstr);
             Assert.AreEqual(w.Height, 5);
             Assert.AreEqual(w.Width, 6);
-            Assert.IsFalse(w.isBlocked(new Location(3, 0)));
-            Assert.IsTrue(w.isBlocked(new Location(4, 0)));
-            Assert.IsFalse(w.isBlocked(new Location(5, 0)));
+            Assert.IsFalse(w.IsBlocked(new Location(3, 0)));
+            Assert.IsTrue(w.IsBlocked(new Location(4, 0)));
+            Assert.IsFalse(w.IsBlocked(new Location(5, 0)));
         }
 
     }

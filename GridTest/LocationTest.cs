@@ -12,8 +12,8 @@ namespace GridTest
         {
             Location loc = new Location();
             Assert.IsNotNull(loc);
-            Assert.AreEqual(0, loc.x);
-            Assert.AreEqual(0, loc.y);
+            Assert.AreEqual(0, loc.X);
+            Assert.AreEqual(0, loc.Y);
         }
 
         [TestMethod]
@@ -21,8 +21,8 @@ namespace GridTest
         {
             Location loc = new Location(1,2);
             Assert.IsNotNull(loc);
-            Assert.AreEqual(1, loc.x);
-            Assert.AreEqual(2, loc.y);
+            Assert.AreEqual(1, loc.X);
+            Assert.AreEqual(2, loc.Y);
         }
 
         [TestMethod]
@@ -31,8 +31,8 @@ namespace GridTest
             Location loc1 = new Location(1, 2);
             Location loc2 = new Location(loc1);
             Assert.IsNotNull(loc2);
-            Assert.AreEqual(loc1.x, loc2.x);
-            Assert.AreEqual(loc1.y, loc2.y);
+            Assert.AreEqual(loc1.X, loc2.X);
+            Assert.AreEqual(loc1.Y, loc2.Y);
             Assert.IsTrue(loc1.Equals(loc2));
         }
 
