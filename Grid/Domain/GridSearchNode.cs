@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MaxSearchAlg;
 
 namespace Grid.Domain
@@ -24,15 +21,15 @@ namespace Grid.Domain
 
         public GridSearchNode(GridSearchNode parentNode, MoveDirection move)
         {
-            this.World = parentNode.World;
+            World = parentNode.World;
             Parent = parentNode;
             HeadLocation = parentNode.HeadLocation.GetMovedLocation(move);
             _visited = new BitArray(parentNode._visited)
             {
                 [HeadLocation.Y * World.Width + HeadLocation.X] = true
             };
-            this.g = parentNode.g + 1;
-            this.h = World.CalculateHeuristic(this);
+            g = parentNode.g + 1;
+            h = World.CalculateHeuristic(this);
 
             //TODO: Assert if newHeadLocation is illegal w.r.t parent head
         }
@@ -41,13 +38,13 @@ namespace Grid.Domain
 
         public GridSearchNode(World world)
         {
-            this.World = world;
+            World = world;
             Parent = null;
             HeadLocation = world.Start;
             _visited = new BitArray(world.LinearSize);
             _visited[HeadLocation.Y * world.Width + HeadLocation.X] = true;
-            this.g = 0;
-            this.h = world.CalculateHeuristic(this);
+            g = 0;
+            h = world.CalculateHeuristic(this);
         }
 
         public int f {
@@ -60,28 +57,28 @@ namespace Grid.Domain
         {
             get
             {
-                var result = generateInitialChildList();
+                var result = GenerateInitialChildList();
                 return result;
             }
         }
 
-        private LinkedList<INode> generateInitialChildList()
+        private LinkedList<INode> GenerateInitialChildList()
         {
 
             LinkedList<INode> result = new LinkedList<INode>();
-            if (this.HeadLocation.Y > 0)
+            if (HeadLocation.Y > 0)
             {
                 result.AddLast(new GridSearchNode(this, MoveDirection.Up));
             }
-            if (this.HeadLocation.Y < World.Height-1)
+            if (HeadLocation.Y < World.Height-1)
             {
                 result.AddLast(new GridSearchNode(this, MoveDirection.Down));
             }
-            if (this.HeadLocation.X > 0)
+            if (HeadLocation.X > 0)
             {
                 result.AddLast(new GridSearchNode(this, MoveDirection.Left));
             }
-            if (this.HeadLocation.X < World.Width-1)
+            if (HeadLocation.X < World.Width-1)
             {
                 result.AddLast(new GridSearchNode(this, MoveDirection.Right));
             }
