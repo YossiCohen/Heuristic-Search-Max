@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="GridSearchNodeTest.cs" />
+    <Compile Include="GridAStarMaxTest.cs" />
     <Compile Include="UntouchedAroundTheGoalHeuristic.cs" />
     <Compile Include="LocationTest.cs" />
     <Compile Include="WorldTest.cs" />
@@ -60,6 +61,10 @@
     <ProjectReference Include="..\Grid\Grid.csproj">
       <Project>{79fb8d3b-aecd-4bf6-a676-cc8640851d06}</Project>
       <Name>Grid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MaxSearchAlg\Algorithms.csproj">
+      <Project>{0C281233-428E-44DE-A7BE-3D1746DE7217}</Project>
+      <Name>Algorithms</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

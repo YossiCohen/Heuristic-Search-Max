@@ -22,21 +22,26 @@ namespace Grid.Domain
 
         private readonly BitArray _visited;
 
-        public GridSearchNode(World world, GridSearchNode parentNode, MoveDirection move)
+        public GridSearchNode(GridSearchNode parentNode, MoveDirection move)
         {
+            this.World = parentNode.World;
             Parent = parentNode;
             HeadLocation = parentNode.HeadLocation.GetMovedLocation(move);
             _visited = new BitArray(parentNode._visited)
             {
-                [HeadLocation.Y * world.Width + HeadLocation.X] = true
+                [HeadLocation.Y * World.Width + HeadLocation.X] = true
             };
             this.g = parentNode.g + 1;
-            this.h = world.CalculateHeuristic(this);
+            this.h = World.CalculateHeuristic(this);
+
             //TODO: Assert if newHeadLocation is illegal w.r.t parent head
         }
 
+        private World World;
+
         public GridSearchNode(World world)
         {
+            this.World = world;
             Parent = null;
             HeadLocation = world.Start;
             _visited = new BitArray(world.LinearSize);
@@ -50,7 +55,45 @@ namespace Grid.Domain
         }
         public int h { get; }
         public int g { get; }
-        public LinkedList<INode> Children { get; }
+
+        public LinkedList<INode> Children
+        {
+            get
+            {
+                var result = generateInitialChildList();
+                return result;
+            }
+        }
+
+        private LinkedList<INode> generateInitialChildList()
+        {
+
+            LinkedList<INode> result = new LinkedList<INode>();
+            if (this.HeadLocation.Y > 0)
+            {
+                result.AddLast(new GridSearchNode(this, MoveDirection.Up));
+            }
+            if (this.HeadLocation.Y < World.Height-1)
+            {
+                result.AddLast(new GridSearchNode(this, MoveDirection.Down));
+            }
+            if (this.HeadLocation.X > 0)
+            {
+                result.AddLast(new GridSearchNode(this, MoveDirection.Left));
+            }
+            if (this.HeadLocation.X < World.Width-1)
+            {
+                result.AddLast(new GridSearchNode(this, MoveDirection.Right));
+            }
+            return result;
+        }
+
+
+        public bool IsVisited(Location loc)
+        {
+            return _visited[loc.Y * World.Width + loc.X];
+        }
+
         public string GetBitsString()
         {
             throw new NotImplementedException();

@@ -82,17 +82,6 @@ namespace GridTest
         }
 
         [TestMethod]
-        public void IsBlocked_RecognizeBlockedAndNonBlockeLinearLocations_AllOK()
-        {
-            World w = new World(_gridAstr, new NoneHeuristic());
-            Assert.AreEqual(w.Height, 5);
-            Assert.AreEqual(w.Width, 6);
-            Assert.IsFalse(w.IsBlocked(3));
-            Assert.IsTrue(w.IsBlocked(4));
-            Assert.IsFalse(w.IsBlocked(5));
-        }
-
-        [TestMethod]
         public void GetInitialLocation_Sanity_ReturnsInitialState()
         {
             World w = new World(_gridAstr, new NoneHeuristic());
