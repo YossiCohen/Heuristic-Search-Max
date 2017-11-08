@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Grid.Domain
 {
@@ -26,9 +27,11 @@ namespace Grid.Domain
         }
 
         private readonly BitArray _isBlockedLocations;
+        private IGridHeuristic HeuristicFunction { get; }
 
-        public World(string gridString)
+        public World(string gridString, IGridHeuristic heuristicFunction)
         {
+            this.HeuristicFunction = heuristicFunction;
             var lines =  gridString.Split( new[] { Environment.NewLine },StringSplitOptions.None);
             if (lines.Length < 3)
             {
@@ -70,14 +73,19 @@ namespace Grid.Domain
 
         }
 
+        public int CalculateHeuristic(GridSearchNode node)
+        {
+            return HeuristicFunction.calc_h(this, node);
+        }
+
         public bool IsBlocked(Location loc)
         {
             return _isBlockedLocations[loc.Y * Width + loc.X];
         }
 
-        public State GetInitialState()
+        public GridSearchNode GetInitialSearchNode()
         {
-            return new State(this, new Location(Start));
+            return new GridSearchNode(this);
         }
     }
 

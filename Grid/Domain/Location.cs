@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace Grid.Domain
 {
     public class Location
@@ -57,5 +59,32 @@ namespace Grid.Domain
             return $"({X},{Y})";
         }
 
+        public Location GetMovedLocation(MoveDirection direction)
+        {
+            Location newLocation; 
+            switch (direction)
+            {
+                case MoveDirection.Up:
+                    newLocation = new Location(X, Y - 1);
+                    break;
+                case MoveDirection.Down:
+                    newLocation = new Location(X, Y + 1);
+                    break;
+                case MoveDirection.Left:
+                    newLocation = new Location(X - 1, Y);
+                    break;
+                case MoveDirection.Right:
+                    newLocation = new Location(X + 1, Y);
+                    break;
+                case MoveDirection.Wait:
+                    newLocation = new Location(this);
+                    break;
+                default:
+                     throw new NotImplementedException();
+            }
+            return newLocation;
+        }
     }
+
+    public enum MoveDirection { Up, Down, Left, Right, Wait}
 }

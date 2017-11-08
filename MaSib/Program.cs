@@ -101,7 +101,6 @@ namespace MaSib
                 default:
                     Log.WriteLineIf("Box heuristic: "+ splitedArgs["boxh"] + " is not supported!", TraceLevel.Error);
                     return;
-                    break;
             }
 
             if (!splitedArgs.ContainsKey("snakeh")) //default snakeh
@@ -122,7 +121,6 @@ namespace MaSib
                 default:
                     Log.WriteLineIf("Snake heuristic: " + splitedArgs["snakeh"] + " is not supported!", TraceLevel.Error);
                     return;
-                    break;
             }
             
             if (!splitedArgs.ContainsKey("timelimit")) //default snakeh
@@ -196,7 +194,6 @@ namespace MaSib
                 default:
                     Log.WriteLineIf("Solver algorithm: " + splitedArgs["alg"] + " is not supported!", TraceLevel.Error);
                     return;
-                    break;
             }
 
             Log.WriteLineIf(@"Solviong snakes in the box problem:", TraceLevel.Info);
