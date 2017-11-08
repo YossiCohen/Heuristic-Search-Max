@@ -9,6 +9,7 @@ namespace GridTest
     {
         private static string _gridAstr;
         private static string _gridBstr;
+        private static string _gridCstr;
         private static string _badGridNoStart;
         private static string _badGridNoGoal;
         private static string _badGridSizes;
@@ -19,6 +20,7 @@ namespace GridTest
         {
             _gridAstr = File.ReadAllText(@"..\..\Grid-10-6-5-4-0.grd");
             _gridBstr = File.ReadAllText(@"..\..\Clean_Grid_5x5BasicBlocked.grd");
+            _gridCstr = File.ReadAllText(@"..\..\Grid-10-6-5-4-1.grd");
             _badGridNoGoal = File.ReadAllText(@"..\..\BadGridSizesNoGoal.grd");
             _badGridNoStart = File.ReadAllText(@"..\..\BadGridSizesNoStart.grd");
             _badGridSizes = File.ReadAllText(@"..\..\BadGridSizes.grd");
@@ -80,6 +82,17 @@ namespace GridTest
         }
 
         [TestMethod]
+        public void IsBlocked_RecognizeBlockedAndNonBlockeLinearLocations_AllOK()
+        {
+            World w = new World(_gridAstr, new NoneHeuristic());
+            Assert.AreEqual(w.Height, 5);
+            Assert.AreEqual(w.Width, 6);
+            Assert.IsFalse(w.IsBlocked(3));
+            Assert.IsTrue(w.IsBlocked(4));
+            Assert.IsFalse(w.IsBlocked(5));
+        }
+
+        [TestMethod]
         public void GetInitialLocation_Sanity_ReturnsInitialState()
         {
             World w = new World(_gridAstr, new NoneHeuristic());
@@ -99,6 +112,14 @@ namespace GridTest
         {
             World w = new World(_gridBstr, new NoneHeuristic());
             Assert.AreEqual(25, w.LinearSize);
+        }
+
+        [TestMethod]
+        public void GoalAndStart_PositionReadCorrectly_PositionGood()
+        {
+            World w = new World(_gridCstr, new NoneHeuristic());
+            Assert.AreEqual(new Location(1,2), w.Start);
+            Assert.AreEqual(new Location(2,3), w.Goal);
         }
 
     }

@@ -30,8 +30,8 @@ namespace Grid.Domain
             {
                 [HeadLocation.Y * world.Width + HeadLocation.X] = true
             };
-            this.f = parentNode.f + 1;
-            this.g = world.CalculateHeuristic(this);
+            this.g = parentNode.g + 1;
+            this.h = world.CalculateHeuristic(this);
             //TODO: Assert if newHeadLocation is illegal w.r.t parent head
         }
 
@@ -41,11 +41,13 @@ namespace Grid.Domain
             HeadLocation = world.Start;
             _visited = new BitArray(world.LinearSize);
             _visited[HeadLocation.Y * world.Width + HeadLocation.X] = true;
-            this.f = 0;
-            this.g = world.CalculateHeuristic(this);
+            this.g = 0;
+            this.h = world.CalculateHeuristic(this);
         }
 
-        public int f { get; }
+        public int f {
+            get { return g + h; }
+        }
         public int h { get; }
         public int g { get; }
         public LinkedList<INode> Children { get; }

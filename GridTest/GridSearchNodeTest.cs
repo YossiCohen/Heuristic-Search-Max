@@ -35,7 +35,7 @@ namespace GridTest
         public void fValue_getFvalueForNewNode_EqualsZero()
         {
             GridSearchNode parent = _basicWorld.GetInitialSearchNode();
-            Assert.AreEqual(0, parent.f);
+            Assert.AreEqual(0, parent.g);
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace GridTest
         {
             GridSearchNode parent = _basicWorld.GetInitialSearchNode();
             GridSearchNode gn = new GridSearchNode(_basicWorld, parent, MoveDirection.Down);
-            Assert.AreEqual(1, gn.f);
+            Assert.AreEqual(1, gn.g);
         }
     }
 }

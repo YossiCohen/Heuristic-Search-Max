@@ -50,11 +50,11 @@ namespace Grid.Domain
                 {
                     if (lines[i][j] == '@')
                     {
-                        Start = new Location(i, j);
+                        Start = new Location(j, i);
                     }
                     else if (lines[i][j] == '*')
                     {
-                        Goal = new Location(i, j);
+                        Goal = new Location(j, i);
                     }
                     else if (lines[i][j] == '#')
                     {
@@ -81,6 +81,11 @@ namespace Grid.Domain
         public bool IsBlocked(Location loc)
         {
             return _isBlockedLocations[loc.Y * Width + loc.X];
+        }
+
+        public bool IsBlocked(int linearLocation)
+        {
+            return _isBlockedLocations[linearLocation];
         }
 
         public GridSearchNode GetInitialSearchNode()
