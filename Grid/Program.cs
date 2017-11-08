@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
 using Grid.Domain;
+using MaxSearchAlg;
 
 namespace Grid
 {
@@ -20,6 +22,7 @@ namespace Grid
                 System.Console.WriteLine(@"Arguments:");
                 System.Console.WriteLine(@"----------");
                 System.Console.WriteLine(@"problem:     problem filename");
+                System.Console.WriteLine(@"timeLimit:   limit run time to X minutes (default 120), 0 for no time limit");
                 return;
             }
 
@@ -28,18 +31,37 @@ namespace Grid
             {
                 MemTest();
             }
+            if (!splitedArgs.ContainsKey("timelimit")) //default snakeh
+            {
+                splitedArgs.Add("timelimit", "120");
+            }
+            int timelimit = Int32.Parse(splitedArgs["timelimit"]);
 
-            int n = Int32.Parse(splitedArgs["dim"]);
-            int sk = Int32.Parse(splitedArgs["snakespread"]);
-            int bk = 2;
-            if (splitedArgs.ContainsKey("boxspread"))
-            {
-                bk = Int32.Parse(splitedArgs["boxspread"]);
-            }
-            else
-            {
-                Log.WriteLineIf("boxSpread not found, setting it to:2", TraceLevel.Warning);
-            }
+            string problemFileName = splitedArgs["problem"];
+            World world = new World(File.ReadAllText(problemFileName), new UntouchedAroundTheGoalHeuristic());
+            AStarMax solver = new AStarMax(world.GetInitialSearchNode());
+            solver.Run(timelimit);
+            var maxGoal = solver.GetMaxGoal();
+
+
+
+
+            Log.WriteLineIf(@"Solviong snakes in the box problem:", TraceLevel.Info);
+            Log.WriteLineIf(@"[[Problem:" + problemFileName + "]]", TraceLevel.Info);
+
+            var startTime = DateTime.Now;
+            var howEnded = solver.Run(timelimit);
+            var totalTime = DateTime.Now - startTime;
+            var goal = (GridSearchNode)solver.GetMaxGoal();
+            Log.WriteLineIf("[[TotalTime(MS):" + totalTime.TotalMilliseconds + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[Expended:" + solver.Expended + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[Generated:" + solver.Generated + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[Pruned:" + solver.Pruned + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[G-Value:" + goal.g + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[GoalBits:" + goal.GetBitsString() + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[Goal:" + goal.GetIntString() + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[HowEnded:" + Enum.GetName(typeof(State), howEnded) + "]]", TraceLevel.Off);
+
         }
 
         private static void MemTest()

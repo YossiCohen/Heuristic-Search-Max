@@ -58,12 +58,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Commons\Common.csproj">
+      <Project>{b53fccbe-730a-4fe3-bbd3-d92b97ec457c}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Grid\Grid.csproj">
       <Project>{79fb8d3b-aecd-4bf6-a676-cc8640851d06}</Project>
       <Name>Grid</Name>
     </ProjectReference>
     <ProjectReference Include="..\MaxSearchAlg\Algorithms.csproj">
-      <Project>{0C281233-428E-44DE-A7BE-3D1746DE7217}</Project>
+      <Project>{0c281233-428e-44de-a7be-3d1746de7217}</Project>
       <Name>Algorithms</Name>
     </ProjectReference>
   </ItemGroup>
