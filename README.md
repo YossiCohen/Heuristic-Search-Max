@@ -1,6 +1,8 @@
 # Heuristic Search for Maximization Problems
 In this project you can find C# implementation for:
+
 Grid - 2D Grid basic maximization problem
+
 MA-SIB - Multi Agent Snake In the Box
 
 Ref:
