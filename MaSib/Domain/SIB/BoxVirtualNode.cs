@@ -68,7 +68,7 @@ namespace MaSib
             return "BoxVirtualNode";
         }
 
-        public string GetIntString()
+        public string GetNodeStringV2()
         {
             return "BoxVirtualNode";
         }

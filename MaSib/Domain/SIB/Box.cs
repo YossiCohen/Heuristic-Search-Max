@@ -79,12 +79,12 @@ namespace MaSib.Domain.SIB
             return sb.ToString();
         }
 
-        public string GetIntString()
+        public string GetNodeStringV2()
         {
             StringBuilder sb = new StringBuilder("|");
             foreach (var snake in snakes)
             {
-                sb.Append(snake.GetIntString());
+                sb.Append(snake.GetNodeStringV2());
                 sb.Append("|");
             }
             return sb.ToString();

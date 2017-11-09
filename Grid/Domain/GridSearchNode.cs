@@ -61,6 +61,11 @@ namespace Grid.Domain
         {
             get
             {
+                //Hack - If Goal node - it will have no children
+                if (World.Goal.Equals(this.HeadLocation))
+                {
+                    return new LinkedList<INode>();
+                }
                 var result = GenerateInitialChildList();
                 result = RemoveChildrensOnVisitedAndBlockedLocations(result);
                 return result;
@@ -125,9 +130,22 @@ namespace Grid.Domain
             return sb.ToString();
         }
 
-        public string GetIntString()
+        public override string ToString()
         {
-            throw new NotImplementedException();
+            return String.Format("G:{0} Bits:{1}", g, GetBitsString());
+        }
+
+        public string GetNodeStringV2()
+        {
+            StringBuilder sb = new StringBuilder();
+            GridSearchNode cursor = this;
+            while (cursor != null)
+            {
+                sb.Append(cursor.HeadLocation);
+                sb.Append(",");
+                cursor = cursor.Parent;
+            }
+            return sb.ToString();
         }
     }
 }

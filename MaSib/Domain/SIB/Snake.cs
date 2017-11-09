@@ -206,7 +206,7 @@ namespace MaSib
             return world.IntArrToBitString(tail);
         }
 
-        public string GetIntString()
+        public string GetNodeStringV2()
         {
             StringBuilder sb = new StringBuilder();
             string prefix = "";

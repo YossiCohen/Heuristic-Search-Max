@@ -18,6 +18,6 @@ namespace MaxSearchAlg
 
         string GetBitsString();
 
-        string GetIntString();
+        string GetNodeStringV2();
     }
 }

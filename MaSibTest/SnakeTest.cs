@@ -207,7 +207,7 @@ namespace MaSibTest
             Snake s = new Snake(world, 0, heuristicFunc, true);
             var lstGen = s.Children;
             s = (Snake)lstGen.Last.Value;
-            Assert.AreEqual("0-1", s.GetIntString());
+            Assert.AreEqual("0-1", s.GetNodeStringV2());
         }
     }
 }

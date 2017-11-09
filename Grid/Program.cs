@@ -59,7 +59,7 @@ namespace Grid
             Log.WriteLineIf("[[Pruned:" + solver.Pruned + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[G-Value:" + goal.g + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[GoalBits:" + goal.GetBitsString() + "]]", TraceLevel.Off);
-            Log.WriteLineIf("[[Goal:" + goal.GetIntString() + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[Goal:" + goal.GetNodeStringV2() + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[HowEnded:" + Enum.GetName(typeof(State), howEnded) + "]]", TraceLevel.Off);
 
         }

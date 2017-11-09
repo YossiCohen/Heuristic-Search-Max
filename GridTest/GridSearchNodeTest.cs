@@ -47,7 +47,7 @@ namespace GridTest
         }
 
         [TestMethod]
-        public void Children_GetChildrenList_RelavanChildrenReturned()
+        public void Children_GetChildrenList_RelavantChildrenReturned()
         {
             GridSearchNode parent = _basicWorld.GetInitialSearchNode();
             var childs = parent.Children;
@@ -59,13 +59,13 @@ namespace GridTest
             childs = sampledChild.Children;
             sampledChild = sampledChild.Children.Last.Value;
             Assert.IsNotNull(childs);
-            Assert.AreEqual(3, childs.Count);
+            Assert.AreEqual(2, childs.Count);
             Assert.AreEqual(2, sampledChild.g);
             Assert.AreEqual(22, sampledChild.h);
             childs = sampledChild.Children;
             sampledChild = sampledChild.Children.Last.Value;
             Assert.IsNotNull(childs);
-            Assert.AreEqual(3, childs.Count);
+            Assert.AreEqual(2, childs.Count);
             Assert.AreEqual(3, sampledChild.g);
             Assert.AreEqual(21, sampledChild.h);
         }
