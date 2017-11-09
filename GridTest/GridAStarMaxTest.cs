@@ -28,9 +28,9 @@ namespace GridTest
             GridSearchNode initialState = _basicWorld.GetInitialSearchNode();
             AStarMax astar = new AStarMax(initialState);
             Assert.IsNotNull(astar);
-            astar.Run(10);
+            astar.Run(Int32.MaxValue); //Prevent stoping by time, should stop only when goal found
             var maxGoal = astar.GetMaxGoal();
-            Assert.IsNotNull(maxGoal);
+            Assert.AreEqual(8, maxGoal.g);
         }
 
         [TestMethod]
@@ -39,9 +39,9 @@ namespace GridTest
             GridSearchNode initialState = _basicWorld3.GetInitialSearchNode();
             AStarMax astar = new AStarMax(initialState);
             Assert.IsNotNull(astar);
-            astar.Run(1);
+            astar.Run(Int32.MaxValue);
             var maxGoal = astar.GetMaxGoal();
-            Assert.IsNotNull(maxGoal);
+            Assert.AreEqual(20, maxGoal.g);
         }
     }
 }

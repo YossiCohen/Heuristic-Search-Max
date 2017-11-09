@@ -1,6 +1,10 @@
 ﻿using System;
+using System.CodeDom;
+using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
 using MaxSearchAlg;
 
 namespace Grid.Domain
@@ -16,7 +20,7 @@ namespace Grid.Domain
         {
             get;
         }
-
+        [DebuggerDisplay("{GetBitsString(),nq}")]
         private readonly BitArray _visited;
 
         public GridSearchNode(GridSearchNode parentNode, MoveDirection move)
@@ -58,8 +62,23 @@ namespace Grid.Domain
             get
             {
                 var result = GenerateInitialChildList();
+                result = RemoveChildrensOnVisitedAndBlockedLocations(result);
                 return result;
             }
+        }
+
+        private LinkedList<INode> RemoveChildrensOnVisitedAndBlockedLocations(LinkedList<INode> childs)
+        {
+            LinkedList<INode> result = new LinkedList<INode>();
+            foreach (var node in childs)
+            {
+                var child = (GridSearchNode) node;
+                if (!(_visited[child.HeadLocation.Y * World.Width + child.HeadLocation.X] || (World.IsBlocked(child.HeadLocation))))
+                {
+                    result.AddLast(child);
+                }
+            }
+            return result;
         }
 
         private LinkedList<INode> GenerateInitialChildList()
@@ -93,7 +112,17 @@ namespace Grid.Domain
 
         public string GetBitsString()
         {
-            throw new NotImplementedException();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < _visited.Length; i++)
+            {
+                sb.Append((bool)_visited[i] ? "1" : "0");
+                if (i % World.Width == World.Width - 1)
+                {
+                    sb.Append("-");
+                }
+            }
+            sb.Append($"(g:{g},h:{h})");
+            return sb.ToString();
         }
 
         public string GetIntString()
