@@ -8,15 +8,13 @@ using MaxSearchAlg;
 namespace GridTest
 {
     [TestClass]
-    public class GridAStarMaxTest
+    public class GridDfbnbTest
     {
         private static World _basicWorld3X3;
         private static World _basicWorld5X5Blocked;
         private static World _basicWorld6X50;
         private static World _basicWorld6X51;
         private static World _basicWorld4X416;
-
-
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -29,57 +27,57 @@ namespace GridTest
         }
 
         [TestMethod]
-        public void Create_NewAStarGrid3X3_findPath()
+        public void Create_NewDfBnbGrid3X3_findPath()
         {
             GridSearchNode initialState = _basicWorld3X3.GetInitialSearchNode();
-            AStarMax astar = new AStarMax(initialState);
-            Assert.IsNotNull(astar);
-            astar.Run(Int32.MaxValue); //Prevent stoping by time, should stop only when goal found
-            var maxGoal = astar.GetMaxGoal();
+            Solver solver = new DfBnbMax(initialState);
+            Assert.IsNotNull(solver);
+            solver.Run(Int32.MaxValue); //Prevent stoping by time, should stop only when goal found
+            var maxGoal = solver.GetMaxGoal();
             Assert.AreEqual(8, maxGoal.g);
         }
 
         [TestMethod]
-        public void Create_NewAStarGrid5X5WithBlocked_FindPath()
+        public void Create_NewDfBnbGrid5X5WithBlocked_FindPath()
         {
             GridSearchNode initialState = _basicWorld5X5Blocked.GetInitialSearchNode();
-            AStarMax astar = new AStarMax(initialState);
-            Assert.IsNotNull(astar);
-            astar.Run(Int32.MaxValue);
-            var maxGoal = astar.GetMaxGoal();
+            Solver solver = new DfBnbMax(initialState);
+            Assert.IsNotNull(solver);
+            solver.Run(Int32.MaxValue);
+            var maxGoal = solver.GetMaxGoal();
             Assert.AreEqual(20, maxGoal.g);
         }
 
         [TestMethod]
-        public void Create_NewAStarGrid6X5WithBlocked0_FindPath()
+        public void Create_NewDfBnbGrid6X5WithBlocked0_FindPath()
         {
             GridSearchNode initialState = _basicWorld6X50.GetInitialSearchNode();
-            AStarMax astar = new AStarMax(initialState);
-            Assert.IsNotNull(astar);
-            astar.Run(Int32.MaxValue);
-            var maxGoal = astar.GetMaxGoal();
+            Solver solver = new DfBnbMax(initialState);
+            Assert.IsNotNull(solver);
+            solver.Run(Int32.MaxValue);
+            var maxGoal = solver.GetMaxGoal();
             Assert.AreEqual(23, maxGoal.g);
         }
 
         [TestMethod]
-        public void Create_NewAStarGrid6X5WithBlocked1_FindPath()
+        public void Create_NewDfBnbGrid6X5WithBlocked1_FindPath()
         {
             GridSearchNode initialState = _basicWorld6X51.GetInitialSearchNode();
-            AStarMax astar = new AStarMax(initialState);
-            Assert.IsNotNull(astar);
-            astar.Run(Int32.MaxValue);
-            var maxGoal = astar.GetMaxGoal();
+            Solver solver = new DfBnbMax(initialState);
+            Assert.IsNotNull(solver);
+            solver.Run(Int32.MaxValue);
+            var maxGoal = solver.GetMaxGoal();
             Assert.AreEqual(22, maxGoal.g);
         }
 
         [TestMethod]
-        public void Create_NewAStarGrid4X4WithBlocked16_FindPath()
+        public void Create_NewDfBnbGrid4X4WithBlocked16_FindPath()
         {
             GridSearchNode initialState = _basicWorld4X416.GetInitialSearchNode();
-            AStarMax astar = new AStarMax(initialState);
-            Assert.IsNotNull(astar);
-            astar.Run(Int32.MaxValue);
-            var maxGoal = astar.GetMaxGoal();
+            Solver solver = new DfBnbMax(initialState);
+            Assert.IsNotNull(solver);
+            solver.Run(Int32.MaxValue);
+            var maxGoal = solver.GetMaxGoal();
             Assert.AreEqual(10, maxGoal.g);
         }
 

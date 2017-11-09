@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Grid.Domain
+﻿namespace Grid.Domain
 {
     public class NoneHeuristic : IGridHeuristic
     {

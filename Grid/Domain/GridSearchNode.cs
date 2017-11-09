@@ -1,6 +1,4 @@
 ﻿using System;
-using System.CodeDom;
-using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -62,7 +60,7 @@ namespace Grid.Domain
             get
             {
                 //Hack - If Goal node - it will have no children
-                if (World.Goal.Equals(this.HeadLocation))
+                if (World.Goal.Equals(HeadLocation))
                 {
                     return new LinkedList<INode>();
                 }
@@ -120,7 +118,7 @@ namespace Grid.Domain
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < _visited.Length; i++)
             {
-                sb.Append((bool)_visited[i] ? "1" : "0");
+                sb.Append(_visited[i] ? "1" : "0");
                 if (i % World.Width == World.Width - 1)
                 {
                     sb.Append("-");

@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Common;
 using Grid.Domain;
 using MaxSearchAlg;
@@ -17,12 +14,12 @@ namespace Grid
         {
             if (args.Length == 0)
             {
-                System.Console.WriteLine(@"Please Provide arguments to run:");
-                System.Console.WriteLine(@"all args should be in the form of: [key]=[value] with space between them");
-                System.Console.WriteLine(@"Arguments:");
-                System.Console.WriteLine(@"----------");
-                System.Console.WriteLine(@"problem:     problem filename");
-                System.Console.WriteLine(@"timeLimit:   limit run time to X minutes (default 120), 0 for no time limit");
+                Console.WriteLine(@"Please Provide arguments to run:");
+                Console.WriteLine(@"all args should be in the form of: [key]=[value] with space between them");
+                Console.WriteLine(@"Arguments:");
+                Console.WriteLine(@"----------");
+                Console.WriteLine(@"problem:     problem filename");
+                Console.WriteLine(@"timeLimit:   limit run time to X minutes (default 120), 0 for no time limit");
                 return;
             }
 
@@ -41,10 +38,6 @@ namespace Grid
             World world = new World(File.ReadAllText(problemFileName), new UntouchedAroundTheGoalHeuristic());
             AStarMax solver = new AStarMax(world.GetInitialSearchNode());
             solver.Run(timelimit);
-            var maxGoal = solver.GetMaxGoal();
-
-
-
 
             Log.WriteLineIf(@"Solviong snakes in the box problem:", TraceLevel.Info);
             Log.WriteLineIf(@"[[Problem:" + problemFileName + "]]", TraceLevel.Info);
@@ -67,7 +60,7 @@ namespace Grid
         private static void MemTest()
         {
             //MEMBLAST
-            System.Console.WriteLine(@"Filling memory to check 64bit pointers - kill me when you want");
+            Console.WriteLine(@"Filling memory to check 64bit pointers - kill me when you want");
             List<String> m = new List<String>();
             long c = 0;
             while (true)
@@ -76,9 +69,10 @@ namespace Grid
                 c++;
                 if (c % 1000000 == 0)
                 {
-                    Console.WriteLine(c + "toalmem:" + GC.GetTotalMemory(false));
+                    Console.WriteLine(c + "toalmem:" + GC.GetTotalMemory(false) + " ListCount:" + m.Count);
                 }
             }
+            // ReSharper disable once FunctionNeverReturns
         }
 
         private static Dictionary<string, string> SplitArguments(string[] args)
