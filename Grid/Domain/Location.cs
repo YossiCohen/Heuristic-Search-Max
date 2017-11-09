@@ -56,7 +56,7 @@ namespace Grid.Domain
 
         public override string ToString()
         {
-            return $"({X},{Y})";
+            return $"({X}_{Y})";
         }
 
         public Location GetMovedLocation(MoveDirection direction)

@@ -20,6 +20,9 @@ namespace Grid
                 Console.WriteLine(@"----------");
                 Console.WriteLine(@"problem:     problem filename");
                 Console.WriteLine(@"timeLimit:   limit run time to X minutes (default 120), 0 for no time limit");
+                Console.WriteLine(@"alg:         [astar/dfbnb] the solving algorithm");
+                Console.WriteLine(@"memTest:     if set to true, will not solve nothing, only fill memory");
+                Console.WriteLine(@"             allocation to check 64bit issue");
                 return;
             }
 
@@ -36,16 +39,30 @@ namespace Grid
 
             string problemFileName = splitedArgs["problem"];
             World world = new World(File.ReadAllText(problemFileName), new UntouchedAroundTheGoalHeuristic());
-            AStarMax solver = new AStarMax(world.GetInitialSearchNode());
-            solver.Run(timelimit);
+
+            Solver solver;
+            switch (splitedArgs["alg"])
+            {
+                case "astar":
+                    solver = new AStarMax(world.GetInitialSearchNode());
+                    break;
+                case "dfbnb":
+                    solver = new DfBnbMax(world.GetInitialSearchNode());
+                    break;
+                default:
+                    Log.WriteLineIf("Solver algorithm: " + splitedArgs["alg"] + " is not supported!", TraceLevel.Error);
+                    return;
+            }
 
             Log.WriteLineIf(@"Solviong snakes in the box problem:", TraceLevel.Info);
             Log.WriteLineIf(@"[[Problem:" + problemFileName + "]]", TraceLevel.Info);
+            Log.WriteLineIf(@"[[Algorithm:" + solver.GetType().Name + "]]", TraceLevel.Info);
 
             var startTime = DateTime.Now;
             var howEnded = solver.Run(timelimit);
             var totalTime = DateTime.Now - startTime;
             var goal = (GridSearchNode)solver.GetMaxGoal();
+
             Log.WriteLineIf("[[TotalTime(MS):" + totalTime.TotalMilliseconds + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Expended:" + solver.Expended + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Generated:" + solver.Generated + "]]", TraceLevel.Off);

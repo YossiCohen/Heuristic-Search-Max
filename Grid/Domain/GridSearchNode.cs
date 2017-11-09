@@ -124,7 +124,7 @@ namespace Grid.Domain
                     sb.Append("-");
                 }
             }
-            sb.Append($"(g:{g},h:{h})");
+            sb.Append($"(g_{g}|h_{h})");
             return sb.ToString();
         }
 
@@ -140,7 +140,7 @@ namespace Grid.Domain
             while (cursor != null)
             {
                 sb.Append(cursor.HeadLocation);
-                sb.Append(",");
+                sb.Append("_");
                 cursor = cursor.Parent;
             }
             return sb.ToString();
