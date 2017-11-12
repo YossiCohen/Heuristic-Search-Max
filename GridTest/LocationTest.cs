@@ -86,9 +86,8 @@ namespace GridTest
         {
             Location loc1 = new Location(1, 2);
             string s = loc1.ToString();
-            Assert.AreEqual("(1,2)", s);
+            Assert.AreEqual("(1_2)", s);
         }
-
-
+        
     }
 }

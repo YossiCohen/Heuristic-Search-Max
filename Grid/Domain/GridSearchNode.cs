@@ -19,32 +19,30 @@ namespace Grid.Domain
             get;
         }
         [DebuggerDisplay("{GetBitsString(),nq}")]
-        private readonly BitArray _visited;
+        protected internal readonly BitArray Visited;
 
         public GridSearchNode(GridSearchNode parentNode, MoveDirection move)
         {
             World = parentNode.World;
             Parent = parentNode;
             HeadLocation = parentNode.HeadLocation.GetMovedLocation(move);
-            _visited = new BitArray(parentNode._visited)
+            Visited = new BitArray(parentNode.Visited)
             {
                 [HeadLocation.Y * World.Width + HeadLocation.X] = true
             };
             g = parentNode.g + 1;
             h = World.CalculateHeuristic(this);
-
-            //TODO: Assert if newHeadLocation is illegal w.r.t parent head
         }
 
-        private World World;
+        internal World World;
 
         public GridSearchNode(World world)
         {
             World = world;
             Parent = null;
             HeadLocation = world.Start;
-            _visited = new BitArray(world.LinearSize);
-            _visited[HeadLocation.Y * world.Width + HeadLocation.X] = true;
+            Visited = new BitArray(world.LinearSize);
+            Visited[HeadLocation.Y * world.Width + HeadLocation.X] = true;
             g = 0;
             h = world.CalculateHeuristic(this);
         }
@@ -76,7 +74,7 @@ namespace Grid.Domain
             foreach (var node in childs)
             {
                 var child = (GridSearchNode) node;
-                if (!(_visited[child.HeadLocation.Y * World.Width + child.HeadLocation.X] || (World.IsBlocked(child.HeadLocation))))
+                if (!(Visited[child.HeadLocation.Y * World.Width + child.HeadLocation.X] || (World.IsBlocked(child.HeadLocation))))
                 {
                     result.AddLast(child);
                 }
@@ -110,15 +108,15 @@ namespace Grid.Domain
 
         public bool IsVisited(Location loc)
         {
-            return _visited[loc.Y * World.Width + loc.X];
+            return Visited[loc.Y * World.Width + loc.X];
         }
 
         public string GetBitsString()
         {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < _visited.Length; i++)
+            for (int i = 0; i < Visited.Length; i++)
             {
-                sb.Append(_visited[i] ? "1" : "0");
+                sb.Append(Visited[i] ? "1" : "0");
                 if (i % World.Width == World.Width - 1)
                 {
                     sb.Append("-");

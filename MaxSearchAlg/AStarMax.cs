@@ -10,14 +10,16 @@ namespace MaxSearchAlg
         
         private SortedList<int, INode> openList;
 
-        public AStarMax(INode initailNode):base(initailNode)
+        public AStarMax(INode initailNode) : this(initailNode, new NoPrunning())
+        {
+        }
+
+        public AStarMax(INode initailNode, IPrunningMethod prunningMethod):base(initailNode, prunningMethod)
         {
             var duplicateComparer = new MaxComparer();
             openList = new SortedList<int, INode>(duplicateComparer);
             openList.Add(initailNode);
         }
-
-
 
         internal override State Step()
         {
@@ -44,15 +46,18 @@ namespace MaxSearchAlg
             Expended++;
             foreach (var child in currentNode.Children)
             {
-                openList.Add(child);
-                Generated++;
+                if (!PrunningMethod.ShouldPrune(child))
+                {
+                    openList.Add(child);
+                    Generated++;
+                }
+                else
+                {
+                    Pruned++;
+                }
+
             }
             return State.Searching;
         }
-
-
-
-
     }
-
 }

@@ -11,13 +11,15 @@ namespace MaxSearchAlg
     {
 
         internal INode candidateGoalNode;
+        internal IPrunningMethod PrunningMethod;
 
-        public Solver(INode initailNode)
+        public Solver(INode initailNode, IPrunningMethod prunningMethod)
         {
             this.candidateGoalNode = initailNode;
             Expended = 0;
             Generated = 0;
-            Pruned = 0;  //Will stay 0 - just implementing Solver
+            Pruned = 0;
+            PrunningMethod = prunningMethod;
         }
         public int Expended { get; internal set; }
         public int Generated { get; internal set; }

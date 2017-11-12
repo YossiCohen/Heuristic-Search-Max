@@ -50,6 +50,8 @@
     <Compile Include="DfBnbMax.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="INode.cs" />
+    <Compile Include="IPrunningMethod.cs" />
+    <Compile Include="NoPrunning.cs" />
     <Compile Include="Solver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

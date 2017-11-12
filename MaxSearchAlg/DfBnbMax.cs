@@ -9,7 +9,11 @@ namespace MaxSearchAlg
     {
         private Stack<INode> openList;
 
-        public DfBnbMax(INode initailNode) : base(initailNode)
+        public DfBnbMax(INode initailNode) : this(initailNode, new NoPrunning())
+        {
+        }
+
+        public DfBnbMax(INode initailNode, IPrunningMethod prunningMethod) : base(initailNode, prunningMethod)
         {
             openList = new Stack<INode>();
             openList.Push(initailNode);
@@ -45,8 +49,16 @@ namespace MaxSearchAlg
 
             foreach (var child in currentNode.Children)
             {
-                openList.Push(child);
-                Generated++;
+                if (!PrunningMethod.ShouldPrune(child))
+                {
+                    openList.Push(child);
+                    Generated++;
+                }
+                else
+                {
+                    Pruned++;//TODO: should separate the prune counter - BnB vs. PruningMethod
+                }
+
             }
 
             return State.Searching;
