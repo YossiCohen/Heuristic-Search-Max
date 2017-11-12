@@ -9,17 +9,22 @@ namespace MaxSearchAlg
 
     public abstract class Solver
     {
-
         internal INode candidateGoalNode;
         internal IPrunningMethod PrunningMethod;
+        internal IGoalCheckMethod GoalCheckMethod;
 
-        public Solver(INode initailNode, IPrunningMethod prunningMethod)
+        public Solver(INode initailNode, IPrunningMethod prunningMethod, IGoalCheckMethod goalCheckMethod)
         {
-            this.candidateGoalNode = initailNode;
+
             Expended = 0;
             Generated = 0;
             Pruned = 0;
             PrunningMethod = prunningMethod;
+            GoalCheckMethod = goalCheckMethod;
+            if (GoalCheckMethod.ValidGoal(initailNode))
+            {
+                candidateGoalNode = initailNode;
+            }
         }
         public int Expended { get; internal set; }
         public int Generated { get; internal set; }

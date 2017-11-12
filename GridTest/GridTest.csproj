@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="SpecialIntrestingCases.cs" />
     <Compile Include="GridDFBNBTest.cs" />
     <Compile Include="GridSearchNodeTest.cs" />
     <Compile Include="GridAStarMaxTest.cs" />

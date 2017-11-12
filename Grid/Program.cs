@@ -21,6 +21,8 @@ namespace Grid
                 Console.WriteLine(@"problem:     problem filename");
                 Console.WriteLine(@"timeLimit:   limit run time to X minutes (default 120), 0 for no time limit");
                 Console.WriteLine(@"alg:         [astar/dfbnb] the solving algorithm");
+                Console.WriteLine(@"prune:         [none/bsd] the solving algorithm");
+                Console.WriteLine(@"----------");
                 Console.WriteLine(@"memTest:     if set to true, will not solve nothing, only fill memory");
                 Console.WriteLine(@"             allocation to check 64bit issue");
                 return;
@@ -40,14 +42,28 @@ namespace Grid
             string problemFileName = splitedArgs["problem"];
             World world = new World(File.ReadAllText(problemFileName), new UntouchedAroundTheGoalHeuristic());
 
+            IPrunningMethod prune;
+            switch (splitedArgs["prune"])
+            {
+                case "none":
+                    prune = new NoPrunning();
+                    break;
+                case "bsd":
+                    prune = new BasicSymmetryDetectionPrunning();
+                    break;
+                default:
+                    Log.WriteLineIf("Prunning Method: " + splitedArgs["prune"] + " is not supported!", TraceLevel.Error);
+                    return;
+            }
+
             Solver solver;
             switch (splitedArgs["alg"])
             {
                 case "astar":
-                    solver = new AStarMax(world.GetInitialSearchNode());
+                    solver = new AStarMax(world.GetInitialSearchNode(), prune, new GoalOnLocation(world.Goal));
                     break;
                 case "dfbnb":
-                    solver = new DfBnbMax(world.GetInitialSearchNode());
+                    solver = new DfBnbMax(world.GetInitialSearchNode(), prune, new GoalOnLocation(world.Goal));
                     break;
                 default:
                     Log.WriteLineIf("Solver algorithm: " + splitedArgs["alg"] + " is not supported!", TraceLevel.Error);
@@ -57,6 +73,7 @@ namespace Grid
             Log.WriteLineIf(@"Solviong snakes in the box problem:", TraceLevel.Info);
             Log.WriteLineIf(@"[[Problem:" + problemFileName + "]]", TraceLevel.Info);
             Log.WriteLineIf(@"[[Algorithm:" + solver.GetType().Name + "]]", TraceLevel.Info);
+            Log.WriteLineIf(@"[[Prunning:" + prune.GetType().Name + "]]", TraceLevel.Info);
 
             var startTime = DateTime.Now;
             var howEnded = solver.Run(timelimit);

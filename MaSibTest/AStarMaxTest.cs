@@ -17,7 +17,7 @@ namespace MaSibTest
             World w = new World(4,2);
             var heuristicFunc = new SnakeNoneHeuristic();
             Snake snake = new Snake(w, 0, heuristicFunc);
-            AStarMax astar = new AStarMax(snake);
+            AStarMax astar = new AStarMax(snake, new ImplicitGoal());
             Assert.IsNotNull(astar);
         }
 
@@ -27,7 +27,7 @@ namespace MaSibTest
             World w = new World(5, 3);
             var heuristicFunc = new SnakeNoneHeuristic();
             Snake snake = new Snake(w, 0, heuristicFunc);
-            AStarMax astar = new AStarMax(snake);
+            AStarMax astar = new AStarMax(snake, new ImplicitGoal());
             astar.Run(1);
             var maxGoal = astar.GetMaxGoal();
             Assert.IsNotNull(maxGoal);
@@ -40,7 +40,7 @@ namespace MaSibTest
             var heuristicFunc = new SnakeNoneHeuristic();
             int[] snakeHeads = new int[] { 0, 31 };
             BoxCartesian b = new BoxCartesian(w, snakeHeads, new BoxNoneHeuristic(), heuristicFunc);
-            AStarMax astar = new AStarMax(b);
+            AStarMax astar = new AStarMax(b, new ImplicitGoal());
             astar.Run(1);
             var maxGoal = astar.GetMaxGoal();
             Assert.IsNotNull(maxGoal);

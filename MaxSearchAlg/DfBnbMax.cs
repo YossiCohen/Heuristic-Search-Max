@@ -9,11 +9,11 @@ namespace MaxSearchAlg
     {
         private Stack<INode> openList;
 
-        public DfBnbMax(INode initailNode) : this(initailNode, new NoPrunning())
+        public DfBnbMax(INode initailNode, IGoalCheckMethod goalCheckMethod) : this(initailNode, new NoPrunning(), goalCheckMethod)
         {
         }
 
-        public DfBnbMax(INode initailNode, IPrunningMethod prunningMethod) : base(initailNode, prunningMethod)
+        public DfBnbMax(INode initailNode, IPrunningMethod prunningMethod, IGoalCheckMethod goalCheckMethod) : base(initailNode, prunningMethod, goalCheckMethod)
         {
             openList = new Stack<INode>();
             openList.Push(initailNode);
@@ -33,7 +33,7 @@ namespace MaxSearchAlg
             // Check the next node in the queue and pop it
             var currentNode = openList.Pop();
             //do Prune if needed
-            if (currentNode.f < candidateGoalNode.g)
+            if (candidateGoalNode != null && currentNode.f < candidateGoalNode.g)
             {
                 Pruned++;
                 return State.Searching;
@@ -41,10 +41,13 @@ namespace MaxSearchAlg
             //Expand what is not pruned
             Expended++;
             //store best candidate if we seeing it
-            if (currentNode.g > candidateGoalNode.g)
+            if (GoalCheckMethod.ValidGoal(currentNode))
             {
-                candidateGoalNode = currentNode;
-                Log.WriteLineIf("DFBnB Best Candidate:" + candidateGoalNode, TraceLevel.Verbose);
+                if (candidateGoalNode == null || currentNode.g > candidateGoalNode.g)
+                {
+                    candidateGoalNode = currentNode;
+                    Log.WriteLineIf("DFBnB Best Candidate:" + candidateGoalNode, TraceLevel.Verbose);
+                }
             }
 
             foreach (var child in currentNode.Children)

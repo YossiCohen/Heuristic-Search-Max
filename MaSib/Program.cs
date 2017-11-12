@@ -180,10 +180,10 @@ namespace MaSib
             switch (splitedArgs["alg"])
             {
                 case "astar":
-                    solver = new AStarMax(initState);
+                    solver = new AStarMax(initState, new ImplicitGoal());
                     break;
                 case "dfbnb":
-                    solver = new DfBnbMax(initState);
+                    solver = new DfBnbMax(initState, new ImplicitGoal());
                     break;
                 default:
                     Log.WriteLineIf("Solver algorithm: " + splitedArgs["alg"] + " is not supported!", TraceLevel.Error);

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
 using MaxSearchAlg;
 
 namespace Grid.Domain
@@ -32,10 +27,6 @@ namespace Grid.Domain
                 var relevantList = HistoryNodes[hash];
                 foreach (var historyNode in relevantList)
                 {
-                    if (!historyNode.HeadLocation.Equals(newGridNode.HeadLocation))
-                    {
-                        continue;
-                    }
                     if (EqualBitArray(historyNode.Visited,newGridNode.Visited))
                     {
                         return true;
@@ -53,14 +44,7 @@ namespace Grid.Domain
 
         private bool EqualBitArray(BitArray a, BitArray b)
         {
-            //They must be same length - unnecessary check!
-            //if (a.length != a.length)
-            //{
-            //    return false;
-            //}
-
             int finalIndex = a.Length - 1;
-
             for (int i = 0; i < finalIndex; i++)
             {
                 if (a[i] != b[i])

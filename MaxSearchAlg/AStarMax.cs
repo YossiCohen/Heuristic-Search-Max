@@ -10,11 +10,11 @@ namespace MaxSearchAlg
         
         private SortedList<int, INode> openList;
 
-        public AStarMax(INode initailNode) : this(initailNode, new NoPrunning())
+        public AStarMax(INode initailNode, IGoalCheckMethod goalCheckMethod) : this(initailNode, new NoPrunning(), goalCheckMethod)
         {
         }
 
-        public AStarMax(INode initailNode, IPrunningMethod prunningMethod):base(initailNode, prunningMethod)
+        public AStarMax(INode initailNode, IPrunningMethod prunningMethod, IGoalCheckMethod goalCheckMethod) :base(initailNode, prunningMethod, goalCheckMethod)
         {
             var duplicateComparer = new MaxComparer();
             openList = new SortedList<int, INode>(duplicateComparer);
@@ -32,13 +32,16 @@ namespace MaxSearchAlg
             var currentNode = openList.Pop();
 
             //store best candidate if we seeing it
-            if (currentNode.g > candidateGoalNode.g)
+            if (GoalCheckMethod.ValidGoal(currentNode))
             {
-                candidateGoalNode = currentNode;
-                Log.WriteLineIf("AStar Best Candidate:" + candidateGoalNode, TraceLevel.Verbose);
+                if (candidateGoalNode == null || currentNode.g > candidateGoalNode.g)
+                {
+                    candidateGoalNode = currentNode;
+                    Log.WriteLineIf("AStar Best Candidate:" + candidateGoalNode, TraceLevel.Verbose);
+                }
             }
 
-            if (currentNode.f < candidateGoalNode.g)
+            if (candidateGoalNode != null && currentNode.f < candidateGoalNode.g)
             {
                 return State.Ended;
             }

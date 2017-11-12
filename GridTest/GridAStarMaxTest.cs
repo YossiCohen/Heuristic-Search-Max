@@ -32,7 +32,7 @@ namespace GridTest
         public void Create_NewAStarGrid3X3_findPath()
         {
             GridSearchNode initialState = _basicWorld3X3.GetInitialSearchNode();
-            AStarMax astar = new AStarMax(initialState);
+            AStarMax astar = new AStarMax(initialState, new GoalOnLocation(_basicWorld3X3.Goal));
             Assert.IsNotNull(astar);
             astar.Run(Int32.MaxValue); //Prevent stoping by time, should stop only when goal found
             var maxGoal = astar.GetMaxGoal();
@@ -43,7 +43,7 @@ namespace GridTest
         public void Create_NewAStarGrid5X5WithBlocked_FindPath()
         {
             GridSearchNode initialState = _basicWorld5X5Blocked.GetInitialSearchNode();
-            AStarMax astar = new AStarMax(initialState);
+            AStarMax astar = new AStarMax(initialState, new GoalOnLocation(_basicWorld5X5Blocked.Goal));
             Assert.IsNotNull(astar);
             astar.Run(Int32.MaxValue);
             var maxGoal = astar.GetMaxGoal();
@@ -54,7 +54,7 @@ namespace GridTest
         public void Create_NewAStarGrid6X5WithBlocked0_FindPath()
         {
             GridSearchNode initialState = _basicWorld6X50.GetInitialSearchNode();
-            AStarMax astar = new AStarMax(initialState);
+            AStarMax astar = new AStarMax(initialState, new GoalOnLocation(_basicWorld6X50.Goal));
             Assert.IsNotNull(astar);
             astar.Run(Int32.MaxValue);
             var maxGoal = astar.GetMaxGoal();
@@ -65,7 +65,7 @@ namespace GridTest
         public void Create_NewAStarGrid6X5WithBlocked1_FindPath()
         {
             GridSearchNode initialState = _basicWorld6X51.GetInitialSearchNode();
-            AStarMax astar = new AStarMax(initialState);
+            AStarMax astar = new AStarMax(initialState, new GoalOnLocation(_basicWorld6X51.Goal));
             Assert.IsNotNull(astar);
             astar.Run(Int32.MaxValue);
             var maxGoal = astar.GetMaxGoal();
@@ -76,7 +76,7 @@ namespace GridTest
         public void Create_NewAStarGrid4X4WithBlocked16_FindPath()
         {
             GridSearchNode initialState = _basicWorld4X416.GetInitialSearchNode();
-            AStarMax astar = new AStarMax(initialState);
+            AStarMax astar = new AStarMax(initialState, new GoalOnLocation(_basicWorld4X416.Goal));
             Assert.IsNotNull(astar);
             astar.Run(Int32.MaxValue);
             var maxGoal = astar.GetMaxGoal();
