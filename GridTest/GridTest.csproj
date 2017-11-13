@@ -50,12 +50,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ReachableSymmetryDetectionPrunningTest.cs" />
     <Compile Include="RsdGridSearchNodeTest.cs" />
     <Compile Include="SpecialIntrestingCases.cs" />
     <Compile Include="GridDFBNBTest.cs" />
     <Compile Include="GridSearchNodeTest.cs" />
     <Compile Include="GridAStarMaxTest.cs" />
-    <Compile Include="UntouchedAroundTheGoalHeuristic.cs" />
+    <Compile Include="RsdUntouchedAroundTheGoalHeuristicTest.cs" />
+    <Compile Include="UntouchedAroundTheGoalHeuristicTest.cs" />
     <Compile Include="LocationTest.cs" />
     <Compile Include="BasicSymmetryDetectionPrunningTest.cs" />
     <Compile Include="WorldTest.cs" />

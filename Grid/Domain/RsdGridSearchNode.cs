@@ -19,8 +19,7 @@ namespace Grid.Domain
         {
         }
 
-        [DebuggerDisplay("{GetBitsString(),nq}")]
-        protected internal BitArray Reachable;
+        [DebuggerDisplay("{GetBitsString(),nq}")] public BitArray Reachable;
 
         //TODO code is duplicated - refactor needed
         public new LinkedList<INode> Children

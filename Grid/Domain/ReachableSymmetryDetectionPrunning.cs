@@ -6,20 +6,20 @@ namespace Grid.Domain
 {
     public class ReachableSymmetryDetectionPrunning : IPrunningMethod
     {
-        private Dictionary<long, List<GridSearchNode>> HistoryNodes;
+        private Dictionary<long, List<RsdGridSearchNode>> HistoryNodes;
 
         public ReachableSymmetryDetectionPrunning()
         {
-            HistoryNodes = new Dictionary<long, List<GridSearchNode>>();
+            HistoryNodes = new Dictionary<long, List<RsdGridSearchNode>>();
         }
 
         public bool ShouldPrune(INode node)
         {
-            var newGridNode = node as GridSearchNode;
+            var newGridNode = node as RsdGridSearchNode;
             var hash = GetLinearHeadLocation(newGridNode);
             if (!HistoryNodes.ContainsKey(hash))
             {
-                HistoryNodes[hash] = new List<GridSearchNode>();
+                HistoryNodes[hash] = new List<RsdGridSearchNode>();
                 HistoryNodes[hash].Add(newGridNode);
                 return false;
             }
@@ -38,7 +38,7 @@ namespace Grid.Domain
             }
         }
 
-        private long GetLinearHeadLocation(GridSearchNode node)
+        private long GetLinearHeadLocation(RsdGridSearchNode node)
         {
             return node.HeadLocation.Y * node.World.Width + node.HeadLocation.X;
         }

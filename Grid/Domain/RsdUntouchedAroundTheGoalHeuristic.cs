@@ -34,7 +34,7 @@ namespace Grid.Domain
                     open.Enqueue(current.GetMovedLocation(MoveDirection.Down));
                     open.Enqueue(current.GetMovedLocation(MoveDirection.Left));
                     open.Enqueue(current.GetMovedLocation(MoveDirection.Right));
-                    rsdGridNode.Reachable[rsdGridNode.HeadLocation.Y * w.Width + rsdGridNode.HeadLocation.X] = true;
+                    rsdGridNode.Reachable[current.Y * w.Width + current.X] = true;
                     g++;
                 }
 
