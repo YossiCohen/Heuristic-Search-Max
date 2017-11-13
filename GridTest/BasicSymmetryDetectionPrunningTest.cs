@@ -21,7 +21,7 @@ namespace GridTest
         [TestMethod]
         public void PruneNode_ReturnsTrueOnRelevantStateOnly_TriggredWhenNeeded()
         {
-            GridSearchNode initialState = _basicClean5X5World.GetInitialSearchNode();
+            GridSearchNode initialState = _basicClean5X5World.GetInitialSearchNode<GridSearchNode>();
             IPrunningMethod prunningMethod = new BasicSymmetryDetectionPrunning();
             Assert.IsFalse(prunningMethod.ShouldPrune(initialState));
             //Flow 1: 

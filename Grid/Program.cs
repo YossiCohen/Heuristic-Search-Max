@@ -21,7 +21,7 @@ namespace Grid
                 Console.WriteLine(@"problem:     problem filename");
                 Console.WriteLine(@"timeLimit:   limit run time to X minutes (default 120), 0 for no time limit");
                 Console.WriteLine(@"alg:         [astar/dfbnb] the solving algorithm");
-                Console.WriteLine(@"prune:         [none/bsd] the solving algorithm");
+                Console.WriteLine(@"prune:         [none/bsd/rsd] the solving algorithm");
                 Console.WriteLine(@"----------");
                 Console.WriteLine(@"memTest:     if set to true, will not solve nothing, only fill memory");
                 Console.WriteLine(@"             allocation to check 64bit issue");
@@ -43,13 +43,20 @@ namespace Grid
             World world = new World(File.ReadAllText(problemFileName), new UntouchedAroundTheGoalHeuristic());
 
             IPrunningMethod prune;
+            GridSearchNode initialNode;
             switch (splitedArgs["prune"])
             {
                 case "none":
                     prune = new NoPrunning();
+                    initialNode = world.GetInitialSearchNode<GridSearchNode>();
                     break;
                 case "bsd":
                     prune = new BasicSymmetryDetectionPrunning();
+                    initialNode = world.GetInitialSearchNode<GridSearchNode>();
+                    break;
+                case "rsd":
+                    prune = new ReachableSymmetryDetectionPrunning();
+                    initialNode = world.GetInitialSearchNode<RsdGridSearchNode>();
                     break;
                 default:
                     Log.WriteLineIf("Prunning Method: " + splitedArgs["prune"] + " is not supported!", TraceLevel.Error);
@@ -60,10 +67,10 @@ namespace Grid
             switch (splitedArgs["alg"])
             {
                 case "astar":
-                    solver = new AStarMax(world.GetInitialSearchNode(), prune, new GoalOnLocation(world.Goal));
+                    solver = new AStarMax(initialNode, prune, new GoalOnLocation(world.Goal));
                     break;
                 case "dfbnb":
-                    solver = new DfBnbMax(world.GetInitialSearchNode(), prune, new GoalOnLocation(world.Goal));
+                    solver = new DfBnbMax(initialNode, prune, new GoalOnLocation(world.Goal));
                     break;
                 default:
                     Log.WriteLineIf("Solver algorithm: " + splitedArgs["alg"] + " is not supported!", TraceLevel.Error);

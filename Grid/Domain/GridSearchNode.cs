@@ -57,7 +57,7 @@ namespace Grid.Domain
         {
             get
             {
-                //Hack - If Goal node - it will have no children
+                //If Goal node - it will have no children
                 if (World.Goal.Equals(HeadLocation))
                 {
                     return new LinkedList<INode>();

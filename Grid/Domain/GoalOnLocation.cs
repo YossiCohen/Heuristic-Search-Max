@@ -14,7 +14,7 @@ namespace Grid.Domain
         public bool ValidGoal(INode node)
         {
             var gridNode = node as GridSearchNode;
-            return (gridNode.HeadLocation.Equals(_validGoalLocation));
+            return gridNode != null && (gridNode.HeadLocation.Equals(_validGoalLocation));
         }
     }
 }

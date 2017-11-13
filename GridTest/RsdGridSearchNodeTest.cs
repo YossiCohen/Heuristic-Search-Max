@@ -8,7 +8,7 @@ using Grid.Domain;
 namespace GridTest
 {
     [TestClass]
-    public class GridSearchNodeTest
+    public class RsdGridSearchNodeTest
     {
         private static World _basicWorld;
         private static World _basicWorld3X3;
@@ -23,60 +23,60 @@ namespace GridTest
         [TestMethod]
         public void Constructor_CreatesState_Created()
         {
-            GridSearchNode gn = new GridSearchNode(_basicWorld);
-            Assert.IsNotNull(gn);
+            GridSearchNode searchNode = new RsdGridSearchNode(_basicWorld);
+            Assert.IsNotNull(searchNode);
         }
 
         [TestMethod]
         public void Constructor_CreatesStateWithParent_Created()
         {
-            GridSearchNode parent = _basicWorld.GetInitialSearchNode<GridSearchNode>();
-            GridSearchNode gn = new GridSearchNode(parent, MoveDirection.Down);
+            RsdGridSearchNode initialSearchNode = _basicWorld.GetInitialSearchNode<RsdGridSearchNode>();
+            RsdGridSearchNode gn = new RsdGridSearchNode(initialSearchNode, MoveDirection.Down);
             Assert.IsNotNull(gn);
         }
 
         [TestMethod]
         public void fValue_getFvalueForNewNode_EqualsZero()
         {
-            GridSearchNode parent = _basicWorld.GetInitialSearchNode<GridSearchNode>();
-            Assert.AreEqual(0, parent.g);
+            RsdGridSearchNode initialSearchNode = _basicWorld.GetInitialSearchNode<RsdGridSearchNode>();
+            Assert.AreEqual(0, initialSearchNode.g);
         }
 
         [TestMethod]
         public void fValue_getFvalueForChildNode_Equals1()
         {
-            GridSearchNode parent = _basicWorld.GetInitialSearchNode<GridSearchNode>();
-            GridSearchNode gn = new GridSearchNode(parent, MoveDirection.Down);
+            RsdGridSearchNode initialSearchNode = _basicWorld.GetInitialSearchNode<RsdGridSearchNode>();
+            RsdGridSearchNode gn = new RsdGridSearchNode(initialSearchNode, MoveDirection.Down);
             Assert.AreEqual(1, gn.g);
         }
 
         [TestMethod]
         public void Children_GoalHaveNoChildren_CountEquals0()
         {
-            GridSearchNode parent = _basicWorld3X3.GetInitialSearchNode<GridSearchNode>();
+            RsdGridSearchNode initialSearchNode = _basicWorld3X3.GetInitialSearchNode<RsdGridSearchNode>();
             //GoingToTheGoalPosition
-            var gridNode = new GridSearchNode(parent, MoveDirection.Down);
-            gridNode = new GridSearchNode(gridNode, MoveDirection.Down);
-            gridNode = new GridSearchNode(gridNode, MoveDirection.Right);
-            gridNode = new GridSearchNode(gridNode, MoveDirection.Right);
+            var gridNode = new RsdGridSearchNode(initialSearchNode, MoveDirection.Down);
+            gridNode = new RsdGridSearchNode(gridNode, MoveDirection.Down);
+            gridNode = new RsdGridSearchNode(gridNode, MoveDirection.Right);
+            gridNode = new RsdGridSearchNode(gridNode, MoveDirection.Right);
             Assert.AreEqual(0, gridNode.Children.Count);
         }
 
         [TestMethod]
         public void Children_AreAllwaysNearThierParents_DeltaDistanceAlways1()
         {
-            GridSearchNode parent = _basicWorld3X3.GetInitialSearchNode<GridSearchNode>();
+            RsdGridSearchNode initialSearchNode = _basicWorld3X3.GetInitialSearchNode<RsdGridSearchNode>();
             //GoingToTheGoalPosition
-            var gridNode = new GridSearchNode(parent, MoveDirection.Down);
+            var gridNode = new RsdGridSearchNode(initialSearchNode, MoveDirection.Down);
             foreach (var NodeChild in gridNode.Children)
             {
-                var gridNodeChild = NodeChild as GridSearchNode;
+                var gridNodeChild = NodeChild as RsdGridSearchNode;
                 Assert.AreEqual(1, Math.Abs(gridNode.HeadLocation.X - gridNodeChild.HeadLocation.X) + Math.Abs(gridNode.HeadLocation.Y - gridNodeChild.HeadLocation.Y));
             }
-            var gridNode2 = new GridSearchNode(gridNode, MoveDirection.Right);
+            var gridNode2 = new RsdGridSearchNode(gridNode, MoveDirection.Right);
             foreach (var nodeChild in gridNode2.Children)
             {
-                var gridNodeChild = nodeChild as GridSearchNode;
+                var gridNodeChild = nodeChild as RsdGridSearchNode;
                 Assert.AreEqual(1, Math.Abs(gridNode2.HeadLocation.X - gridNodeChild.HeadLocation.X) + Math.Abs(gridNode2.HeadLocation.Y - gridNodeChild.HeadLocation.Y));
             }
         }
@@ -84,27 +84,27 @@ namespace GridTest
         [TestMethod]
         public void Children_NoChildrenOnVisitedLocations_ManuallyCheck()
         {
-            GridSearchNode parent = _basicWorld3X3.GetInitialSearchNode<GridSearchNode>();
+            RsdGridSearchNode initialSearchNode = _basicWorld3X3.GetInitialSearchNode<RsdGridSearchNode>();
             //GoingToTheGoalPosition
-            var gridNode = new GridSearchNode(parent, MoveDirection.Down);
+            var gridNode = new RsdGridSearchNode(initialSearchNode, MoveDirection.Down);
             foreach (var nodeChild in gridNode.Children)
             {
-                var gridNodeChild = nodeChild as GridSearchNode;
-                Assert.AreNotEqual(parent.HeadLocation, gridNodeChild.HeadLocation);
+                var gridNodeChild = nodeChild as RsdGridSearchNode;
+                Assert.AreNotEqual(initialSearchNode.HeadLocation, gridNodeChild.HeadLocation);
             }
-            var gridNode2 = new GridSearchNode(gridNode, MoveDirection.Right);
+            var gridNode2 = new RsdGridSearchNode(gridNode, MoveDirection.Right);
             foreach (var nodeChild in gridNode2.Children)
             {
-                var gridNodeChild = nodeChild as GridSearchNode;
-                Assert.AreNotEqual(parent.HeadLocation, gridNodeChild.HeadLocation);
+                var gridNodeChild = nodeChild as RsdGridSearchNode;
+                Assert.AreNotEqual(initialSearchNode.HeadLocation, gridNodeChild.HeadLocation);
                 Assert.AreNotEqual(gridNode.HeadLocation, gridNodeChild.HeadLocation);
             }
 
-            var gridNode3 = new GridSearchNode(gridNode2, MoveDirection.Up);
+            var gridNode3 = new RsdGridSearchNode(gridNode2, MoveDirection.Up);
             foreach (var nodeChild in gridNode3.Children)
             {
-                var gridNodeChild = nodeChild as GridSearchNode;
-                Assert.AreNotEqual(parent.HeadLocation, gridNodeChild.HeadLocation);
+                var gridNodeChild = nodeChild as RsdGridSearchNode;
+                Assert.AreNotEqual(initialSearchNode.HeadLocation, gridNodeChild.HeadLocation);
                 Assert.AreNotEqual(gridNode.HeadLocation, gridNodeChild.HeadLocation);
                 Assert.AreNotEqual(gridNode2.HeadLocation, gridNodeChild.HeadLocation);
             }
@@ -113,13 +113,13 @@ namespace GridTest
         [TestMethod]
         public void Children_NoChildrenOnBlockedLocations_ManuallyCheck()
         {
-            GridSearchNode parent = _basicWorld.GetInitialSearchNode<GridSearchNode>();
+            RsdGridSearchNode initialSearchNode = _basicWorld3X3.GetInitialSearchNode<RsdGridSearchNode>();
             //GoingToTheGoalPosition
-            var gridNode = new GridSearchNode(parent, MoveDirection.Right);
-            gridNode = new GridSearchNode(gridNode, MoveDirection.Right);
-            gridNode = new GridSearchNode(gridNode, MoveDirection.Right);
+            var gridNode = new RsdGridSearchNode(initialSearchNode, MoveDirection.Right);
+            gridNode = new RsdGridSearchNode(gridNode, MoveDirection.Right);
+            gridNode = new RsdGridSearchNode(gridNode, MoveDirection.Right);
             Assert.AreEqual(1, gridNode.Children.Count);
-            var child = gridNode.Children.First.Value as GridSearchNode;
+            var child = gridNode.Children.First.Value as RsdGridSearchNode;
             Assert.AreNotEqual(new Location(0,4), child.HeadLocation);
             Assert.AreNotEqual(new Location(0,2), child.HeadLocation);
             Assert.AreEqual(new Location(3, 1), child.HeadLocation);
@@ -128,9 +128,9 @@ namespace GridTest
         [TestMethod]
         public void Children_GetChildrenList_RelavantChildrenReturned()
         {
-            GridSearchNode parent = _basicWorld.GetInitialSearchNode<GridSearchNode>();
-            var childs = parent.Children;
-            var sampledChild = parent.Children.Last.Value;
+            RsdGridSearchNode initialSearchNode = _basicWorld.GetInitialSearchNode<RsdGridSearchNode>();
+            var childs = initialSearchNode.Children;
+            var sampledChild = initialSearchNode.Children.Last.Value;
             Assert.IsNotNull(childs);
             Assert.AreEqual(2,childs.Count);
             Assert.AreEqual(1, sampledChild.g);

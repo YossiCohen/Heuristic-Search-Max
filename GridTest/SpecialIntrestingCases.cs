@@ -32,11 +32,11 @@ namespace GridTest
         {
             foreach (var world in _worlds)
             {
-                AStarMax astar = new AStarMax(world.GetInitialSearchNode(), new GoalOnLocation(world.Goal));
+                AStarMax astar = new AStarMax(world.GetInitialSearchNode<GridSearchNode>(), new GoalOnLocation(world.Goal));
                 Assert.IsNotNull(astar);
                 astar.Run(Int32.MaxValue);
                 var AstarMaxGoal = astar.GetMaxGoal();
-                DfBnbMax dfbnb = new DfBnbMax(world.GetInitialSearchNode(), new GoalOnLocation(world.Goal));
+                DfBnbMax dfbnb = new DfBnbMax(world.GetInitialSearchNode<GridSearchNode>(), new GoalOnLocation(world.Goal));
                 Assert.IsNotNull(dfbnb);
                 dfbnb.Run(Int32.MaxValue);
                 var DfbnbMaxGoal = dfbnb.GetMaxGoal();

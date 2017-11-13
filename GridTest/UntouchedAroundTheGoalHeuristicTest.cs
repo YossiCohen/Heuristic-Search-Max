@@ -22,21 +22,21 @@ namespace GridTest
         [TestMethod]
         public void gValue_getFvalueForChildNode_Equals24()
         {
-            GridSearchNode initialState = _basicWorld.GetInitialSearchNode();
+            GridSearchNode initialState = _basicWorld.GetInitialSearchNode<GridSearchNode>();
             Assert.AreEqual(24, initialState.h);
         }
 
         [TestMethod]
         public void gValue_getFvalueForChildNode_Equals24b()
         {
-            GridSearchNode initialState = _basicWorld2.GetInitialSearchNode();
+            GridSearchNode initialState = _basicWorld2.GetInitialSearchNode<GridSearchNode>();
             Assert.AreEqual(24, initialState.h);
         }
 
         [TestMethod]
         public void gValue_getFvalueForChildNode_Equals20()
         {
-            GridSearchNode initialState = _basicWorld3.GetInitialSearchNode();
+            GridSearchNode initialState = _basicWorld3.GetInitialSearchNode<GridSearchNode>();
             Assert.AreEqual(20, initialState.h);
         }
     }

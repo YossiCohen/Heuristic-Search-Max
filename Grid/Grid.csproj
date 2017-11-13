@@ -49,7 +49,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,8 +57,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\ReachableSymmetryDetectionPrunning.cs" />
     <Compile Include="Domain\BasicSymmetryDetectionPrunning.cs" />
     <Compile Include="Domain\NoneHeuristic.cs" />
+    <Compile Include="Domain\RsdGridSearchNode.cs" />
+    <Compile Include="Domain\RsdUntouchedAroundTheGoalHeuristic.cs" />
     <Compile Include="Domain\UntouchedAroundTheGoalHeuristic.cs" />
     <Compile Include="Domain\IGridHeuristic.cs" />
     <Compile Include="Domain\Location.cs" />

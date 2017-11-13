@@ -29,7 +29,7 @@ namespace GridTest
         [TestMethod]
         public void Create_NewDfBnbGrid3X3_findPath()
         {
-            GridSearchNode initialState = _basicWorld3X3.GetInitialSearchNode();
+            GridSearchNode initialState = _basicWorld3X3.GetInitialSearchNode<GridSearchNode>();
             Solver solver = new DfBnbMax(initialState, new GoalOnLocation(_basicWorld3X3.Goal));
             Assert.IsNotNull(solver);
             solver.Run(Int32.MaxValue); //Prevent stoping by time, should stop only when goal found
@@ -40,7 +40,7 @@ namespace GridTest
         [TestMethod]
         public void Create_NewDfBnbGrid5X5WithBlocked_FindPath()
         {
-            GridSearchNode initialState = _basicWorld5X5Blocked.GetInitialSearchNode();
+            GridSearchNode initialState = _basicWorld5X5Blocked.GetInitialSearchNode<GridSearchNode>();
             Solver solver = new DfBnbMax(initialState, new GoalOnLocation(_basicWorld5X5Blocked.Goal));
             Assert.IsNotNull(solver);
             solver.Run(Int32.MaxValue);
@@ -51,7 +51,7 @@ namespace GridTest
         [TestMethod]
         public void Create_NewDfBnbGrid6X5WithBlocked0_FindPath()
         {
-            GridSearchNode initialState = _basicWorld6X50.GetInitialSearchNode();
+            GridSearchNode initialState = _basicWorld6X50.GetInitialSearchNode<GridSearchNode>();
             Solver solver = new DfBnbMax(initialState, new GoalOnLocation(_basicWorld6X50.Goal));
             Assert.IsNotNull(solver);
             solver.Run(Int32.MaxValue);
@@ -62,7 +62,7 @@ namespace GridTest
         [TestMethod]
         public void Create_NewDfBnbGrid6X5WithBlocked1_FindPath()
         {
-            GridSearchNode initialState = _basicWorld6X51.GetInitialSearchNode();
+            GridSearchNode initialState = _basicWorld6X51.GetInitialSearchNode<GridSearchNode>();
             Solver solver = new DfBnbMax(initialState, new GoalOnLocation(_basicWorld6X51.Goal));
             Assert.IsNotNull(solver);
             solver.Run(Int32.MaxValue);
@@ -73,7 +73,7 @@ namespace GridTest
         [TestMethod]
         public void Create_NewDfBnbGrid4X4WithBlocked16_FindPath()
         {
-            GridSearchNode initialState = _basicWorld4X416.GetInitialSearchNode();
+            GridSearchNode initialState = _basicWorld4X416.GetInitialSearchNode<GridSearchNode>();
             Solver solver = new DfBnbMax(initialState, new GoalOnLocation(_basicWorld4X416.Goal));
             Assert.IsNotNull(solver);
             solver.Run(Int32.MaxValue);

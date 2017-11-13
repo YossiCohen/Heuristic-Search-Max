@@ -82,9 +82,9 @@ namespace Grid.Domain
             return _isBlockedLocations[loc.Y * Width + loc.X];
         }
 
-        public GridSearchNode GetInitialSearchNode()
+        public T GetInitialSearchNode<T>() where T : GridSearchNode
         {
-            return new GridSearchNode(this);
+            return (T)Activator.CreateInstance(typeof(T), this);
         }
     }
 

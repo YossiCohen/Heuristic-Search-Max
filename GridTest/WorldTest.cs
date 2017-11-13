@@ -85,7 +85,7 @@ namespace GridTest
         public void GetInitialLocation_Sanity_ReturnsInitialState()
         {
             World w = new World(_gridAstr, new NoneHeuristic());
-            GridSearchNode s = w.GetInitialSearchNode();
+            GridSearchNode s = w.GetInitialSearchNode<GridSearchNode>();
             Assert.IsNotNull(s);
         }
 
