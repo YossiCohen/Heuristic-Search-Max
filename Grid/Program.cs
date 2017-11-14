@@ -77,7 +77,7 @@ namespace Grid
                     return;
             }
 
-            Log.WriteLineIf(@"Solviong snakes in the box problem:", TraceLevel.Info);
+            Log.WriteLineIf(@"Solviong 2D-Grid problem from file:", TraceLevel.Info);
             Log.WriteLineIf(@"[[Problem:" + problemFileName + "]]", TraceLevel.Info);
             Log.WriteLineIf(@"[[Algorithm:" + solver.GetType().Name + "]]", TraceLevel.Info);
             Log.WriteLineIf(@"[[Prunning:" + prune.GetType().Name + "]]", TraceLevel.Info);
@@ -91,9 +91,18 @@ namespace Grid
             Log.WriteLineIf("[[Expended:" + solver.Expended + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Generated:" + solver.Generated + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Pruned:" + solver.Pruned + "]]", TraceLevel.Off);
-            Log.WriteLineIf("[[G-Value:" + goal.g + "]]", TraceLevel.Off);
-            Log.WriteLineIf("[[GoalBits:" + goal.GetBitsString() + "]]", TraceLevel.Off);
-            Log.WriteLineIf("[[Goal:" + goal.GetNodeStringV2() + "]]", TraceLevel.Off);
+            if (goal != null)
+            {
+                Log.WriteLineIf("[[G-Value:" + goal.g + "]]", TraceLevel.Off);
+                Log.WriteLineIf("[[GoalBits:" + goal.GetBitsString() + "]]", TraceLevel.Off);
+                Log.WriteLineIf("[[Goal:" + goal.GetNodeStringV2() + "]]", TraceLevel.Off);
+            }
+            else
+            {
+                Log.WriteLineIf("[[G-Value:" + -1 + "]]", TraceLevel.Off);
+                Log.WriteLineIf("[[GoalBits:NOGOAL]]", TraceLevel.Off);
+                Log.WriteLineIf("[[Goal:NOGOAL]]", TraceLevel.Off);
+            }
             Log.WriteLineIf("[[HowEnded:" + Enum.GetName(typeof(State), howEnded) + "]]", TraceLevel.Off);
 
         }
@@ -101,6 +110,7 @@ namespace Grid
         private static void MemTest()
         {
             //MEMBLAST
+            Log.WriteLineIf("MEMBLAST", TraceLevel.Off);
             Console.WriteLine(@"Filling memory to check 64bit pointers - kill me when you want");
             List<String> m = new List<String>();
             long c = 0;

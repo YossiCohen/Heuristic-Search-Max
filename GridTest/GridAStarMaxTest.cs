@@ -16,8 +16,6 @@ namespace GridTest
         private static World _basicWorld6X51;
         private static World _basicWorld4X416;
 
-
-
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
@@ -83,5 +81,17 @@ namespace GridTest
             Assert.AreEqual(10, maxGoal.g);
         }
 
+        [TestMethod]
+        public void Run_AStarGrid4X4WithBlocked16_StopsByMemoryConstraint()
+        {
+            GridSearchNode initialState = _basicWorld4X416.GetInitialSearchNode<GridSearchNode>();
+            AStarMax astar = new AStarMax(initialState, new GoalOnLocation(_basicWorld4X416.Goal));
+            Assert.IsNotNull(astar);
+            var howEnded = astar.Run(Int32.MaxValue, 1); //One MB memory limit
+            var maxGoal = astar.GetMaxGoal();
+            Assert.IsNull(maxGoal);
+            Assert.AreEqual(State.StoppedByMemoryLimit, howEnded);
+        }
+        
     }
 }

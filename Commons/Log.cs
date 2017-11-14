@@ -44,6 +44,10 @@ namespace Common
         {
             bool isFileNameOK = false;
             fileName = AppDomain.CurrentDomain.FriendlyName + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".txt";
+            //Small fix when running from unit tests environment
+            fileName = new string((from c in fileName
+                                   where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c) || c == '.'
+                                   select c).ToArray());
             var destFolder = Path.Combine(Environment.CurrentDirectory,
                                           LOG_FOLDER);
             try

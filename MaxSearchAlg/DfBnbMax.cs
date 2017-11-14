@@ -46,7 +46,7 @@ namespace MaxSearchAlg
                 if (candidateGoalNode == null || currentNode.g > candidateGoalNode.g)
                 {
                     candidateGoalNode = currentNode;
-                    Log.WriteLineIf("DFBnB Best Candidate:" + candidateGoalNode, TraceLevel.Verbose);
+                    Log.WriteLineIf("[AStarMax] Best Candidate:" + candidateGoalNode, TraceLevel.Verbose);
                 }
             }
 

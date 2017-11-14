@@ -31,13 +31,18 @@ namespace MaxSearchAlg
             // Check the next best node in OPEN and set it to current
             var currentNode = openList.Pop();
 
+            if (Generated % LogSearchStatusEveryXGenerated == 0)
+            {
+                Log.WriteLineIf($"[AStarMax] OpenListSize:{openList.Count}", TraceLevel.Verbose);
+            }
+
             //store best candidate if we seeing it
             if (GoalCheckMethod.ValidGoal(currentNode))
             {
                 if (candidateGoalNode == null || currentNode.g > candidateGoalNode.g)
                 {
                     candidateGoalNode = currentNode;
-                    Log.WriteLineIf("AStar Best Candidate:" + candidateGoalNode, TraceLevel.Verbose);
+                    Log.WriteLineIf("[AStarMax] Best Candidate:" + candidateGoalNode, TraceLevel.Verbose);
                 }
             }
 
