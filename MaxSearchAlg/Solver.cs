@@ -69,7 +69,7 @@ namespace MaxSearchAlg
                 //Periodic Log prints
                 if (Generated % LogSearchStatusEveryXGenerated == 0)
                 {
-                    Log.WriteLineIf($"[SolverStatus] Generated:{Generated}, Expended:{Generated}, Pruned:{Pruned}, Time(min):{DateTime.Now.Subtract(startTime).TotalMinutes}, Memory:{Process.GetCurrentProcess().WorkingSet64}", TraceLevel.Verbose);
+                    Log.WriteLineIf($"[SolverStatus] Generated:{Generated}, Expended:{Expended}, Pruned:{Pruned}, Time(min):{DateTime.Now.Subtract(startTime).TotalMinutes}, Memory:{Process.GetCurrentProcess().WorkingSet64}", TraceLevel.Verbose);
                 }
             }
         }

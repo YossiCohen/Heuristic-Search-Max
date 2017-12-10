@@ -16,9 +16,14 @@ namespace MaxSearchAlg
 
         public AStarMax(INode initailNode, IPrunningMethod prunningMethod, IGoalCheckMethod goalCheckMethod) :base(initailNode, prunningMethod, goalCheckMethod)
         {
-            var duplicateComparer = new MaxComparer();
-            openList = new SortedList<int, INode>(duplicateComparer);
+            var maxComparer = new MaxComparer();
+            openList = new SortedList<int, INode>(maxComparer);
             openList.Add(initailNode);
+        }
+
+        public SortedList<int, INode> OpenList
+        {
+            get { return openList; }
         }
 
         internal override State Step()
