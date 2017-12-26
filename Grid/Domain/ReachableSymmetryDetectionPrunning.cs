@@ -27,6 +27,10 @@ namespace Grid.Domain
 
         public bool ShouldPrune(INode node)
         {
+            //The algorithms add current node if this method returns false.
+            //in case this node is needs pruning because it is "smaller" then existin we return TRUE
+            //when the node in OPEN is smaller we return FALSE and this method will REPLACE the nodes
+            //That way the alg. will count the prunning nodes correctly
             if (aStarOpenList == null)
             {
                 throw new ApplicationException("setAstarOpenList must be called once before this method");
@@ -43,10 +47,32 @@ namespace Grid.Domain
                 var relevantList = HistoryNodes[hash];
                 foreach (var historyNode in relevantList)
                 {
-                    if (EqualBitArray(historyNode.Visited,newGridNode.Visited))
+                    //historyNode.Visited >= newGridNode.visited
+                    if (ContainsOrEqualBitArray(historyNode.Visited, newGridNode.Visited))
                     {
-                        return true;
+                        if (ContainsOrEqualBitArray(historyNode.Reachable, newGridNode.Reachable))
+                        {
+                            return true;
+                        }
                     }
+                    //historyNode.Visited < newGridNode.visited
+                    else 
+                    {
+                        //TODO: continue
+                        //if (ContainsOrEqualBitArray(newGridNode.Reachable, historyNode.Reachable))
+                        //{
+                        //    return true;
+                        //}
+                    }
+
+
+
+                    //TODO:REMOVE - this is from BSD
+                    //if (ContainsOrEqualBitArray(historyNode.Visited,newGridNode.Visited))
+                    //{
+                    //    return true;
+                    //}
+
                 }
                 relevantList.Add(newGridNode);
             }
@@ -64,6 +90,20 @@ namespace Grid.Domain
             for (int i = 0; i < finalIndex; i++)
             {
                 if (a[i] != b[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private bool ContainsOrEqualBitArray(BitArray larger, BitArray smaller)
+        {
+            int finalIndex = larger.Length - 1;
+            for (int i = 0; i < finalIndex; i++)
+            {
+                //TODO: fix the condition
+                if (larger[i] & !smaller[i])
                 {
                     return false;
                 }
