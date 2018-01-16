@@ -45,35 +45,39 @@ namespace Grid.Domain
             else
             {
                 var relevantList = HistoryNodes[hash];
-                foreach (var historyNode in relevantList)
+                for (int i = relevantList.Count - 1; i >= 0; i--)
                 {
+                    var historyNode = relevantList[i];
                     //historyNode.Visited >= newGridNode.visited
                     if (ContainsOrEqualBitArray(historyNode.Visited, newGridNode.Visited))
                     {
                         if (ContainsOrEqualBitArray(historyNode.Reachable, newGridNode.Reachable))
                         {
+                            if (newGridNode.g < historyNode.g)
+                            {
+                                //In this special case we replace the old node with new, we return true for pruning in order to count the old node as pruned
+                                relevantList.RemoveAt(i);
+                                relevantList.Add(newGridNode);
+                            }
                             return true;
                         }
                     }
                     //historyNode.Visited < newGridNode.visited
-                    else 
+                    else
                     {
-                        //TODO: continue
-                        //if (ContainsOrEqualBitArray(newGridNode.Reachable, historyNode.Reachable))
-                        //{
-                        //    return true;
-                        //}
+                        if (ContainsOrEqualBitArray(newGridNode.Reachable, historyNode.Reachable))
+                        {
+                            return true;
+                        }
                     }
-
-
-
+                    
                     //TODO:REMOVE - this is from BSD
                     //if (ContainsOrEqualBitArray(historyNode.Visited,newGridNode.Visited))
                     //{
                     //    return true;
                     //}
-
                 }
+
                 relevantList.Add(newGridNode);
             }
             return false;
@@ -99,14 +103,22 @@ namespace Grid.Domain
 
         private bool ContainsOrEqualBitArray(BitArray larger, BitArray smaller)
         {
-            int finalIndex = larger.Length - 1;
-            for (int i = 0; i < finalIndex; i++)
+            //int finalIndex = larger.Length - 1;
+            //for (int i = 0; i < finalIndex; i++)
+            //{
+            //    //TODO: fix the condition
+            //    if (larger[i] || !smaller[i])
+            //    {
+            //        return false;
+            //    }
+            //}
+            //return true;
+            BitArray tmp = (BitArray)larger.Clone();
+            tmp.Or(smaller);
+            tmp.Xor(larger);
+            foreach (bool b in tmp)
             {
-                //TODO: fix the condition
-                if (larger[i] & !smaller[i])
-                {
-                    return false;
-                }
+                if (b) return false;
             }
             return true;
         }

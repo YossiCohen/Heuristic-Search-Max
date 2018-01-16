@@ -19,7 +19,8 @@ namespace Grid.Domain
         {
         }
 
-        [DebuggerDisplay("{GetBitsString(),nq}")] public BitArray Reachable;
+        [DebuggerDisplay("{GetBitsString(),nq}")]
+        public BitArray Reachable;
 
         //TODO code is duplicated - refactor needed
         public new LinkedList<INode> Children
@@ -74,6 +75,31 @@ namespace Grid.Domain
                 result.AddLast(new RsdGridSearchNode(this, MoveDirection.Right));
             }
             return result;
+        }
+
+        public string GetBitsString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"(V)");
+            for (int i = 0; i < Visited.Length; i++)
+            {
+                sb.Append(Visited[i] ? "1" : "0");
+                if (i % World.Width == World.Width - 1)
+                {
+                    sb.Append("-");
+                }
+            }
+            sb.Append($"(R)");
+            for (int i = 0; i < Reachable.Length; i++)
+            {
+                sb.Append(Reachable[i] ? "1" : "0");
+                if (i % World.Width == World.Width - 1)
+                {
+                    sb.Append("-");
+                }
+            }
+            sb.Append($"(g_{g}|h_{h})");
+            return sb.ToString();
         }
 
     }

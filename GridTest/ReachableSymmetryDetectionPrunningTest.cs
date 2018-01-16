@@ -17,7 +17,7 @@ namespace GridTest
         public void ClassInitialize()
         {
             _basicClean5X5World = new World(File.ReadAllText(@"..\..\Clean_Grid_5x5.grd"), new RsdUntouchedAroundTheGoalHeuristic());
-            _basicWorld5X5Blocked = new World(File.ReadAllText(@"..\..\Clean_Grid_5x5BasicBlocked.grd"), new UntouchedAroundTheGoalHeuristic());
+            _basicWorld5X5Blocked = new World(File.ReadAllText(@"..\..\Clean_Grid_5x5BasicBlocked.grd"), new RsdUntouchedAroundTheGoalHeuristic());
         }
         
         [TestMethod]
@@ -97,9 +97,9 @@ namespace GridTest
         [TestMethod]
         public void PruneNode_ReturnsTrueOnRelevantStateOnly_TriggredWhenNeededByReachableSymmetryDetectionCase1()
         {
-            RsdGridSearchNode initialState = _basicClean5X5World.GetInitialSearchNode<RsdGridSearchNode>();
+            RsdGridSearchNode initialState = _basicWorld5X5Blocked.GetInitialSearchNode<RsdGridSearchNode>();
             ReachableSymmetryDetectionPrunning rsd = new ReachableSymmetryDetectionPrunning();
-            AStarMax solver = new AStarMax(_basicClean5X5World.GetInitialSearchNode<RsdGridSearchNode>(), rsd, new GoalOnLocation(_basicClean5X5World.Goal));
+            AStarMax solver = new AStarMax(_basicWorld5X5Blocked.GetInitialSearchNode<RsdGridSearchNode>(), rsd, new GoalOnLocation(_basicWorld5X5Blocked.Goal));
             rsd.setAstarOpenList(solver.OpenList);
             Assert.IsFalse(rsd.ShouldPrune(initialState));
             //Flow 1: 
@@ -119,7 +119,7 @@ namespace GridTest
             Flow2Node = new RsdGridSearchNode(Flow2Node, MoveDirection.Right);
             Assert.IsFalse(rsd.ShouldPrune(Flow2Node));
             Flow2Node = new RsdGridSearchNode(Flow2Node, MoveDirection.Up);
-            Assert.IsFalse(rsd.ShouldPrune(Flow2Node));
+            Assert.IsTrue(rsd.ShouldPrune(Flow2Node));
             Flow2Node = new RsdGridSearchNode(Flow2Node, MoveDirection.Right);
             Assert.IsTrue(rsd.ShouldPrune(Flow2Node));
         }
@@ -128,9 +128,10 @@ namespace GridTest
         [TestMethod]
         public void PruneNode_ReturnsTrueOnRelevantStateOnly_TriggredWhenNeededByReachableSymmetryDetectionCase2()
         {
-            RsdGridSearchNode initialState = _basicClean5X5World.GetInitialSearchNode<RsdGridSearchNode>();
+            //More Complicated case - prune inside the ShouldPrune method, return Yes for the should prune but replace nodes
+            RsdGridSearchNode initialState = _basicWorld5X5Blocked.GetInitialSearchNode<RsdGridSearchNode>();
             ReachableSymmetryDetectionPrunning rsd = new ReachableSymmetryDetectionPrunning();
-            AStarMax solver = new AStarMax(_basicClean5X5World.GetInitialSearchNode<RsdGridSearchNode>(), rsd, new GoalOnLocation(_basicClean5X5World.Goal));
+            AStarMax solver = new AStarMax(_basicWorld5X5Blocked.GetInitialSearchNode<RsdGridSearchNode>(), rsd, new GoalOnLocation(_basicWorld5X5Blocked.Goal));
             rsd.setAstarOpenList(solver.OpenList);
             Assert.IsFalse(rsd.ShouldPrune(initialState));
             //Flow 1: 
@@ -150,7 +151,7 @@ namespace GridTest
             //  #
             //###
             var Flow1Node = new RsdGridSearchNode(initialState, MoveDirection.Right);
-            Assert.IsFalse(rsd.ShouldPrune(Flow1Node));
+            Assert.IsTrue(rsd.ShouldPrune(Flow1Node));
             Flow1Node = new RsdGridSearchNode(Flow1Node, MoveDirection.Right);
             Assert.IsTrue(rsd.ShouldPrune(Flow1Node));
         }
