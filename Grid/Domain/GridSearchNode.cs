@@ -53,7 +53,7 @@ namespace Grid.Domain
         public int h { get; }
         public int g { get; }
 
-        public LinkedList<INode> Children
+        public virtual LinkedList<INode> Children
         {
             get
             {

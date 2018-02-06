@@ -70,12 +70,6 @@ namespace Grid.Domain
                             return true;
                         }
                     }
-                    
-                    //TODO:REMOVE - this is from BSD
-                    //if (ContainsOrEqualBitArray(historyNode.Visited,newGridNode.Visited))
-                    //{
-                    //    return true;
-                    //}
                 }
 
                 relevantList.Add(newGridNode);

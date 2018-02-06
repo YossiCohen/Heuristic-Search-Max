@@ -14,7 +14,7 @@ namespace MaxSearchAlg
         internal INode candidateGoalNode;
         internal IPrunningMethod PrunningMethod;
         internal IGoalCheckMethod GoalCheckMethod;
-        internal static readonly int LogSearchStatusEveryXGenerated = 10000;
+        internal static readonly int LogSearchStatusEveryXGenerated = 1;
 
         public Solver(INode initailNode, IPrunningMethod prunningMethod, IGoalCheckMethod goalCheckMethod)
         {

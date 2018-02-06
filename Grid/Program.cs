@@ -40,7 +40,16 @@ namespace Grid
             int timelimit = Int32.Parse(splitedArgs["timelimit"]);
 
             string problemFileName = splitedArgs["problem"];
-            World world = new World(File.ReadAllText(problemFileName), new UntouchedAroundTheGoalHeuristic());
+
+            World world;
+            if (splitedArgs["prune"] == "rsd")
+            {
+                world = new World(File.ReadAllText(problemFileName), new RsdUntouchedAroundTheGoalHeuristic());
+            }
+            else
+            {
+                world = new World(File.ReadAllText(problemFileName), new UntouchedAroundTheGoalHeuristic());
+            }
 
             IPrunningMethod prune;
             GridSearchNode initialNode;
@@ -75,6 +84,12 @@ namespace Grid
                 default:
                     Log.WriteLineIf("Solver algorithm: " + splitedArgs["alg"] + " is not supported!", TraceLevel.Error);
                     return;
+            }
+
+            if (splitedArgs["prune"] == "rsd")
+            {
+                //Sorry but RSD must use AStarMax
+                ((ReachableSymmetryDetectionPrunning)prune).setAstarOpenList(((AStarMax)solver).OpenList);
             }
 
             Log.WriteLineIf(@"Solviong 2D-Grid problem from file:", TraceLevel.Info);

@@ -23,7 +23,7 @@ namespace Grid.Domain
         public BitArray Reachable;
 
         //TODO code is duplicated - refactor needed
-        public new LinkedList<INode> Children
+        public override LinkedList<INode> Children
         {
             get
             {
