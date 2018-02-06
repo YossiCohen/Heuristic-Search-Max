@@ -26,6 +26,7 @@ namespace DrawSolution
         private static Location _end; //*
         private static string _mazeFileName;
         private static string _algorithm;
+        private static string _prunning;
         private static string _solutionLength;
         private static int _numberOfFree;
         private static int _numberOfBlocked;
@@ -33,16 +34,19 @@ namespace DrawSolution
 
         static void Main(string[] args)
         {
-            if (args.Length != 1)
+
+            DirectoryInfo di = new DirectoryInfo(Directory.GetCurrentDirectory());
+            FileInfo[] fileList = di.GetFiles("*.txt");
+
+            foreach (var file in fileList)
             {
-                Console.WriteLine("Arguments: Draw solution <SolutionFile>");
-                return;
+                InitValues(file.Name);
+
+                ProcessStepsinMaze();
+
+                SaveResultsToFile(file.Name);
             }
-            InitValues(args);
 
-            ProcessStepsinMaze();
-
-            SaveResultsToFile(args);
         }
 
         private static void ProcessStepsinMaze()
@@ -81,7 +85,7 @@ namespace DrawSolution
             _numberOfStepped++; //start point is stepped
         }
 
-        private static void SaveResultsToFile(string[] args)
+        private static void SaveResultsToFile(string filename)
         {
             StringBuilder all = new StringBuilder();
             all.Append(_mazeFileName);
@@ -97,6 +101,9 @@ namespace DrawSolution
             all.Append("Algorithm:");
             all.Append(_algorithm);
             all.Append(Environment.NewLine);
+            all.Append("Prunning:");
+            all.Append(_prunning);
+            all.Append(Environment.NewLine);
             all.Append("Length:");
             all.Append(_solutionLength);
             all.Append(Environment.NewLine);
@@ -111,7 +118,7 @@ namespace DrawSolution
             all.Append(Environment.NewLine);
             all.Append("Number Of UnStepped:");
             all.Append(_numberOfFree - _numberOfStepped);
-            System.IO.File.WriteAllText(args[0] + ".visualSolution", all.ToString(), Encoding.UTF8);
+            File.WriteAllText(filename + ".visualSolution", all.ToString(), Encoding.UTF8);
         }
 
         private static string mazeToString(char[][] maze)
@@ -129,15 +136,13 @@ namespace DrawSolution
             return sb.ToString();
         }
 
-        private static void InitValues(string[] args)
+        private static void InitValues(string fileName)
         {
             _numberOfFree = 0;
             _numberOfBlocked = 0;
             _numberOfStepped = 0;
 
-            _steps = ReadStepsAndParams(args[0]);
-            _mazeFileName = args[0].Split(new char[] { '_' },2)[1];
-            _mazeFileName = _mazeFileName.Substring(0, _mazeFileName.Length - 20);
+            _steps = ReadStepsAndParams(fileName);
             _mazeFile = ReadMaze(_mazeFileName);
             _resultMaze = ReadMaze(_mazeFileName);
 
@@ -165,27 +170,47 @@ namespace DrawSolution
 
         private static List<string> ReadStepsAndParams(string filename)
         {
+            _mazeFileName = null;
+            _solutionLength = null;
+            _algorithm = null;
             List<string> lines = new List<string>();
             using (var sr = File.OpenText(filename))
             {
                 string line;
                 while ((line = sr.ReadLine()) != null)
                 {
-                    if (line.StartsWith("~node::"))
+                    if (_mazeFileName==null && line.Contains("[[Problem:") )
                     {
-                        lines.Add(line.Substring(8));
+                        var split = line.Split(new char[] {':', ']'});
+                        _mazeFileName = Path.Combine("..",split[4]);
                     }
-                    else if (line.StartsWith("#pair \"solution length\""))
+                    else if (line.Contains("[[Goal:"))
                     {
-                        _solutionLength = line.Split('\t')[1].Split('\"')[1];
+                        line = line.Replace('_', ',');
+                        line = line.Substring(line.IndexOf("Goal:"));
+                        var spl = line.Split(new char[] {'(', ')',']','['});
+                        for (int i=1;i<spl.Length;i++)
+                        {
+                            if (spl[i].Length > 1)
+                            {
+                                lines.Add(spl[i]);
+                            }
+                        }
                     }
-                    else if (line.StartsWith("#pair \"algorithm\""))
+                    else if (line.Contains("[[G-Value:"))
                     {
-                        _algorithm = line.Split('\t')[1].Split('\"')[1];
+                        _solutionLength = line.Split(new char[] { ':', ']' })[4];
+                    }
+                    else if (line.Contains("[[Algorithm:"))
+                    {
+                        _algorithm = line.Split(new char[] { ':', ']' })[4];
+                    }
+                    else if (line.Contains("[[Prunning:"))
+                    {
+                        _prunning = line.Split(new char[] { ':', ']' })[4];
                     }
                 }
             }
-
             lines.Reverse();
             return lines;
         }
