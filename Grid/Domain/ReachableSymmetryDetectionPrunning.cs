@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
+using Common;
 using MaxSearchAlg;
 
 namespace Grid.Domain
@@ -36,11 +38,13 @@ namespace Grid.Domain
                 throw new ApplicationException("setAstarOpenList must be called once before this method");
             }
             var newGridNode = node as RsdGridSearchNode;
+            Log.WriteLineIf($"[ShouldPrune - new node] {newGridNode.GetBitsString()}", TraceLevel.Info);
             var hash = GetLinearHeadLocation(newGridNode);
             if (!HistoryNodes.ContainsKey(hash))
             {
                 HistoryNodes[hash] = new List<RsdGridSearchNode>();
                 HistoryNodes[hash].Add(newGridNode);
+                Log.WriteLineIf("[ShouldPrune - No list] - creating new", TraceLevel.Info);
             }
             else
             {
@@ -48,6 +52,7 @@ namespace Grid.Domain
                 for (int i = relevantList.Count - 1; i >= 0; i--)
                 {
                     var historyNode = relevantList[i];
+                    Log.WriteLineIf($"[ShouldPrune] - checking history node{historyNode.GetBitsString()}", TraceLevel.Info);
                     //historyNode.Visited >= newGridNode.visited
                     if (ContainsOrEqualBitArray(historyNode.Visited, newGridNode.Visited))
                     {
@@ -55,18 +60,30 @@ namespace Grid.Domain
                         {
                             if (newGridNode.g < historyNode.g)
                             {
+                                Log.WriteLineIf("[ShouldPrune] - remove and add", TraceLevel.Info);
                                 //In this special case we replace the old node with new, we return true for pruning in order to count the old node as pruned
                                 relevantList.RemoveAt(i);
                                 relevantList.Add(newGridNode);
+                                ReplaceInOpenList(historyNode, newGridNode);
                             }
+                            Log.WriteLineIf("[ShouldPrune]- true1", TraceLevel.Info);
                             return true;
                         }
                     }
                     //historyNode.Visited < newGridNode.visited
-                    else
+                    else if (ContainsOrEqualBitArray(newGridNode.Visited, historyNode.Visited))
                     {
-                        if (ContainsOrEqualBitArray(newGridNode.Reachable, historyNode.Reachable))
+                        if (ContainsOrEqualBitArray(newGridNode.Reachable, historyNode.Reachable))  //flipped condition !
                         {
+                            if (newGridNode.g > historyNode.g)
+                            {
+                                Log.WriteLineIf("[ShouldPrune] - remove and add", TraceLevel.Info);
+                                //In this special case we replace the old node with new, we return true for pruning in order to count the old node as pruned
+                                relevantList.RemoveAt(i);
+                                relevantList.Add(newGridNode);
+                                ReplaceInOpenList(historyNode, newGridNode);
+                            }
+                            Log.WriteLineIf("[ShouldPrune]- true2", TraceLevel.Info);
                             return true;
                         }
                     }
@@ -74,7 +91,15 @@ namespace Grid.Domain
 
                 relevantList.Add(newGridNode);
             }
+            Log.WriteLineIf("[ShouldPrune] - false", TraceLevel.Info);
             return false;
+        }
+
+        private void ReplaceInOpenList(RsdGridSearchNode oldNode, RsdGridSearchNode newNode)
+        {
+            var a = aStarOpenList.Values.IndexOf(oldNode);
+            aStarOpenList.RemoveAt(a);
+            aStarOpenList.Add(newNode);
         }
 
         private long GetLinearHeadLocation(RsdGridSearchNode node)
