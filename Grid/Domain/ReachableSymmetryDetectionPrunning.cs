@@ -88,7 +88,6 @@ namespace Grid.Domain
 
         private void ReplaceInOpenList(RsdGridSearchNode oldNode, RsdGridSearchNode newNode)
         {
-            try
             var a = aStarOpenList.Values.IndexOf(oldNode);
             aStarOpenList.RemoveAt(a);
             aStarOpenList.Add(newNode);
