@@ -12,14 +12,31 @@ namespace GridTest
 
         private static World _basicClean5X5World;
         private static World _basicWorld5X5Blocked;
+        private static World _basicWorld4x4;
 
         [TestInitialize]
         public void ClassInitialize()
         {
             _basicClean5X5World = new World(File.ReadAllText(@"..\..\Clean_Grid_5x5.grd"), new RsdUntouchedAroundTheGoalHeuristic());
             _basicWorld5X5Blocked = new World(File.ReadAllText(@"..\..\Clean_Grid_5x5BasicBlocked.grd"), new RsdUntouchedAroundTheGoalHeuristic());
+            _basicWorld4x4 = new World(File.ReadAllText(@"..\..\Clean_Grid_4x4.grd"), new RsdUntouchedAroundTheGoalHeuristic());
         }
         
+        [TestMethod]
+        public void setAstarSolve_BasicWorld4x4_SolveCorrectly()
+        {
+            ReachableSymmetryDetectionPrunning rsd = new ReachableSymmetryDetectionPrunning();
+            AStarMax solver = new AStarMax(_basicWorld4x4.GetInitialSearchNode<RsdGridSearchNode>(), rsd, new GoalOnLocation(_basicWorld4x4.Goal));
+            rsd.setAstarOpenList(solver.OpenList);
+            Assert.IsNotNull(rsd);
+            Assert.IsNotNull(solver);
+            var howEnded = solver.Run(10);
+            Assert.AreEqual(State.Ended,howEnded);
+            var goal = (RsdGridSearchNode)solver.GetMaxGoal();
+            Assert.IsNotNull(goal);
+            Assert.AreEqual(14,goal.g);
+        }        
+
         [TestMethod]
         [ExpectedException(typeof(ApplicationException))]
         public void setAstarOpenList_CanBeCalledOnlyOnce_CallingTwiceResultsInException()

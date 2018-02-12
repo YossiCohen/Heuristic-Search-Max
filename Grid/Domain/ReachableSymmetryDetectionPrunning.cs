@@ -53,19 +53,19 @@ namespace Grid.Domain
                 {
                     var historyNode = relevantList[i];
                     Log.WriteLineIf($"[ShouldPrune] - checking history node{historyNode.GetBitsString()}", TraceLevel.Info);
-                    //historyNode.Visited >= newGridNode.visited
+                    //historyNode.Visited >= newGridNode.visited   ---- Simple case
                     if (ContainsOrEqualBitArray(historyNode.Visited, newGridNode.Visited))
                     {
                         if (ContainsOrEqualBitArray(historyNode.Reachable, newGridNode.Reachable))
                         {
-                            if (newGridNode.g < historyNode.g)
-                            {
-                                Log.WriteLineIf("[ShouldPrune] - remove and add", TraceLevel.Info);
-                                //In this special case we replace the old node with new, we return true for pruning in order to count the old node as pruned
-                                relevantList.RemoveAt(i);
-                                relevantList.Add(newGridNode);
-                                ReplaceInOpenList(historyNode, newGridNode);
-                            }
+                            //if (newGridNode.g < historyNode.g)
+                            //{
+                            //    Log.WriteLineIf("[ShouldPrune] - remove and add", TraceLevel.Info);
+                            //    //In this special case we replace the old node with new, we return true for pruning in order to count the old node as pruned
+                            //    relevantList.RemoveAt(i);
+                            //    relevantList.Add(newGridNode);
+                            //    ReplaceInOpenList(historyNode, newGridNode);
+                            //}
                             Log.WriteLineIf("[ShouldPrune]- true1", TraceLevel.Info);
                             return true;
                         }
@@ -73,7 +73,7 @@ namespace Grid.Domain
                     //historyNode.Visited < newGridNode.visited
                     else if (ContainsOrEqualBitArray(newGridNode.Visited, historyNode.Visited))
                     {
-                        if (ContainsOrEqualBitArray(newGridNode.Reachable, historyNode.Reachable))  //flipped condition !
+                        if (ContainsOrEqualBitArray(newGridNode.Reachable, historyNode.Reachable)) 
                         {
                             if (newGridNode.g > historyNode.g)
                             {
@@ -97,9 +97,17 @@ namespace Grid.Domain
 
         private void ReplaceInOpenList(RsdGridSearchNode oldNode, RsdGridSearchNode newNode)
         {
-            var a = aStarOpenList.Values.IndexOf(oldNode);
-            aStarOpenList.RemoveAt(a);
-            aStarOpenList.Add(newNode);
+            try
+            {
+                var a = aStarOpenList.Values.IndexOf(oldNode);
+                aStarOpenList.RemoveAt(a);
+                aStarOpenList.Add(newNode);
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLineIf("EXCEPTION: "+ex + " OLD:" + oldNode+" NEW:" + newNode, TraceLevel.Error);
+            }
+
         }
 
         private long GetLinearHeadLocation(RsdGridSearchNode node)

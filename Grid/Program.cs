@@ -92,10 +92,10 @@ namespace Grid
                 ((ReachableSymmetryDetectionPrunning)prune).setAstarOpenList(((AStarMax)solver).OpenList);
             }
 
-            Log.WriteLineIf(@"Solviong 2D-Grid problem from file:", TraceLevel.Info);
-            Log.WriteLineIf(@"[[Problem:" + problemFileName + "]]", TraceLevel.Info);
-            Log.WriteLineIf(@"[[Algorithm:" + solver.GetType().Name + "]]", TraceLevel.Info);
-            Log.WriteLineIf(@"[[Prunning:" + prune.GetType().Name + "]]", TraceLevel.Info);
+            Log.WriteLineIf(@"Solviong 2D-Grid problem from file:", TraceLevel.Off);
+            Log.WriteLineIf(@"[[Problem:" + problemFileName + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[Algorithm:" + solver.GetType().Name + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[Prunning:" + prune.GetType().Name + "]]", TraceLevel.Off);
 
             var startTime = DateTime.Now;
             var howEnded = solver.Run(timelimit);
