@@ -22,40 +22,9 @@ namespace Grid.Domain
         [DebuggerDisplay("{GetBitsString(),nq}")]
         public BitArray Reachable;
 
-        //TODO code is duplicated - refactor needed
-        public override LinkedList<INode> Children
-        {
-            get
-            {
-                //If Goal node - it will have no children
-                if (World.Goal.Equals(HeadLocation))
-                {
-                    return new LinkedList<INode>();
-                }
-                var result = GenerateInitialChildList();
-                result = RemoveChildrensOnVisitedAndBlockedLocations(result);
-                return result;
-            }
-        }
-
-        //TODO code is duplicated - refactor needed
-        private LinkedList<INode> RemoveChildrensOnVisitedAndBlockedLocations(LinkedList<INode> childs)
-        {
-            LinkedList<INode> result = new LinkedList<INode>();
-            foreach (var node in childs)
-            {
-                var child = (RsdGridSearchNode)node;
-                if (!(Visited[child.HeadLocation.Y * World.Width + child.HeadLocation.X] || (World.IsBlocked(child.HeadLocation))))
-                {
-                    result.AddLast(child);
-                }
-            }
-            return result;
-        }
-
         //code is duplicated - but using general activator will influance performance
         //https://stackoverflow.com/questions/6069661/does-system-activator-createinstancet-have-performance-issues-big-enough-to-di
-        private LinkedList<INode> GenerateInitialChildList()
+        protected override LinkedList<INode> GenerateInitialChildList()
         {
 
             LinkedList<INode> result = new LinkedList<INode>();

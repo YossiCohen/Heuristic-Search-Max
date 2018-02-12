@@ -68,7 +68,7 @@ namespace Grid.Domain
             }
         }
 
-        private LinkedList<INode> RemoveChildrensOnVisitedAndBlockedLocations(LinkedList<INode> childs)
+        protected LinkedList<INode> RemoveChildrensOnVisitedAndBlockedLocations(LinkedList<INode> childs)
         {
             LinkedList<INode> result = new LinkedList<INode>();
             foreach (var node in childs)
@@ -82,7 +82,7 @@ namespace Grid.Domain
             return result;
         }
 
-        private LinkedList<INode> GenerateInitialChildList()
+        protected virtual LinkedList<INode> GenerateInitialChildList()
         {
 
             LinkedList<INode> result = new LinkedList<INode>();
