@@ -53,7 +53,8 @@ namespace Grid.Domain
             return result;
         }
 
-        //TODO code is duplicated - refactor needed
+        //code is duplicated - but using general activator will influance performance
+        //https://stackoverflow.com/questions/6069661/does-system-activator-createinstancet-have-performance-issues-big-enough-to-di
         private LinkedList<INode> GenerateInitialChildList()
         {
 

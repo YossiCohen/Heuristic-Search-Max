@@ -125,18 +125,23 @@ namespace GridTest
             //###
             var Flow1Node = new RsdGridSearchNode(initialState, MoveDirection.Right);
             Assert.IsFalse(rsd.ShouldPrune(Flow1Node));
+            solver.OpenList.Add(Flow1Node);
             Flow1Node = new RsdGridSearchNode(Flow1Node, MoveDirection.Right);
             Assert.IsFalse(rsd.ShouldPrune(Flow1Node));
+            solver.OpenList.Add(Flow1Node);
             //Flow 2: 
             //↓→*
             //→↑#
             //###
             var Flow2Node = new RsdGridSearchNode(initialState, MoveDirection.Down);
             Assert.IsFalse(rsd.ShouldPrune(Flow2Node));
+            solver.OpenList.Add(Flow2Node);
             Flow2Node = new RsdGridSearchNode(Flow2Node, MoveDirection.Right);
             Assert.IsFalse(rsd.ShouldPrune(Flow2Node));
+            solver.OpenList.Add(Flow2Node);
             Flow2Node = new RsdGridSearchNode(Flow2Node, MoveDirection.Up);
             Assert.IsTrue(rsd.ShouldPrune(Flow2Node));
+            //Prune = no adding here (psss... it will be added from the pruning replace)
             Flow2Node = new RsdGridSearchNode(Flow2Node, MoveDirection.Right);
             Assert.IsTrue(rsd.ShouldPrune(Flow2Node));
         }

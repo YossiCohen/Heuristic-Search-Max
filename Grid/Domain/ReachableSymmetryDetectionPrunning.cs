@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using Common;
 using MaxSearchAlg;
@@ -58,14 +57,6 @@ namespace Grid.Domain
                     {
                         if (ContainsOrEqualBitArray(historyNode.Reachable, newGridNode.Reachable))
                         {
-                            //if (newGridNode.g < historyNode.g)
-                            //{
-                            //    Log.WriteLineIf("[ShouldPrune] - remove and add", TraceLevel.Info);
-                            //    //In this special case we replace the old node with new, we return true for pruning in order to count the old node as pruned
-                            //    relevantList.RemoveAt(i);
-                            //    relevantList.Add(newGridNode);
-                            //    ReplaceInOpenList(historyNode, newGridNode);
-                            //}
                             Log.WriteLineIf("[ShouldPrune]- true1", TraceLevel.Info);
                             return true;
                         }
@@ -98,16 +89,9 @@ namespace Grid.Domain
         private void ReplaceInOpenList(RsdGridSearchNode oldNode, RsdGridSearchNode newNode)
         {
             try
-            {
-                var a = aStarOpenList.Values.IndexOf(oldNode);
-                aStarOpenList.RemoveAt(a);
-                aStarOpenList.Add(newNode);
-            }
-            catch (Exception ex)
-            {
-                Log.WriteLineIf("EXCEPTION: "+ex + " OLD:" + oldNode+" NEW:" + newNode, TraceLevel.Error);
-            }
-
+            var a = aStarOpenList.Values.IndexOf(oldNode);
+            aStarOpenList.RemoveAt(a);
+            aStarOpenList.Add(newNode);
         }
 
         private long GetLinearHeadLocation(RsdGridSearchNode node)
@@ -115,31 +99,8 @@ namespace Grid.Domain
             return node.HeadLocation.Y * node.World.Width + node.HeadLocation.X;
         }
 
-        private bool EqualBitArray(BitArray a, BitArray b)
-        {
-            int finalIndex = a.Length - 1;
-            for (int i = 0; i < finalIndex; i++)
-            {
-                if (a[i] != b[i])
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
         private bool ContainsOrEqualBitArray(BitArray larger, BitArray smaller)
         {
-            //int finalIndex = larger.Length - 1;
-            //for (int i = 0; i < finalIndex; i++)
-            //{
-            //    //TODO: fix the condition
-            //    if (larger[i] || !smaller[i])
-            //    {
-            //        return false;
-            //    }
-            //}
-            //return true;
             BitArray tmp = (BitArray)larger.Clone();
             tmp.Or(smaller);
             tmp.Xor(larger);
