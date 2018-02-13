@@ -57,7 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\ReachableSymmetryDetectionPrunning.cs" />
+    <Compile Include="Domain\HashedReachableSymmetryDetectionPrunning.cs" />
     <Compile Include="Domain\BasicSymmetryDetectionPrunning.cs" />
     <Compile Include="Domain\NoneHeuristic.cs" />
     <Compile Include="Domain\RsdGridSearchNode.cs" />
@@ -70,6 +70,7 @@
     <Compile Include="Domain\GoalOnLocation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Domain\ReachableSymmetryDetectionPrunning.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

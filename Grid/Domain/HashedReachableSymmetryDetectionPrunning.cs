@@ -7,14 +7,16 @@ using MaxSearchAlg;
 
 namespace Grid.Domain
 {
-    public class ReachableSymmetryDetectionPrunning : IPrunningMethod
+    public class HashedReachableSymmetryDetectionPrunning : IPrunningMethod
     {
-        private Dictionary<int, List<RsdGridSearchNode>> HistoryNodes;
+        private Dictionary<long, List<RsdGridSearchNode>> HistoryNodes;
         private SortedList<int, INode> aStarOpenList;
+        private int cubeSize;
 
-        public ReachableSymmetryDetectionPrunning()
+        public HashedReachableSymmetryDetectionPrunning(int cubeSize)
         {
-            HistoryNodes = new Dictionary<int, List<RsdGridSearchNode>>();
+            this.cubeSize = cubeSize;
+            HistoryNodes = new Dictionary<long, List<RsdGridSearchNode>>();
         }
 
         public void setAstarOpenList(SortedList<int, INode> openList)
@@ -93,7 +95,7 @@ namespace Grid.Domain
             aStarOpenList.Add(newNode);
         }
 
-        private int GetLinearHeadLocation(RsdGridSearchNode node)
+        private long GetLinearHeadLocation(RsdGridSearchNode node)
         {
             return node.HeadLocation.Y * node.World.Width + node.HeadLocation.X;
         }
