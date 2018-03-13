@@ -111,6 +111,11 @@ namespace Grid.Domain
             return Visited[loc.Y * World.Width + loc.X];
         }
 
+        public bool IsVisited(int x, int y)
+        {
+            return Visited[y * World.Width + x];
+        }
+
         public string GetBitsString()
         {
             StringBuilder sb = new StringBuilder();

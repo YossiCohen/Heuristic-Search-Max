@@ -9,14 +9,14 @@ namespace Grid.Domain
 {
     public class HashedReachableSymmetryDetectionPrunning : IPrunningMethod
     {
-        private Dictionary<long, List<RsdGridSearchNode>> HistoryNodes;
+        private Dictionary<int, Dictionary<long, List<RsdGridSearchNode>>> HistoryNodes;
         private SortedList<int, INode> aStarOpenList;
         private int cubeSize;
 
         public HashedReachableSymmetryDetectionPrunning(int cubeSize)
         {
             this.cubeSize = cubeSize;
-            HistoryNodes = new Dictionary<long, List<RsdGridSearchNode>>();
+            HistoryNodes = new Dictionary<int, Dictionary<long,List<RsdGridSearchNode>>>();
         }
 
         public void setAstarOpenList(SortedList<int, INode> openList)
@@ -41,14 +41,16 @@ namespace Grid.Domain
             var newGridNode = node as RsdGridSearchNode;
             Log.WriteLineIf($"[ShouldPrune - new node] {newGridNode.GetBitsString()}", TraceLevel.Info);
             var linearHead = GetLinearHeadLocation(newGridNode);
+            var visitedBitmap = GetVisitedGrainedMap(newGridNode);
             if (!HistoryNodes.ContainsKey(linearHead))
             {
-                HistoryNodes[linearHead] = new List<RsdGridSearchNode>();
-                HistoryNodes[linearHead].Add(newGridNode);
+                HistoryNodes[linearHead] = new Dictionary<long, List<RsdGridSearchNode>>();
+                HistoryNodes[linearHead].Add(visitedBitmap,new List<RsdGridSearchNode>());
+                HistoryNodes[linearHead][visitedBitmap].Add(newGridNode);
                 Log.WriteLineIf("[ShouldPrune - No list] - creating new", TraceLevel.Info);
             }
             else
-            {
+            {/*
                 var relevantList = HistoryNodes[linearHead];
                 for (int i = relevantList.Count - 1; i >= 0; i--)
                 {
@@ -82,7 +84,7 @@ namespace Grid.Domain
                     }
                 }
 
-                relevantList.Add(newGridNode);
+                relevantList.Add(newGridNode); */
             }
             Log.WriteLineIf("[ShouldPrune] - false", TraceLevel.Info);
             return false;
@@ -95,9 +97,33 @@ namespace Grid.Domain
             aStarOpenList.Add(newNode);
         }
 
-        private long GetLinearHeadLocation(RsdGridSearchNode node)
+        private int GetLinearHeadLocation(RsdGridSearchNode node)
         {
             return node.HeadLocation.Y * node.World.Width + node.HeadLocation.X;
+        }
+
+        public long GetVisitedGrainedMap(RsdGridSearchNode node)
+        {
+            long retVal = 0;
+            var grainedGridW = (int)Math.Ceiling((decimal)node.World.Width / cubeSize);
+            var grainedGridH = (int)Math.Ceiling((decimal)node.World.Height / cubeSize);
+            var grainedGridSize = grainedGridW * grainedGridH;
+            BitArray grained = new BitArray(grainedGridSize);
+            int grainedX, grainedY;
+            for (int y = 0; y < node.World.Height; y++)
+            {
+                for (int x = 0; x < node.World.Width; x++)
+                {
+                    if (node.IsVisited(x,y))
+                    {
+                        grainedX = (int)Math.Floor((decimal)x / cubeSize);
+                        grainedY = (int)Math.Floor((decimal)y / cubeSize);
+                        grained.Set(grainedX + grainedY * grainedGridW, true);
+                        retVal |= 1 << (grainedX + grainedY * grainedGridW);
+                    }
+                }
+            }
+            return retVal; 
         }
 
         private bool ContainsOrEqualBitArray(BitArray larger, BitArray smaller)

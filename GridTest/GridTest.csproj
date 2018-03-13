@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="HashedReachableSymmetryDetectionPrunningTest.cs" />
     <Compile Include="ReachableSymmetryDetectionPrunningTest.cs" />
     <Compile Include="RsdGridSearchNodeTest.cs" />
     <Compile Include="SpecialIntrestingCases.cs" />

@@ -20,8 +20,9 @@ namespace Grid
                 Console.WriteLine(@"----------");
                 Console.WriteLine(@"problem:     problem filename");
                 Console.WriteLine(@"timeLimit:   limit run time to X minutes (default 120), 0 for no time limit");
+                Console.WriteLine(@"memLimit:    limit memory used by the process (default no limit) if you want to limit 1 GB write 1024");
                 Console.WriteLine(@"alg:         [astar/dfbnb] the solving algorithm");
-                Console.WriteLine(@"prune:         [none/bsd/rsd] the solving algorithm");
+                Console.WriteLine(@"prune:         [none/bsd/rsd/hrsd] the solving algorithm");
                 Console.WriteLine(@"----------");
                 Console.WriteLine(@"memTest:     if set to true, will not solve nothing, only fill memory");
                 Console.WriteLine(@"             allocation to check 64bit issue");
@@ -39,10 +40,16 @@ namespace Grid
             }
             int timelimit = Int32.Parse(splitedArgs["timelimit"]);
 
+            if (!splitedArgs.ContainsKey("memLimit")) //default snakeh
+            {
+                splitedArgs.Add("memLimit", "0");
+            }
+            int memlimit = Int32.Parse(splitedArgs["memLimit"]);
+
             string problemFileName = splitedArgs["problem"];
 
             World world;
-            if (splitedArgs["prune"] == "rsd")
+            if (splitedArgs["prune"] == "rsd" || splitedArgs["prune"] == "hrsd") //TODO: does HRSD need different heuristic?
             {
                 world = new World(File.ReadAllText(problemFileName), new RsdUntouchedAroundTheGoalHeuristic());
             }
@@ -65,6 +72,10 @@ namespace Grid
                     break;
                 case "rsd":
                     prune = new ReachableSymmetryDetectionPrunning();
+                    initialNode = world.GetInitialSearchNode<RsdGridSearchNode>();
+                    break;
+                case "hrsd":
+                    prune = new HashedReachableSymmetryDetectionPrunning(5); //TODO: remove hard coded 3 - add parameter
                     initialNode = world.GetInitialSearchNode<RsdGridSearchNode>();
                     break;
                 default:
@@ -90,15 +101,21 @@ namespace Grid
             {
                 //Sorry but RSD must use AStarMax
                 ((ReachableSymmetryDetectionPrunning)prune).setAstarOpenList(((AStarMax)solver).OpenList);
+            } else if (splitedArgs["prune"] == "hrsd")
+            {
+                //Sorry but HRSD must use AStarMax
+                ((HashedReachableSymmetryDetectionPrunning)prune).setAstarOpenList(((AStarMax)solver).OpenList);
             }
 
             Log.WriteLineIf(@"Solviong 2D-Grid problem from file:", TraceLevel.Off);
             Log.WriteLineIf(@"[[Problem:" + problemFileName + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Algorithm:" + solver.GetType().Name + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Prunning:" + prune.GetType().Name + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[MemLimit(MB):" + memlimit + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[TimeLimit(Min):" + timelimit + "]]", TraceLevel.Off);
 
             var startTime = DateTime.Now;
-            var howEnded = solver.Run(timelimit);
+            var howEnded = solver.Run(timelimit, memlimit);
             var totalTime = DateTime.Now - startTime;
             var goal = (GridSearchNode)solver.GetMaxGoal();
 
