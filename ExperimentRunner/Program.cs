@@ -37,7 +37,7 @@ namespace ExperimentRunner
             {
                 return;
             }
-
+            Console.WriteLine($"Running experiments with {numOfProcess} paralel processes");
             LoadExistingLogsAndRemoveGarbage();
             createNeededCommands();
             StartNewCommand(null,null);
@@ -75,6 +75,7 @@ namespace ExperimentRunner
         {
             var p = new Process();
             p.StartInfo.FileName = "Grid.exe";
+            p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             p.StartInfo.Arguments = $"problem={fullCommand.filename} {fullCommand.args[0]} {fullCommand.args[1]}";
             p.StartInfo.UseShellExecute = true;
             p.StartInfo.CreateNoWindow = false;
