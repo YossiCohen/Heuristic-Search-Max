@@ -11,4 +11,5 @@ Ref:
 
 'Solving the Snake in the Box Problem with Heuristic Search - First Results' by Palombo et al. - http://www.bgu.ac.il/~felner/2015/SoCS/solving-snake-box.pdf
 
-Have fun!
+
+...Have fun!
