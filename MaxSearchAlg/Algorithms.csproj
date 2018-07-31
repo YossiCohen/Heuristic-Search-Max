@@ -46,6 +46,7 @@
     <Compile Include="Combinatorics\Permutations.cs" />
     <Compile Include="Combinatorics\SmallPrimeUtility.cs" />
     <Compile Include="Combinatorics\Variations.cs" />
+    <Compile Include="SimpleMonteCarloMax.cs" />
     <Compile Include="DfBnbMax.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="INode.cs" />
