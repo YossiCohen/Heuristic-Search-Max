@@ -1,5 +1,7 @@
-SET Path=C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE;%Path%
-devenv HeuristicSearchMax.sln /rebuild Release 
+rem Define VISUAL_STUDIO_PATH_DEVENV env. variable in your system, example:
+rem SET VISUAL_STUDIO_PATH_DEVENV=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\devenv.exe
+
+"%VISUAL_STUDIO_PATH_DEVENV%" HeuristicSearchMax.sln /rebuild Release 
 rmdir /S /Q ExperimentEnv
 mkdir ExperimentEnv
 copy Grid\bin\Release\*.exe ExperimentEnv
