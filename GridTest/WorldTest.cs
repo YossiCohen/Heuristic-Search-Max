@@ -79,6 +79,12 @@ namespace GridTest
             Assert.IsFalse(w.IsBlocked(new Location(3, 0)));
             Assert.IsTrue(w.IsBlocked(new Location(4, 0)));
             Assert.IsFalse(w.IsBlocked(new Location(5, 0)));
+            Assert.IsFalse(w.IsBlockedLinear(3));
+            Assert.IsTrue(w.IsBlockedLinear(4));
+            Assert.IsFalse(w.IsBlockedLinear(5));
+            Assert.IsTrue(w.IsBlockedLinear(10));
+            Assert.IsTrue(w.IsBlockedLinear(11));
+            Assert.IsFalse(w.IsBlockedLinear(12));
         }
 
         [TestMethod]

@@ -82,6 +82,11 @@ namespace Grid.Domain
             return _isBlockedLocations[loc.Y * Width + loc.X];
         }
 
+        public bool IsBlockedLinear(int loc)
+        {
+            return _isBlockedLocations[loc];
+        }
+
         public T GetInitialSearchNode<T>() where T : GridSearchNode
         {
             return (T)Activator.CreateInstance(typeof(T), this);
