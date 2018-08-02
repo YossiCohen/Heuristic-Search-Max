@@ -10,3 +10,4 @@ copy Grid\bin\Release\*.dll ExperimentEnv
 copy ExperimentRunner\bin\Release\*.exe ExperimentEnv
 copy ExperimentRunner\bin\Release\*.config ExperimentEnv
 copy ExperimentRunner\profile.txt ExperimentEnv
+copy FoldersExp.bat ExperimentEnv
