@@ -84,6 +84,7 @@ namespace Grid.Domain
 
         public bool IsBlockedLinear(int loc)
         {
+            if (loc < 0 || loc >= LinearSize) return true;
             return _isBlockedLocations[loc];
         }
 

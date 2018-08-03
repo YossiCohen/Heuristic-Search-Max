@@ -13,7 +13,21 @@ namespace GridTest
         public static void ClassInitialize(TestContext context)
         {
             var _basicBCC_V1 = File.ReadAllText(@"..\..\Grid_5x5BiconnectedComponentsHeuristicV1.grd");
-            World _basicWorldV1 = new World(_basicBCC_V1, new NoneHeuristic());
+            /*
+             * |---|---|---|---|---|
+             * | 0 | 1 | 2 | 3 | 4 |
+             * #############---|---| 
+             * # 5 # 6 # 7 # 8 | 9 |
+             * #############---|---| 
+             * | 10| 11# 12# 13| 14|
+             * |---|---#####---|---| 
+             * | 15| 16# 17# 18| 19|
+             * |---|---#####---|---| 
+             * | 20| 21| 22| 23| 24|
+             * |---|---|---|---|---| 
+             * 
+             */
+            _basicWorldV1 = new World(_basicBCC_V1, new NoneHeuristic());
         }
 
         [TestMethod]
