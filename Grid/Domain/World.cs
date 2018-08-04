@@ -69,7 +69,16 @@ namespace Grid.Domain
             {
                 throw new GridGoalNotFoundException();
             }
+        }
 
+        public void InitBcc()
+        {
+            var bcc = new BiconnectedComponents(this);
+            var valid = bcc.GetValidPlacesForMaxPath(Start, Goal);
+            for (int i = 0; i < valid.Length; i++)
+            {
+                if (!valid[i]) _isBlockedLocations[i] = true;
+            }
         }
 
         public int CalculateHeuristic(GridSearchNode node)
@@ -80,6 +89,12 @@ namespace Grid.Domain
         public bool IsBlocked(Location loc)
         {
             return _isBlockedLocations[loc.Y * Width + loc.X];
+        }
+
+        public bool IsBlockedLinear(int loc)
+        {
+            if (loc < 0 || loc >= LinearSize) return true;
+            return _isBlockedLocations[loc];
         }
 
         public T GetInitialSearchNode<T>() where T : GridSearchNode

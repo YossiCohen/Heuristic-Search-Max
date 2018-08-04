@@ -57,11 +57,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\BiconnectedComponents.cs" />
     <Compile Include="Domain\ReachableSymmetryDetectionPrunning.cs" />
     <Compile Include="Domain\BasicSymmetryDetectionPrunning.cs" />
     <Compile Include="Domain\NoneHeuristic.cs" />
     <Compile Include="Domain\RsdGridSearchNode.cs" />
     <Compile Include="Domain\RsdUntouchedAroundTheGoalHeuristic.cs" />
+    <Compile Include="Domain\BiconnectedComponentsHeuristic.cs" />
     <Compile Include="Domain\UntouchedAroundTheGoalHeuristic.cs" />
     <Compile Include="Domain\IGridHeuristic.cs" />
     <Compile Include="Domain\Location.cs" />
