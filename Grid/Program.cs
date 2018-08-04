@@ -38,12 +38,12 @@ namespace Grid
             {
                 splitedArgs.Add("timelimit", "120");
             }
-            if (!splitedArgs.ContainsKey("initBCC")) //default pre-bcc
+            if (!splitedArgs.ContainsKey("initbcc")) //default pre-bcc
             {
-                splitedArgs.Add("pre-bcc", "false");
+                splitedArgs.Add("initbcc", "false");
             }
             int timelimit = Int32.Parse(splitedArgs["timelimit"]);
-            bool initWithBCC = Boolean.Parse(splitedArgs["initBCC"]);
+            bool initWithBCC = Boolean.Parse(splitedArgs["initbcc"]);
 
             string problemFileName = splitedArgs["problem"];
 
