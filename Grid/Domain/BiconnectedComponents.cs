@@ -1,46 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Grid.Domain
 {
     public class BiconnectedComponents
     {
-        private World w;
-        private LinkedList<HashSet<int>> _blocks;
-        private HashSet<int> _cutPoints;
-        private List<Tuple<int, int>> _blockCutTree;
+        private World World;
+        public LinkedList<HashSet<int>> Blocks { get; }
+        public HashSet<int> CutPoints { get; }
         private int[] _discovery;
         private int[] _low;
         private int[] _parent;
         private Stack<Edge> _edgeStack;
         private int time;
+        private Dictionary<int, List<int>> _blockCutTree_CutPointsToBlockId;
+        private Dictionary<int, List<int>> _blockCutTree_BlockIdToCutPoints;
 
-        public BiconnectedComponents(World _w)
+        public BiconnectedComponents(World world)
         {
-            w = _w;
-            _discovery = new int[w.LinearSize];
-            _low = new int[w.LinearSize];
-            _parent = new int[w.LinearSize];
+            this.World = world;
+            _discovery = new int[this.World.LinearSize];
+            _low = new int[this.World.LinearSize];
+            _parent = new int[this.World.LinearSize];
             _edgeStack = new Stack<Edge>();
-            _blocks = new LinkedList<HashSet<int>>();
-            _cutPoints = new HashSet<int>();
-            _blockCutTree = new List<Tuple<int, int>>();
+            Blocks = new LinkedList<HashSet<int>>();
+            CutPoints = new HashSet<int>();
+            _blockCutTree_CutPointsToBlockId = new Dictionary<int, List<int>>();
+            _blockCutTree_BlockIdToCutPoints = new Dictionary<int, List<int>>();
 
             // Initialize arrays
-            for (int i = 0; i < w.LinearSize; i++)
+            for (int i = 0; i < World.LinearSize; i++)
             {
                 _discovery[i] = -1;
                 _low[i] = -1;
                 _parent[i] = -1;
             }
 
-            for (int i = 0; i < w.LinearSize; i++)
+            for (int i = 0; i < World.LinearSize; i++)
             {
-                if(w.IsBlockedLinear(i)) continue;
+                if (World.IsBlockedLinear(i)) continue;
                 if (_discovery[i] == -1)
                 {
-                    RecursiveBCC(i);
+                    RecursiveBcc(i);
                 }
                 // If stack is not empty, pop all edges from stack
                 if (_edgeStack.Count > 0)
@@ -50,27 +52,27 @@ namespace Grid.Domain
                     {
 
                         Edge edgeInBlock = _edgeStack.Pop();
-                        blk.Add(edgeInBlock.u);
-                        blk.Add(edgeInBlock.v);
+                        blk.Add(edgeInBlock.U);
+                        blk.Add(edgeInBlock.V);
                     }
-                    _blocks.AddLast(blk);
+                    Blocks.AddLast(blk);
                 }
             }
-            findCutpoints();
-            findBlockCutTree();
+            InitCutpoints();
+            InitBlockCutTree();
         }
 
-        private void RecursiveBCC(int u)
+        private void RecursiveBcc(int u)
         {
             // Initialize discovery time and low value
             _discovery[u] = _low[u] = time++;
 
             //near nodes to check
             List<int> childrens = new List<int>();
-            if ((u+1)%w.Width != 0 && !w.IsBlockedLinear(u + 1)) childrens.Add(u + 1); //right location
-            if (u % w.Width != 0 && !w.IsBlockedLinear(u - 1)) childrens.Add(u - 1); //left location
-            if (!w.IsBlockedLinear(u + w.Width)) childrens.Add(u + w.Width); //down location
-            if (!w.IsBlockedLinear(u - w.Width)) childrens.Add(u - w.Width); //up location
+            if ((u + 1) % World.Width != 0 && !World.IsBlockedLinear(u + 1)) childrens.Add(u + 1); //right location
+            if (u % World.Width != 0 && !World.IsBlockedLinear(u - 1)) childrens.Add(u - 1); //left location
+            if (!World.IsBlockedLinear(u + World.Width)) childrens.Add(u + World.Width); //down location
+            if (!World.IsBlockedLinear(u - World.Width)) childrens.Add(u - World.Width); //up location
 
             foreach (var v in childrens)
             {
@@ -78,7 +80,7 @@ namespace Grid.Domain
                 {
                     _parent[v] = u;
                     _edgeStack.Push(new Edge(u, v));
-                    RecursiveBCC(v);
+                    RecursiveBcc(v);
 
                     // Case 1 (Strongly Connected Components Article)
                     // Check if the subtree rooted with 'v' has a connection to one of the ancestors of 'u'
@@ -92,16 +94,16 @@ namespace Grid.Domain
                     {
                         Edge edgeInBlock;
                         HashSet<int> blk = new HashSet<int>();
-                        while (_edgeStack.Peek().u != u || _edgeStack.Peek().v != v)
+                        while (_edgeStack.Peek().U != u || _edgeStack.Peek().V != v)
                         {
                             edgeInBlock = _edgeStack.Pop();
-                            blk.Add(edgeInBlock.u);
-                            blk.Add(edgeInBlock.v);
+                            blk.Add(edgeInBlock.U);
+                            blk.Add(edgeInBlock.V);
                         }
                         edgeInBlock = _edgeStack.Pop();
-                        blk.Add(edgeInBlock.u);
-                        blk.Add(edgeInBlock.v);
-                        _blocks.AddLast(blk);
+                        blk.Add(edgeInBlock.U);
+                        blk.Add(edgeInBlock.V);
+                        Blocks.AddLast(blk);
                     }
                 }
 
@@ -111,17 +113,17 @@ namespace Grid.Domain
                 {
                     if (_low[u] > _discovery[v])
                     {
-                         _low[u] = _discovery[v];
+                        _low[u] = _discovery[v];
                     }
                     _edgeStack.Push(new Edge(u, v));
                 }
             } //foreach childrens
         }
-        
-        private void findCutpoints()
+
+        private void InitCutpoints()
         {
-            int[] tmpCounter = new int[w.LinearSize];
-            foreach (var blk in _blocks)
+            int[] tmpCounter = new int[World.LinearSize];
+            foreach (var blk in Blocks)
             {
                 foreach (var linearLoc in blk)
                 {
@@ -132,36 +134,124 @@ namespace Grid.Domain
             {
                 if (tmpCounter[i] > 1)
                 {
-                    _cutPoints.Add(i);
+                    CutPoints.Add(i);
                 }
             }
         }
 
-        private void findBlockCutTree()
+        private void InitBlockCutTree()
         {
-            for (int i = 0; i < _blocks.Count; i++)
+            for (int i = 0; i < Blocks.Count; i++)
             {
-                var blk = _blocks.ElementAt(i);
+                var blk = Blocks.ElementAt(i);
                 foreach (var item in blk)
                 {
-                    if (_cutPoints.Contains(item))   //contains(item))
+                    if (CutPoints.Contains(item)) //contains(item))
                     {
-                        _blockCutTree.Add(new Tuple<int, int>(-item, i));
-                        _blockCutTree.Add(new Tuple<int, int>(i, -item));
+                        if (!_blockCutTree_BlockIdToCutPoints.ContainsKey(i))
+                        {
+                            _blockCutTree_BlockIdToCutPoints.Add(i, new List<int>());
+                        }
+                        _blockCutTree_BlockIdToCutPoints[i].Add(item);
+                        if (!_blockCutTree_CutPointsToBlockId.ContainsKey(item))
+                        {
+                            _blockCutTree_CutPointsToBlockId.Add(item, new List<int>());
+                        }
+                        _blockCutTree_CutPointsToBlockId[item].Add(i);
                     }
                 }
             }
+        }
+
+        public bool[] GetValidPlacesForMaxPath(int startPoint, int destinationPoint)
+        {
+            List<int> relevantBlocks = GetRelevantBlocks(startPoint, destinationPoint);
+            bool[] validPlaces = new bool[World.LinearSize];
+            foreach (var relevantBlock in relevantBlocks)
+            {
+                var itemSet = Blocks.ElementAt(relevantBlock);
+                foreach (var linearLocation in itemSet)
+                {
+                    validPlaces[linearLocation] = true;
+                }
+            }
+            return validPlaces;
+        }
+
+        private List<int> GetRelevantBlocks(int startPoint, int destinationPoint)
+        {
+            bool[] seenBlocks = new bool[Blocks.Count];
+            var startBlocks = GetBlockIdsOfLinearLocation(startPoint);
+            var destinationBlocks = GetBlockIdsOfLinearLocation(destinationPoint);
+            return GetRelevantBlocksRecursive(startBlocks, destinationBlocks, seenBlocks);
+        }
+
+        private List<int> GetRelevantBlocksRecursive(List<int> startPointBlocks, List<int> destinationPointBlock, bool[] seenBlocks)
+        {
+            //endCondition
+            foreach (var startBlock in startPointBlocks)
+            {
+                foreach (var destBlock in destinationPointBlock)
+                {
+                    if (startBlock == destBlock)
+                    {
+                        return new List<int>(){startBlock};
+                    }
+                }
+                seenBlocks[startBlock] = true;
+            }
+
+            foreach (var startBlock in startPointBlocks)
+            {
+                foreach (var cutPoint in _blockCutTree_BlockIdToCutPoints[startBlock])
+                {
+                    var searchBlocks = _blockCutTree_CutPointsToBlockId[cutPoint];
+                    for (int i = 0; i < searchBlocks.Count; i++)
+                    {
+                        if (seenBlocks[searchBlocks[i]])
+                        {
+                            searchBlocks.RemoveAt(i);
+                            i--;
+                        }
+                    }
+                    if (searchBlocks.Count == 0) continue;
+
+                    var aa = GetRelevantBlocksRecursive(_blockCutTree_CutPointsToBlockId[cutPoint],
+                        destinationPointBlock, seenBlocks);
+                    if (aa != null)
+                    {
+                        aa.Add(startBlock);
+                        return aa;
+                    }
+                }
+            }
+            return null;
+        }
+
+
+        private List<int> GetBlockIdsOfLinearLocation(int linearLoc)
+        {
+            var retVal = new List<int>();
+            for (int i = 0; i < Blocks.Count; i++)
+            {
+                var blk = Blocks.ElementAt(i);
+                if (blk.Contains(linearLoc))
+                {
+                    retVal.Add(i);
+                }
+            }
+            return retVal;
         }
     }
 
     public class Edge
     {
-        public int u;
-        public int v;
+        public int U;
+        public int V;
         public Edge(int u, int v)
         {
-            this.u = u;
-            this.v = v;
+            U = u;
+            V = v;
         }
     };
 }
