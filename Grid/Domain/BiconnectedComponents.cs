@@ -163,6 +163,12 @@ namespace Grid.Domain
             }
         }
 
+        public bool[] GetValidPlacesForMaxPath(Location startPoint, Location destinationPoint)
+        {
+            return GetValidPlacesForMaxPath(startPoint.GetLinearLocationRepresentation(World),
+                destinationPoint.GetLinearLocationRepresentation(World));
+        }
+
         public bool[] GetValidPlacesForMaxPath(int startPoint, int destinationPoint)
         {
             List<int> relevantBlocks = GetRelevantBlocks(startPoint, destinationPoint);

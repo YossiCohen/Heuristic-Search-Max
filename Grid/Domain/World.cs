@@ -69,7 +69,16 @@ namespace Grid.Domain
             {
                 throw new GridGoalNotFoundException();
             }
+        }
 
+        public void InitBcc()
+        {
+            var bcc = new BiconnectedComponents(this);
+            var valid = bcc.GetValidPlacesForMaxPath(Start, Goal);
+            for (int i = 0; i < valid.Length; i++)
+            {
+                if (!valid[i]) _isBlockedLocations[i] = true;
+            }
         }
 
         public int CalculateHeuristic(GridSearchNode node)
