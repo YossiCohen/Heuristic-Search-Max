@@ -83,7 +83,7 @@ namespace Grid.Domain
 
         public int CalculateHeuristic(GridSearchNode node)
         {
-            return HeuristicFunction.calc_h(this, node);
+            return HeuristicFunction.Calc_H(this, node);
         }
 
         public bool IsBlocked(Location loc)

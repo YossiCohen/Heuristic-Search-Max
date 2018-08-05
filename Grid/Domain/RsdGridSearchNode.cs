@@ -47,7 +47,7 @@ namespace Grid.Domain
             return result;
         }
 
-        public string GetBitsString()
+        public new string GetBitsString()
         {
             StringBuilder sb = new StringBuilder();
             sb.Append($"(V)");
