@@ -216,7 +216,7 @@ namespace GridTest
             Assert.IsTrue(valid[16]);
             Assert.IsTrue(valid[17]);
             Assert.IsTrue(valid[18]);
-            Assert.IsTrue(valid[19]);
+            Assert.IsFalse(valid[19]);
             Assert.IsTrue(valid[20]);
             Assert.IsTrue(valid[21]);
             Assert.IsTrue(valid[22]);

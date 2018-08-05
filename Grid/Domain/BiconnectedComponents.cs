@@ -222,7 +222,7 @@ namespace Grid.Domain
                     }
                     if (searchBlocks.Count == 0) continue;
 
-                    var aa = GetRelevantBlocksRecursive(_blockCutTree_CutPointsToBlockId[cutPoint],
+                    var aa = GetRelevantBlocksRecursive(_blockCutTree_CutPointsToBlockId[cutPoint].ToList(),
                         destinationPointBlock, seenBlocks);
                     if (aa != null)
                     {
