@@ -6,3 +6,8 @@ alg=dfbnb heuristic=untouched prune=none bcc-init=true
 alg=astar heuristic=untouched prune=bsd bcc-init=true
 alg=dfbnb heuristic=untouched prune=bsd bcc-init=true
 alg=astar heuristic=untouched prune=rsd bcc-init=true
+alg=astar heuristic=untouched prune=none bcc-init=false
+alg=dfbnb heuristic=untouched prune=none bcc-init=false
+alg=astar heuristic=untouched prune=bsd bcc-init=false
+alg=dfbnb heuristic=untouched prune=bsd bcc-init=false
+alg=astar heuristic=untouched prune=rsd bcc-init=false
