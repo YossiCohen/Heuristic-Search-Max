@@ -12,7 +12,7 @@ namespace GridTest
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            var _basicBCC_V1 = File.ReadAllText(@"..\..\Grid_5x5BiconnectedComponentsHeuristicV1.grd");
+            var basicBccV1 = File.ReadAllText(@"..\..\Grid_5x5BiconnectedComponentsHeuristicV1.grd");
             /*
              * |---|---|---|---|---|
              * | 0 | 1 | 2 | 3 | 4 |
@@ -27,41 +27,41 @@ namespace GridTest
              * |---|---|---|---|---| 
              * 
              */
-            _basicWorldV1 = new World(_basicBCC_V1, new NoneHeuristic());
+            _basicWorldV1 = new World(basicBccV1, new NoneHeuristic());
         }
 
         [TestMethod]
         public void Constructor_ReturnsValue_NotNull()
         {
-            var _biconnectedComponents = new BiconnectedComponents(_basicWorldV1);
-            Assert.IsNotNull(_biconnectedComponents);
+            var biconnectedComponents = new BiconnectedComponents(_basicWorldV1);
+            Assert.IsNotNull(biconnectedComponents);
         }
 
         [TestMethod]
         public void BlocksCount_ReturnsValue_7()
         {
-            var _biconnectedComponents = new BiconnectedComponents(_basicWorldV1);
-            Assert.AreEqual(7,_biconnectedComponents.Blocks.Count);
+            var biconnectedComponents = new BiconnectedComponents(_basicWorldV1);
+            Assert.AreEqual(7,biconnectedComponents.Blocks.Count);
         }
 
         [TestMethod]
         public void CutPoints_AreAllValid_Count6()
         {
-            var _biconnectedComponents = new BiconnectedComponents(_basicWorldV1);
-            Assert.AreEqual(6,_biconnectedComponents.CutPoints.Count);
-            Assert.IsTrue(_biconnectedComponents.CutPoints.Contains(1));
-            Assert.IsTrue(_biconnectedComponents.CutPoints.Contains(2));
-            Assert.IsTrue(_biconnectedComponents.CutPoints.Contains(3));
-            Assert.IsTrue(_biconnectedComponents.CutPoints.Contains(23));
-            Assert.IsTrue(_biconnectedComponents.CutPoints.Contains(22));
-            Assert.IsTrue(_biconnectedComponents.CutPoints.Contains(21));
+            var biconnectedComponents = new BiconnectedComponents(_basicWorldV1);
+            Assert.AreEqual(6,biconnectedComponents.CutPoints.Count);
+            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(1));
+            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(2));
+            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(3));
+            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(23));
+            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(22));
+            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(21));
         }
 
         [TestMethod]
         public void GetValidPlacesForMaxPath_SmallPath_AreAllValid()
         {
-            var _biconnectedComponents = new BiconnectedComponents(_basicWorldV1);
-            var valid = _biconnectedComponents.GetValidPlacesForMaxPath(23, 21);
+            var biconnectedComponents = new BiconnectedComponents(_basicWorldV1);
+            var valid = biconnectedComponents.GetValidPlacesForMaxPath(23, 21);
             Assert.IsFalse(valid[0]);
             Assert.IsFalse(valid[1]);
             Assert.IsFalse(valid[2]);
@@ -93,8 +93,8 @@ namespace GridTest
         [TestMethod]
         public void GetValidPlacesForMaxPath_SameBlock_AreAllValid()
         {
-            var _biconnectedComponents = new BiconnectedComponents(_basicWorldV1);
-            var valid = _biconnectedComponents.GetValidPlacesForMaxPath(9, 18);
+            var biconnectedComponents = new BiconnectedComponents(_basicWorldV1);
+            var valid = biconnectedComponents.GetValidPlacesForMaxPath(9, 18);
             Assert.IsFalse(valid[0]);
             Assert.IsFalse(valid[1]);
             Assert.IsFalse(valid[2]);
@@ -125,8 +125,8 @@ namespace GridTest
         [TestMethod]
         public void GetValidPlacesForMaxPath_AllBlocks_AreAllValid()
         {
-            var _biconnectedComponents = new BiconnectedComponents(_basicWorldV1);
-            var valid = _biconnectedComponents.GetValidPlacesForMaxPath(0, 11);
+            var biconnectedComponents = new BiconnectedComponents(_basicWorldV1);
+            var valid = biconnectedComponents.GetValidPlacesForMaxPath(0, 11);
             Assert.IsTrue(valid[0]);
             Assert.IsTrue(valid[1]);
             Assert.IsTrue(valid[2]);
@@ -158,8 +158,8 @@ namespace GridTest
         [TestMethod]
         public void GetValidPlacesForMaxPath_AlmostAllBlocks_AreAllValid()
         {
-            var _biconnectedComponents = new BiconnectedComponents(_basicWorldV1);
-            var valid = _biconnectedComponents.GetValidPlacesForMaxPath(1, 11);
+            var biconnectedComponents = new BiconnectedComponents(_basicWorldV1);
+            var valid = biconnectedComponents.GetValidPlacesForMaxPath(1, 11);
             Assert.IsFalse(valid[0]);
             Assert.IsTrue(valid[1]);
             Assert.IsTrue(valid[2]);
