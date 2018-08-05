@@ -9,6 +9,7 @@ namespace GridTest
     {
         private static World _basicWorldV1;
         private static World _basicWorldV2;
+        private static World _basicWorldT1S0;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -31,6 +32,40 @@ namespace GridTest
             _basicWorldV1 = new World(basicBccV1, new NoneHeuristic());
             var basicBccV2 = File.ReadAllText(@"..\..\Grid_5x5BiconnectedComponentsHeuristicV2.grd");
             _basicWorldV2 = new World(basicBccV2, new NoneHeuristic());
+            _basicWorldT1S0 = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step0.grd"), new NoneHeuristic());
+        }
+
+
+        [TestMethod]
+        public void GetValidPlacesForMaxPath_CheckStepsForBCCH_try1step0()
+        {
+            var biconnectedComponents = new BiconnectedComponents(_basicWorldT1S0);
+            var valid = biconnectedComponents.GetValidPlacesForMaxPath(0, 24);
+            Assert.IsTrue(valid[0]);
+            Assert.IsTrue(valid[1]);
+            Assert.IsTrue(valid[2]);
+            Assert.IsTrue(valid[3]);
+            Assert.IsTrue(valid[4]);
+            Assert.IsTrue(valid[5]);
+            Assert.IsTrue(valid[6]);
+            Assert.IsFalse(valid[7]);
+            Assert.IsTrue(valid[8]);
+            Assert.IsTrue(valid[9]);
+            Assert.IsTrue(valid[10]);
+            Assert.IsTrue(valid[11]);
+            Assert.IsFalse(valid[12]);
+            Assert.IsTrue(valid[13]);
+            Assert.IsTrue(valid[14]);
+            Assert.IsTrue(valid[15]);
+            Assert.IsTrue(valid[16]);
+            Assert.IsFalse(valid[17]);
+            Assert.IsTrue(valid[18]);
+            Assert.IsTrue(valid[19]);
+            Assert.IsTrue(valid[20]);
+            Assert.IsTrue(valid[21]);
+            Assert.IsTrue(valid[22]);
+            Assert.IsTrue(valid[23]);
+            Assert.IsTrue(valid[24]);
         }
 
         [TestMethod]

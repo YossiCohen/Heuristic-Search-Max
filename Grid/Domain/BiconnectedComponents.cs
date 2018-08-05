@@ -19,6 +19,7 @@ namespace Grid.Domain
 
         public BiconnectedComponents(World world)
         {
+            time = 1;
             this.World = world;
             _discovery = new int[this.World.LinearSize];
             _low = new int[this.World.LinearSize];
