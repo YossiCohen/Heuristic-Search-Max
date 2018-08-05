@@ -10,6 +10,9 @@ namespace GridTest
         private static World _basicWorldV1;
         private static World _basicWorldV2;
         private static World _basicWorldT1S0;
+        private static World _basicWorldT1S1;
+        private static World _basicWorldT1S2D;
+        private static World _basicWorldT1S2R;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -33,6 +36,9 @@ namespace GridTest
             var basicBccV2 = File.ReadAllText(@"..\..\Grid_5x5BiconnectedComponentsHeuristicV2.grd");
             _basicWorldV2 = new World(basicBccV2, new NoneHeuristic());
             _basicWorldT1S0 = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step0.grd"), new NoneHeuristic());
+            _basicWorldT1S1 = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step1.grd"), new NoneHeuristic());
+            _basicWorldT1S2D = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step2D.grd"), new NoneHeuristic());
+            _basicWorldT1S2R = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step2R.grd"), new NoneHeuristic());
         }
 
 
@@ -64,6 +70,102 @@ namespace GridTest
             Assert.IsTrue(valid[20]);
             Assert.IsTrue(valid[21]);
             Assert.IsTrue(valid[22]);
+            Assert.IsTrue(valid[23]);
+            Assert.IsTrue(valid[24]);
+        }
+
+        [TestMethod]
+        public void GetValidPlacesForMaxPath_CheckStepsForBCCH_try1step1()
+        {
+            var biconnectedComponents = new BiconnectedComponents(_basicWorldT1S1);
+            var valid = biconnectedComponents.GetValidPlacesForMaxPath(1, 24);
+            Assert.IsFalse(valid[0]);
+            Assert.IsTrue(valid[1]);
+            Assert.IsTrue(valid[2]);
+            Assert.IsTrue(valid[3]);
+            Assert.IsTrue(valid[4]);
+            Assert.IsTrue(valid[5]);
+            Assert.IsTrue(valid[6]);
+            Assert.IsFalse(valid[7]);
+            Assert.IsTrue(valid[8]);
+            Assert.IsTrue(valid[9]);
+            Assert.IsTrue(valid[10]);
+            Assert.IsTrue(valid[11]);
+            Assert.IsFalse(valid[12]);
+            Assert.IsTrue(valid[13]);
+            Assert.IsTrue(valid[14]);
+            Assert.IsTrue(valid[15]);
+            Assert.IsTrue(valid[16]);
+            Assert.IsFalse(valid[17]);
+            Assert.IsTrue(valid[18]);
+            Assert.IsTrue(valid[19]);
+            Assert.IsTrue(valid[20]);
+            Assert.IsTrue(valid[21]);
+            Assert.IsTrue(valid[22]);
+            Assert.IsTrue(valid[23]);
+            Assert.IsTrue(valid[24]);
+        }
+
+        [TestMethod]
+        public void GetValidPlacesForMaxPath_CheckStepsForBCCH_try1step2D()
+        {
+            var biconnectedComponents = new BiconnectedComponents(_basicWorldT1S2D);
+            var valid = biconnectedComponents.GetValidPlacesForMaxPath(6, 24);
+            Assert.IsFalse(valid[0]);
+            Assert.IsFalse(valid[1]);
+            Assert.IsFalse(valid[2]);
+            Assert.IsTrue(valid[3]);
+            Assert.IsTrue(valid[4]);
+            Assert.IsTrue(valid[5]);
+            Assert.IsTrue(valid[6]);
+            Assert.IsFalse(valid[7]);
+            Assert.IsTrue(valid[8]);
+            Assert.IsTrue(valid[9]);
+            Assert.IsTrue(valid[10]);
+            Assert.IsTrue(valid[11]);
+            Assert.IsFalse(valid[12]);
+            Assert.IsTrue(valid[13]);
+            Assert.IsTrue(valid[14]);
+            Assert.IsTrue(valid[15]);
+            Assert.IsTrue(valid[16]);
+            Assert.IsFalse(valid[17]);
+            Assert.IsTrue(valid[18]);
+            Assert.IsTrue(valid[19]);
+            Assert.IsTrue(valid[20]);
+            Assert.IsTrue(valid[21]);
+            Assert.IsTrue(valid[22]);
+            Assert.IsTrue(valid[23]);
+            Assert.IsTrue(valid[24]);
+        }
+
+        [TestMethod]
+        public void GetValidPlacesForMaxPath_CheckStepsForBCCH_try1step2R()
+        {
+            var biconnectedComponents = new BiconnectedComponents(_basicWorldT1S2D);
+            var valid = biconnectedComponents.GetValidPlacesForMaxPath(2, 24);
+            Assert.IsFalse(valid[0]);
+            Assert.IsFalse(valid[1]);
+            Assert.IsTrue(valid[2]);
+            Assert.IsTrue(valid[3]);
+            Assert.IsTrue(valid[4]);
+            Assert.IsFalse(valid[5]);
+            Assert.IsFalse(valid[6]);
+            Assert.IsFalse(valid[7]);
+            Assert.IsTrue(valid[8]);
+            Assert.IsTrue(valid[9]);
+            Assert.IsFalse(valid[10]);
+            Assert.IsFalse(valid[11]);
+            Assert.IsFalse(valid[12]);
+            Assert.IsTrue(valid[13]);
+            Assert.IsTrue(valid[14]);
+            Assert.IsFalse(valid[15]);
+            Assert.IsFalse(valid[16]);
+            Assert.IsFalse(valid[17]);
+            Assert.IsTrue(valid[18]);
+            Assert.IsTrue(valid[19]);
+            Assert.IsFalse(valid[20]);
+            Assert.IsFalse(valid[21]);
+            Assert.IsFalse(valid[22]);
             Assert.IsTrue(valid[23]);
             Assert.IsTrue(valid[24]);
         }
