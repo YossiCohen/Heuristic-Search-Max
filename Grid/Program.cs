@@ -19,10 +19,11 @@ namespace Grid
                 Console.WriteLine(@"Arguments:");
                 Console.WriteLine(@"----------");
                 Console.WriteLine(@"problem:     problem filename");
-                Console.WriteLine(@"timeLimit:   limit run time to X minutes (default 120), 0 for no time limit");
+                Console.WriteLine(@"time-limit:   limit run time to X minutes (default 120), 0 for no time limit");
                 Console.WriteLine(@"alg:         [astar/dfbnb] the solving algorithm");
+                Console.WriteLine(@"heuristic:   [none/untouched/bcc] the solving algorithm");
                 Console.WriteLine(@"prune:       [none/bsd/rsd] the solving algorithm");
-                Console.WriteLine(@"initBCC:     [true/false] remove non-reachable areas from the graph on init");
+                Console.WriteLine(@"bcc-init:     [true/false] remove non-reachable areas from the graph on init");
                 Console.WriteLine(@"----------");
                 Console.WriteLine(@"memTest:     if set to true, will not solve nothing, only fill memory");
                 Console.WriteLine(@"             allocation to check 64bit issue");
@@ -34,28 +35,47 @@ namespace Grid
             {
                 MemTest();
             }
-            if (!splitedArgs.ContainsKey("timelimit")) //default time limit
+            if (!splitedArgs.ContainsKey("time-limit")) //default time limit
             {
-                splitedArgs.Add("timelimit", "120");
+                splitedArgs.Add("time-limit", "120");
             }
-            if (!splitedArgs.ContainsKey("initbcc")) //default pre-bcc
+
+            if (!splitedArgs.ContainsKey("bcc-init")) //default pre-bcc
             {
-                splitedArgs.Add("initbcc", "false");
+                splitedArgs.Add("bcc-init", "false");
             }
-            int timelimit = Int32.Parse(splitedArgs["timelimit"]);
-            bool initWithBCC = Boolean.Parse(splitedArgs["initbcc"]);
+
+            int timelimit = Int32.Parse(splitedArgs["time-limit"]);
+            bool bccInit = Boolean.Parse(splitedArgs["bcc-init"]);
 
             string problemFileName = splitedArgs["problem"];
 
-            World world;
-            if (splitedArgs["prune"] == "rsd")
+            IGridHeuristic heuristic;
+            if (splitedArgs["heuristic"] == "none")
             {
-                world = new World(File.ReadAllText(problemFileName), new RsdUntouchedAroundTheGoalHeuristic());
+                heuristic = new NoneHeuristic();
+            }
+            else if (splitedArgs["heuristic"] == "untouched")
+            {
+                if (splitedArgs["prune"] == "rsd")
+                {
+                    heuristic = new RsdUntouchedAroundTheGoalHeuristic();
+                }
+                else
+                {
+                    heuristic = new UntouchedAroundTheGoalHeuristic();
+                }
+            }
+            else if (splitedArgs["heuristic"] == "bcc")
+            {  //TODO: finish impl. + support RSD
+                heuristic = new BiconnectedComponentsHeuristic();
             }
             else
             {
-                world = new World(File.ReadAllText(problemFileName), new UntouchedAroundTheGoalHeuristic());
+                throw new NotImplementedException();
             }
+
+            World world = new World(File.ReadAllText(problemFileName), heuristic);
 
             IPrunningMethod prune;
             GridSearchNode initialNode;
@@ -94,11 +114,11 @@ namespace Grid
 
             if (splitedArgs["prune"] == "rsd")
             {
-                //Sorry but RSD must use AStarMax
+                //Sorry but RSD must use AStarMax - DFBnB not supported
                 ((ReachableSymmetryDetectionPrunning)prune).setAstarOpenList(((AStarMax)solver).OpenList);
             }
 
-            if (initWithBCC)
+            if (bccInit)
             {
                 world.InitBcc();
             }
@@ -106,8 +126,9 @@ namespace Grid
             Log.WriteLineIf(@"Solviong 2D-Grid problem from file:", TraceLevel.Off);
             Log.WriteLineIf(@"[[Problem:" + problemFileName + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Algorithm:" + solver.GetType().Name + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[Heuristic:" + heuristic.GetName() + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Prunning:" + prune.GetType().Name + "]]", TraceLevel.Off);
-            Log.WriteLineIf(@"[[InitWithBcc:" + initWithBCC + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[BccInit:" + bccInit + "]]", TraceLevel.Off);
 
             var startTime = DateTime.Now;
             var howEnded = solver.Run(timelimit);

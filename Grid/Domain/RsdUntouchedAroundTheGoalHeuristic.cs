@@ -5,7 +5,7 @@ namespace Grid.Domain
 {
     public class RsdUntouchedAroundTheGoalHeuristic : IGridHeuristic
     {
-        public int calc_h(World w, GridSearchNode gridNode)
+        public int Calc_H(World w, GridSearchNode gridNode)
         {
             var rsdGridNode = gridNode as RsdGridSearchNode;
 
@@ -40,6 +40,11 @@ namespace Grid.Domain
 
             }
             return goalReachableFromHead ? g:0;
+        }
+
+        public string GetName()
+        {
+            return "UntouchedAroundTheGoalHeuristic";
         }
 
     }
