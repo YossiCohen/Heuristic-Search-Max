@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaSib", "MaSib\MaSib.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaSibTest", "MaSibTest\MaSibTest.csproj", "{7C706B23-4EAF-42DE-9711-3CAD44A05375}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpSum", "ExperimentSummarizer\ExpSum.csproj", "{FF6E9E88-8980-4A40-B401-CB1C1A9776F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpSum", "LogUtils\ExperimentSummarizer\ExpSum.csproj", "{FF6E9E88-8980-4A40-B401-CB1C1A9776F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms", "MaxSearchAlg\Algorithms.csproj", "{0C281233-428E-44DE-A7BE-3D1746DE7217}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{232DF79D-650C-4F33-97E3-9D62F3404DCE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTest", "CommonTest\CommonTest.csproj", "{C73A6455-C2D0-4995-B374-2725ECF9678F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExperimentRunner", "ExperimentRunner\ExperimentRunner.csproj", "{F8B4FE8F-566D-4560-BE06-2331AB40E311}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -161,6 +163,22 @@ Global
 		{C73A6455-C2D0-4995-B374-2725ECF9678F}.Release|x64.Build.0 = Release|Any CPU
 		{C73A6455-C2D0-4995-B374-2725ECF9678F}.Release|x86.ActiveCfg = Release|Any CPU
 		{C73A6455-C2D0-4995-B374-2725ECF9678F}.Release|x86.Build.0 = Release|Any CPU
+		{F8B4FE8F-566D-4560-BE06-2331AB40E311}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8B4FE8F-566D-4560-BE06-2331AB40E311}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8B4FE8F-566D-4560-BE06-2331AB40E311}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F8B4FE8F-566D-4560-BE06-2331AB40E311}.Debug|ARM.Build.0 = Debug|Any CPU
+		{F8B4FE8F-566D-4560-BE06-2331AB40E311}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F8B4FE8F-566D-4560-BE06-2331AB40E311}.Debug|x64.Build.0 = Debug|Any CPU
+		{F8B4FE8F-566D-4560-BE06-2331AB40E311}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F8B4FE8F-566D-4560-BE06-2331AB40E311}.Debug|x86.Build.0 = Debug|Any CPU
+		{F8B4FE8F-566D-4560-BE06-2331AB40E311}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8B4FE8F-566D-4560-BE06-2331AB40E311}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8B4FE8F-566D-4560-BE06-2331AB40E311}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F8B4FE8F-566D-4560-BE06-2331AB40E311}.Release|ARM.Build.0 = Release|Any CPU
+		{F8B4FE8F-566D-4560-BE06-2331AB40E311}.Release|x64.ActiveCfg = Release|Any CPU
+		{F8B4FE8F-566D-4560-BE06-2331AB40E311}.Release|x64.Build.0 = Release|Any CPU
+		{F8B4FE8F-566D-4560-BE06-2331AB40E311}.Release|x86.ActiveCfg = Release|Any CPU
+		{F8B4FE8F-566D-4560-BE06-2331AB40E311}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
