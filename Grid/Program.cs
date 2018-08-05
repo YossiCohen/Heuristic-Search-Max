@@ -39,6 +39,7 @@ namespace Grid
             {
                 splitedArgs.Add("time-limit", "120");
             }
+
             if (!splitedArgs.ContainsKey("bcc-init")) //default pre-bcc
             {
                 splitedArgs.Add("bcc-init", "false");
