@@ -4,10 +4,8 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace ExperimentRunner
 {
@@ -23,9 +21,9 @@ namespace ExperimentRunner
         private static Dictionary<string, Dictionary<string, string>> logsData =
             new Dictionary<string, Dictionary<string, string>>();
 
-        //<FileName,<Algorithm,<Prunning,HowEnded>>>
-        private static Dictionary<string, Dictionary<string, Dictionary<string, string>>> existingLoggedRuns = 
-            new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
+        //<Problem,<Algorithm,<Heuristic,<BccInit,<Prunning,HowEnded>>>>>
+        private static Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, string>>>>> existingLoggedRuns = 
+            new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, string>>>>>();
 
         //<file,args>
         private static List<FullCommand> commandToBeDone = new List<FullCommand>();
@@ -142,17 +140,25 @@ namespace ExperimentRunner
             {
                 if (!logItem.Value.Keys.Contains("HowEnded"))
                 {
-                    continue;;
+                    continue;
                 }
                 if (!existingLoggedRuns.Keys.Contains(logItem.Value["Problem"].ToLower()))
                 {
-                    existingLoggedRuns.Add(logItem.Value["Problem"].ToLower(), new Dictionary<string, Dictionary<string, string>>());
+                    existingLoggedRuns.Add(logItem.Value["Problem"].ToLower(), new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, string>>>>());
                 }
                 if (!existingLoggedRuns[logItem.Value["Problem"].ToLower()].Keys.Contains(logItem.Value["Algorithm"]))
                 {
-                    existingLoggedRuns[logItem.Value["Problem"].ToLower()].Add(logItem.Value["Algorithm"], new Dictionary<string, string>());
+                    existingLoggedRuns[logItem.Value["Problem"].ToLower()].Add(logItem.Value["Algorithm"], new Dictionary<string, Dictionary<string, Dictionary<string, string>>>());
                 }
-                existingLoggedRuns[logItem.Value["Problem"].ToLower()][logItem.Value["Algorithm"]].Add(logItem.Value["Prunning"], logItem.Value["HowEnded"]);
+                if (!existingLoggedRuns[logItem.Value["Problem"].ToLower()][logItem.Value["Algorithm"]].Keys.Contains(logItem.Value["Heuristic"]))
+                {
+                    existingLoggedRuns[logItem.Value["Problem"].ToLower()][logItem.Value["Algorithm"]].Add(logItem.Value["Heuristic"], new Dictionary<string, Dictionary<string, string>>());
+                }
+                if (!existingLoggedRuns[logItem.Value["Problem"].ToLower()][logItem.Value["Algorithm"]][logItem.Value["Heuristic"]].Keys.Contains(logItem.Value["BccInit"]))
+                {
+                    existingLoggedRuns[logItem.Value["Problem"].ToLower()][logItem.Value["Algorithm"]][logItem.Value["Heuristic"]].Add(logItem.Value["BccInit"], new Dictionary<string, string>());
+                }
+                existingLoggedRuns[logItem.Value["Problem"].ToLower()][logItem.Value["Algorithm"]][logItem.Value["Heuristic"]][logItem.Value["BccInit"]].Add(logItem.Value["Prunning"], logItem.Value["HowEnded"]);
 
             }
         }
@@ -161,7 +167,7 @@ namespace ExperimentRunner
         {
             foreach (var file in grdFileList)
             {
-                string alg = "", prune = "";
+                string alg = "", heuristic = "", bccinit = "", prune = "";
                 foreach (var profileArg in profileArgs)
                 {
                     foreach (var str in profileArg)
@@ -194,6 +200,33 @@ namespace ExperimentRunner
                                     break;
                             }
                         }
+                        if (kv[0] == "heuristic")
+                        {
+                            switch (kv[1])
+                            {
+                                case "none":
+                                    heuristic = "NoneHeuristic";
+                                    break;
+                                case "untouched":
+                                    heuristic = "UntouchedAroundTheGoalHeuristic";
+                                    break;
+                                case "bcc":
+                                    heuristic = "BiconnectedComponentsHeuristic";
+                                    break;
+                            }
+                        }
+                        if (kv[0] == "bcc-init")
+                        {
+                            switch (kv[1])
+                            {
+                                case "True":
+                                    bccinit = "True";
+                                    break;
+                                case "False":
+                                    bccinit = "Flase";
+                                    break;
+                            }
+                        }
                     }
 
                     bool needToAdd = true;
@@ -201,27 +234,33 @@ namespace ExperimentRunner
                     {
                         if (existingLoggedRuns[file.Name.ToLower()].Keys.Contains(alg))
                         {
-                            if (existingLoggedRuns[file.Name.ToLower()][alg].Keys.Contains(prune))
+                            if (existingLoggedRuns[file.Name.ToLower()][alg].Keys.Contains(heuristic))
                             {
-                                var howEnded = existingLoggedRuns[file.Name.ToLower()][alg][prune];
-                                switch (howEnded)
+                                if (existingLoggedRuns[file.Name.ToLower()][alg].Keys.Contains(heuristic))
                                 {
-                                    case "Searching":
-                                        break;
-                                    case "Ended":
-                                        needToAdd = false;
-                                        break;
-                                    case "StoppedByTime":
-                                        Console.Out.WriteLine($"StoppedByTime: {file}, {alg}, {prune}");
-                                        break;
-                                    case "IllegalStartState":
-                                        Console.Out.WriteLine($"IllegalStartState: {file}, {alg}, {prune}");
-                                        break;
-                                    case "StoppedByMemoryLimit":
-                                        Console.Out.WriteLine($"StoppedByMemoryLimit: {file}, {alg}, {prune}");
-                                        break;
+                                    if (existingLoggedRuns[file.Name.ToLower()][alg][heuristic].Keys.Contains(bccinit))
+                                    {
+                                        var howEnded = existingLoggedRuns[file.Name.ToLower()][alg][heuristic][bccinit][prune];
+                                        switch (howEnded)
+                                        {
+                                            case "Searching":
+                                                break;
+                                            case "Ended":
+                                                needToAdd = false;
+                                                break;
+                                            case "StoppedByTime":
+                                                Console.Out.WriteLine($"StoppedByTime: {file}, {alg}, {prune}");
+                                                break;
+                                            case "IllegalStartState":
+                                                Console.Out.WriteLine($"IllegalStartState: {file}, {alg}, {prune}");
+                                                break;
+                                            case "StoppedByMemoryLimit":
+                                                Console.Out.WriteLine($"StoppedByMemoryLimit: {file}, {alg}, {prune}");
+                                                break;
+                                        }
+
+                                    }
                                 }
-                               
                             }
                         }
 
