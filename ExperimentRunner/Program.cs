@@ -74,7 +74,7 @@ namespace ExperimentRunner
             var p = new Process();
             p.StartInfo.FileName = "Grid.exe";
             p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            p.StartInfo.Arguments = $"problem={fullCommand.filename} {fullCommand.args[0]} {fullCommand.args[1]}";
+            p.StartInfo.Arguments = $"problem={fullCommand.filename} {fullCommand.args[0]} {fullCommand.args[1]} {fullCommand.args[2]} {fullCommand.args[3]}";
             p.StartInfo.UseShellExecute = true;
             p.StartInfo.CreateNoWindow = false;
             p.EnableRaisingEvents = true;

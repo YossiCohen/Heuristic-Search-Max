@@ -21,8 +21,8 @@ namespace Grid
                 Console.WriteLine(@"problem:     problem filename");
                 Console.WriteLine(@"time-limit:   limit run time to X minutes (default 120), 0 for no time limit");
                 Console.WriteLine(@"alg:         [astar/dfbnb] the solving algorithm");
-                Console.WriteLine(@"prune:       [none/bsd/rsd] the solving algorithm");
                 Console.WriteLine(@"heuristic:   [none/untouched/bcc] the solving algorithm");
+                Console.WriteLine(@"prune:       [none/bsd/rsd] the solving algorithm");
                 Console.WriteLine(@"bcc-init:     [true/false] remove non-reachable areas from the graph on init");
                 Console.WriteLine(@"----------");
                 Console.WriteLine(@"memTest:     if set to true, will not solve nothing, only fill memory");
