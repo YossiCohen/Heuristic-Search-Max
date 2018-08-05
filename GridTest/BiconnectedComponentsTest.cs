@@ -8,6 +8,7 @@ namespace GridTest
     public class BiconnectedComponentsTest
     {
         private static World _basicWorldV1;
+        private static World _basicWorldV2;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -28,6 +29,8 @@ namespace GridTest
              * 
              */
             _basicWorldV1 = new World(basicBccV1, new NoneHeuristic());
+            var basicBccV2 = File.ReadAllText(@"..\..\Grid_5x5BiconnectedComponentsHeuristicV2.grd");
+            _basicWorldV2 = new World(basicBccV2, new NoneHeuristic());
         }
 
         [TestMethod]
@@ -43,6 +46,8 @@ namespace GridTest
             var biconnectedComponents = new BiconnectedComponents(_basicWorldV1);
             Assert.AreEqual(7,biconnectedComponents.Blocks.Count);
         }
+
+
 
         [TestMethod]
         public void CutPoints_AreAllValid_Count6()
@@ -178,6 +183,38 @@ namespace GridTest
             Assert.IsTrue(valid[15]);
             Assert.IsTrue(valid[16]);
             Assert.IsFalse(valid[17]);
+            Assert.IsTrue(valid[18]);
+            Assert.IsTrue(valid[19]);
+            Assert.IsTrue(valid[20]);
+            Assert.IsTrue(valid[21]);
+            Assert.IsTrue(valid[22]);
+            Assert.IsTrue(valid[23]);
+            Assert.IsTrue(valid[24]);
+        }
+
+        [TestMethod]
+        public void ErrorCase_ReturnsValue_7()
+        {
+            var biconnectedComponents = new BiconnectedComponents(_basicWorldV2);
+            var valid = biconnectedComponents.GetValidPlacesForMaxPath(0, 24);
+            Assert.IsTrue(valid[0]);
+            Assert.IsTrue(valid[1]);
+            Assert.IsTrue(valid[2]);
+            Assert.IsTrue(valid[3]);
+            Assert.IsFalse(valid[4]);
+            Assert.IsTrue(valid[5]);
+            Assert.IsTrue(valid[6]);
+            Assert.IsTrue(valid[7]);
+            Assert.IsTrue(valid[8]);
+            Assert.IsFalse(valid[9]);
+            Assert.IsTrue(valid[10]);
+            Assert.IsTrue(valid[11]);
+            Assert.IsTrue(valid[12]);
+            Assert.IsTrue(valid[13]);
+            Assert.IsFalse(valid[14]);
+            Assert.IsTrue(valid[15]);
+            Assert.IsTrue(valid[16]);
+            Assert.IsTrue(valid[17]);
             Assert.IsTrue(valid[18]);
             Assert.IsTrue(valid[19]);
             Assert.IsTrue(valid[20]);
