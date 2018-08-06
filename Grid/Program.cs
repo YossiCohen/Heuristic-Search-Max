@@ -152,7 +152,7 @@ namespace Grid
                 Log.WriteLineIf("[[Goal:NOGOAL]]", TraceLevel.Off);
             }
             Log.WriteLineIf("[[HowEnded:" + Enum.GetName(typeof(State), howEnded) + "]]", TraceLevel.Off);
-            Log.WriteLineIf("[[GridSolverVersion:1.1]]", TraceLevel.Off);
+            Log.WriteLineIf("[[GridSolverVersion:1.3]]", TraceLevel.Off);
         }
 
         private static void MemTest()
