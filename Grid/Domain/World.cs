@@ -25,7 +25,7 @@ namespace Grid.Domain
             get { return Width * Height; }
         }
 
-        private readonly BitArray _isBlockedLocations;
+        internal readonly BitArray _isBlockedLocations;
         private IGridHeuristic HeuristicFunction { get; }
 
         public World(string gridString, IGridHeuristic heuristicFunction)
@@ -91,10 +91,12 @@ namespace Grid.Domain
             return _isBlockedLocations[loc.Y * Width + loc.X];
         }
 
-        public bool IsBlockedLinear(int loc)
+        public BitArray GetBlockedOrVisited(GridSearchNode searchNode)
         {
-            if (loc < 0 || loc >= LinearSize) return true;
-            return _isBlockedLocations[loc];
+            BitArray mergedArrays = new BitArray(_isBlockedLocations.Count);
+            mergedArrays.Or(_isBlockedLocations);
+            mergedArrays.Or(searchNode.Visited);
+            return mergedArrays;
         }
 
         public T GetInitialSearchNode<T>() where T : GridSearchNode

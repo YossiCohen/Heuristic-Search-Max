@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 
@@ -16,19 +17,30 @@ namespace Grid.Domain
         private int time;
         private Dictionary<int, List<int>> _blockCutTree_CutPointsToBlockId;
         private Dictionary<int, List<int>> _blockCutTree_BlockIdToCutPoints;
+        private BitArray blockedOrVisited;
 
-        public BiconnectedComponents(World world)
+        public BiconnectedComponents(World world, GridSearchNode searchNode = null)
         {
             time = 1;
-            this.World = world;
-            _discovery = new int[this.World.LinearSize];
-            _low = new int[this.World.LinearSize];
-            _parent = new int[this.World.LinearSize];
+            World = world;
+            _discovery = new int[World.LinearSize];
+            _low = new int[World.LinearSize];
+            _parent = new int[World.LinearSize];
             _edgeStack = new Stack<Edge>();
             Blocks = new LinkedList<HashSet<int>>();
             CutPoints = new HashSet<int>();
             _blockCutTree_CutPointsToBlockId = new Dictionary<int, List<int>>();
             _blockCutTree_BlockIdToCutPoints = new Dictionary<int, List<int>>();
+            if (null == searchNode)
+            {
+                blockedOrVisited = World._isBlockedLocations;
+            }
+            else
+            {
+                blockedOrVisited = World.GetBlockedOrVisited(searchNode);
+                //TODO: need to check deeply - deal the head location as non visited place so the BCC can add it to blocks
+                blockedOrVisited[searchNode.HeadLocation.X + (searchNode.HeadLocation.Y * World.Width)] = false;
+            }
 
             // Initialize arrays
             for (int i = 0; i < World.LinearSize; i++)
@@ -40,7 +52,7 @@ namespace Grid.Domain
 
             for (int i = 0; i < World.LinearSize; i++)
             {
-                if (World.IsBlockedLinear(i)) continue;
+                if (IsBlockedLinear(i)) continue;
                 if (_discovery[i] == -1)
                 {
                     RecursiveBcc(i);
@@ -70,10 +82,10 @@ namespace Grid.Domain
 
             //near nodes to check
             List<int> childrens = new List<int>();
-            if ((u + 1) % World.Width != 0 && !World.IsBlockedLinear(u + 1)) childrens.Add(u + 1); //right location
-            if (u % World.Width != 0 && !World.IsBlockedLinear(u - 1)) childrens.Add(u - 1); //left location
-            if (!World.IsBlockedLinear(u + World.Width)) childrens.Add(u + World.Width); //down location
-            if (!World.IsBlockedLinear(u - World.Width)) childrens.Add(u - World.Width); //up location
+            if ((u + 1) % World.Width != 0 && !IsBlockedLinear(u + 1)) childrens.Add(u + 1); //right location
+            if (u % World.Width != 0 && !IsBlockedLinear(u - 1)) childrens.Add(u - 1); //left location
+            if (!IsBlockedLinear(u + World.Width)) childrens.Add(u + World.Width); //down location
+            if (!IsBlockedLinear(u - World.Width)) childrens.Add(u - World.Width); //up location
 
             foreach (var v in childrens)
             {
@@ -119,6 +131,12 @@ namespace Grid.Domain
                     _edgeStack.Push(new Edge(u, v));
                 }
             } //foreach childrens
+        }
+
+        private bool IsBlockedLinear(int loc)
+        {
+            if (loc < 0 || loc >= blockedOrVisited.Count) return true;
+            return blockedOrVisited[loc];
         }
 
         private void InitCutpoints()
@@ -174,6 +192,10 @@ namespace Grid.Domain
         {
             List<int> relevantBlocks = GetRelevantBlocks(startPoint, destinationPoint);
             bool[] validPlaces = new bool[World.LinearSize];
+            if (relevantBlocks == null)
+            {
+                return validPlaces;
+            }
             foreach (var relevantBlock in relevantBlocks)
             {
                 var itemSet = Blocks.ElementAt(relevantBlock);
@@ -183,6 +205,11 @@ namespace Grid.Domain
                 }
             }
             return validPlaces;
+        }
+
+        public bool LinearLocationWasVisitedDuringBuild(Location position)
+        {
+            return _parent[position.GetLinearLocationRepresentation(World)] != -1;
         }
 
         private List<int> GetRelevantBlocks(int startPoint, int destinationPoint)
@@ -210,6 +237,7 @@ namespace Grid.Domain
 
             foreach (var startBlock in startPointBlocks)
             {
+                if (!_blockCutTree_BlockIdToCutPoints.ContainsKey(startBlock)) return null; //Block cut tree is disconnected
                 foreach (var cutPoint in _blockCutTree_BlockIdToCutPoints[startBlock])
                 {
                     var searchBlocks = _blockCutTree_CutPointsToBlockId[cutPoint];
@@ -235,7 +263,6 @@ namespace Grid.Domain
             return null;
         }
 
-
         private List<int> GetBlockIdsOfLinearLocation(int linearLoc)
         {
             var retVal = new List<int>();
@@ -249,6 +276,8 @@ namespace Grid.Domain
             }
             return retVal;
         }
+
+        
     }
 
     public class Edge
