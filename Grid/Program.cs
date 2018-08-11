@@ -10,6 +10,9 @@ namespace Grid
 {
     class Program
     {
+
+        private static readonly string VERSION = "1.31";
+
         static void Main(string[] args)
         {
             if (args.Length == 0)
@@ -27,6 +30,7 @@ namespace Grid
                 Console.WriteLine(@"----------");
                 Console.WriteLine(@"memTest:     if set to true, will not solve nothing, only fill memory");
                 Console.WriteLine(@"             allocation to check 64bit issue");
+                Console.WriteLine(@"-----------------------------[Version:"+VERSION+"]---------------------------------");
                 return;
             }
 
@@ -152,7 +156,7 @@ namespace Grid
                 Log.WriteLineIf("[[Goal:NOGOAL]]", TraceLevel.Off);
             }
             Log.WriteLineIf("[[HowEnded:" + Enum.GetName(typeof(State), howEnded) + "]]", TraceLevel.Off);
-            Log.WriteLineIf("[[GridSolverVersion:1.3]]", TraceLevel.Off);
+            Log.WriteLineIf("[[GridSolverVersion:"+VERSION+"]]", TraceLevel.Off);
         }
 
         private static void MemTest()
