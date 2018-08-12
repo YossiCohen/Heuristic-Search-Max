@@ -4,7 +4,7 @@ namespace Grid.Domain
 {
     public class UntouchedAroundTheGoalHeuristic : IGridHeuristic
     {
-        public int calc_h(World w, GridSearchNode gridNode)
+        public int Calc_H(World w, GridSearchNode gridNode)
         {
             Queue<Location> open = new Queue<Location>();
             HashSet<Location> closed = new HashSet<Location>();
@@ -35,6 +35,9 @@ namespace Grid.Domain
             }
             return goalReachableFromHead ? g:0;
         }
-
+        public string GetName()
+        {
+            return "UntouchedAroundTheGoalHeuristic";
+        }
     }
 }

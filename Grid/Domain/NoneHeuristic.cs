@@ -2,10 +2,13 @@
 {
     public class NoneHeuristic : IGridHeuristic
     {
-        public int calc_h(World w, GridSearchNode gridNode)
+        public int Calc_H(World w, GridSearchNode gridNode)
         {
             return w.Width * w.Height;
         }
-
+        public string GetName()
+        {
+            return "NoneHeuristic";
+        }
     }
 }
