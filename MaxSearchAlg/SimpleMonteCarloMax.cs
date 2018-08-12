@@ -8,10 +8,14 @@ namespace MaxSearchAlg
     public class SimpleMonteCarloMax : Solver
     {
         private INode _frontier;
+        private int _numOfSimPerChild;
+        private int _simDepth;
 
-        public SimpleMonteCarloMax(INode initailNode, IGoalCheckMethod goalCheckMethod) : base(initailNode, new NoPrunning(), goalCheckMethod)
+        public SimpleMonteCarloMax(INode initailNode, IGoalCheckMethod goalCheckMethod, int numOfSimPerChild, int simDepth) : base(initailNode, new NoPrunning(), goalCheckMethod)
         {
-            //TODO: Add SimNum,Add depth , Add Utility function
+            //TODO: Add Utility function
+            _numOfSimPerChild = numOfSimPerChild;
+            _simDepth = simDepth;
             _frontier = initailNode;
         }
 
@@ -22,8 +26,6 @@ namespace MaxSearchAlg
         internal override State Step()
         {
 
-
-
             // Check the frontier for valid goal
             if (GoalCheckMethod.ValidGoal(_frontier))
             {
@@ -33,6 +35,10 @@ namespace MaxSearchAlg
             }
 
             //TODO: get legal childrens
+            //TODO: Split Grid search node and grid node
+            //            /MonteCarloNode
+            //  Grid Node<
+            //            \SearchNode
             //TODO: no legal childrens = return State.Ended
 
 
