@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using Common;
@@ -11,7 +12,9 @@ namespace Grid
     class Program
     {
 
-        private static readonly string VERSION = "1.31";
+        private static readonly string VERSION = "1.32";
+        private static readonly string TIME_LIMIT = ConfigurationSettings.AppSettings["TimeLimit"] == null ? "120" : ConfigurationSettings.AppSettings["TimeLimit"];
+        private static readonly string BCC_INIT = ConfigurationSettings.AppSettings["BccInit"] == null ? "true" : ConfigurationSettings.AppSettings["BccInit"];
 
         static void Main(string[] args)
         {
@@ -22,15 +25,16 @@ namespace Grid
                 Console.WriteLine(@"Arguments:");
                 Console.WriteLine(@"----------");
                 Console.WriteLine(@"problem:     problem filename");
-                Console.WriteLine(@"time-limit:   limit run time to X minutes (default 120), 0 for no time limit");
+                Console.WriteLine(@"time-limit:  limit run time to X minutes (default 120), 0 for no time limit");
                 Console.WriteLine(@"alg:         [astar/dfbnb] the solving algorithm");
                 Console.WriteLine(@"heuristic:   [none/untouched/bcc] the solving algorithm");
                 Console.WriteLine(@"prune:       [none/bsd/rsd] the solving algorithm");
-                Console.WriteLine(@"bcc-init:     [true/false] remove non-reachable areas from the graph on init");
+                Console.WriteLine(@"bcc-init:    [true/false] remove non-reachable areas from the graph on init");
                 Console.WriteLine(@"----------");
                 Console.WriteLine(@"memTest:     if set to true, will not solve nothing, only fill memory");
                 Console.WriteLine(@"             allocation to check 64bit issue");
                 Console.WriteLine(@"-----------------------------[Version:"+VERSION+"]---------------------------------");
+                Console.WriteLine(@"time-limit & bcc-init can be set in app.config XML file");
                 return;
             }
 
@@ -41,12 +45,12 @@ namespace Grid
             }
             if (!splitedArgs.ContainsKey("time-limit")) //default time limit
             {
-                splitedArgs.Add("time-limit", "120");
+                splitedArgs.Add("time-limit", TIME_LIMIT);
             }
 
             if (!splitedArgs.ContainsKey("bcc-init")) //default pre-bcc
             {
-                splitedArgs.Add("bcc-init", "false");
+                splitedArgs.Add("bcc-init", BCC_INIT);
             }
 
             int timelimit = Int32.Parse(splitedArgs["time-limit"]);
@@ -133,6 +137,7 @@ namespace Grid
             Log.WriteLineIf(@"[[Heuristic:" + heuristic.GetName() + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Prunning:" + prune.GetType().Name + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[BccInit:" + bccInit + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[TimeLimit:" + timelimit + "]]", TraceLevel.Off);
 
             var startTime = DateTime.Now;
             var howEnded = solver.Run(timelimit);
