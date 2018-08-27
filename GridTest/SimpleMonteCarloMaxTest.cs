@@ -30,7 +30,7 @@ namespace GridTest
         public void Create_NewDfBnbGrid3X3_findPath()
         {
             GridSearchNode initialState = _basicWorld3X3.GetInitialSearchNode<GridSearchNode>();
-            Solver solver = new SimpleMonteCarloMax(initialState, new GoalOnLocation(_basicWorld3X3.Goal));
+            Solver solver = new SimpleMonteCarloMax(initialState, new GoalOnLocation(_basicWorld3X3.Goal), 20,3);
             Assert.IsNotNull(solver);
             solver.Run(Int32.MaxValue); //Prevent stoping by time, should stop only when goal found
             var maxGoal = solver.GetMaxGoal();
@@ -41,7 +41,7 @@ namespace GridTest
         public void Create_NewDfBnbGrid5X5WithBlocked_FindPath()
         {
             GridSearchNode initialState = _basicWorld5X5Blocked.GetInitialSearchNode<GridSearchNode>();
-            Solver solver = new SimpleMonteCarloMax(initialState, new GoalOnLocation(_basicWorld5X5Blocked.Goal));
+            Solver solver = new SimpleMonteCarloMax(initialState, new GoalOnLocation(_basicWorld5X5Blocked.Goal),20,3);
             Assert.IsNotNull(solver);
             solver.Run(Int32.MaxValue);
             var maxGoal = solver.GetMaxGoal();
