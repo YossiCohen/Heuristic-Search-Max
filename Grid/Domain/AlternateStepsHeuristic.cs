@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Grid.Domain
 {
@@ -8,13 +8,19 @@ namespace Grid.Domain
     {
         public int Calc_H(World w, GridSearchNode gridNode)
         {
+            if (gridNode is RsdGridSearchNode)
+            {
+                ((RsdGridSearchNode)gridNode).Reachable = new BitArray(w.LinearSize);
+            }
+
             Queue<Location> open = new Queue<Location>();
             HashSet<Location> closed = new HashSet<Location>();
             open.Enqueue(w.Goal);
             bool goalReachableFromHead = false;
-            int g = 0;
+            //instead of g we will count odd and even separatly
             int odd = 0;
             int even = 0;
+
             while (open.Count > 0)
             {
                 var current = open.Dequeue();
@@ -33,7 +39,11 @@ namespace Grid.Domain
                     open.Enqueue(current.GetMovedLocation(MoveDirection.Down));
                     open.Enqueue(current.GetMovedLocation(MoveDirection.Left));
                     open.Enqueue(current.GetMovedLocation(MoveDirection.Right));
-                    g++;
+                    if (gridNode is RsdGridSearchNode)
+                    {
+                        ((RsdGridSearchNode)gridNode).Reachable[current.Y * w.Width + current.X] = true;
+                    }
+
                     if (IsEvenLocation(current))
                     {
                         even++;
@@ -45,19 +55,19 @@ namespace Grid.Domain
                 }
             }
 
-            bool FirstStepEven = !IsEvenLocation(gridNode.HeadLocation);
-            bool GoalEven = IsEvenLocation(w.Goal);
+            bool firstStepEven = !IsEvenLocation(gridNode.HeadLocation);
+            bool goalEven = IsEvenLocation(w.Goal);
             int h = 0;
 
             if (goalReachableFromHead)
             {
-                if (FirstStepEven != GoalEven)   // This case is like classic Domino problem: [Head-W]->[FirstStep-B]->[W]->[B]->[Goal-W]
+                if (firstStepEven != goalEven)   // This case is like classic Domino problem: [Head-W]->[FirstStep-B]->[W]->[B]->[Goal-W]
                 {
                     h = Math.Min(odd, even) * 2;
                 }
                 else    // This case FIRST STEP AND GOAL ARE EQUALS: [Head-W]->[FirstStep-B]->[W]->[Goal-B]
                 {
-                    if (GoalEven)
+                    if (goalEven)
                     {
                         if (even > odd)
                         {
