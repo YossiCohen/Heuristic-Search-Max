@@ -64,6 +64,7 @@
     <Compile Include="Domain\RsdGridSearchNode.cs" />
     <Compile Include="Domain\RsdUntouchedAroundTheGoalHeuristic.cs" />
     <Compile Include="Domain\BiconnectedComponentsHeuristic.cs" />
+    <Compile Include="Domain\AlternateStepsHeuristic.cs" />
     <Compile Include="Domain\UntouchedAroundTheGoalHeuristic.cs" />
     <Compile Include="Domain\IGridHeuristic.cs" />
     <Compile Include="Domain\Location.cs" />

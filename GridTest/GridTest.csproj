@@ -58,6 +58,7 @@
     <Compile Include="GridAStarMaxTest.cs" />
     <Compile Include="RsdUntouchedAroundTheGoalHeuristicTest.cs" />
     <Compile Include="BiconnectedComponentsHeuristicTest.cs" />
+    <Compile Include="AlternateStepsHeuristicTest.cs" />
     <Compile Include="UntouchedAroundTheGoalHeuristicTest.cs" />
     <Compile Include="LocationTest.cs" />
     <Compile Include="BasicSymmetryDetectionPrunningTest.cs" />
