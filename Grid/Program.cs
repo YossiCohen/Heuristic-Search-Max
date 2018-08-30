@@ -12,7 +12,7 @@ namespace Grid
     class Program
     {
 
-        private static readonly string VERSION = "1.4";
+        private static readonly string VERSION = "1.41";
         private static readonly string TIME_LIMIT = ConfigurationSettings.AppSettings["TimeLimit"] == null ? "120" : ConfigurationSettings.AppSettings["TimeLimit"];
         private static readonly string BCC_INIT = ConfigurationSettings.AppSettings["BccInit"] == null ? "true" : ConfigurationSettings.AppSettings["BccInit"];
 
@@ -27,7 +27,7 @@ namespace Grid
                 Console.WriteLine(@"problem:     problem filename");
                 Console.WriteLine(@"time-limit:  limit run time to X minutes (default 120), 0 for no time limit");
                 Console.WriteLine(@"alg:         [astar/dfbnb] the solving algorithm");
-                Console.WriteLine(@"heuristic:   [none/untouched/bcc/alternate] the heuristic being used");
+                Console.WriteLine(@"heuristic:   [none/untouched/bcc/alternate/altbcc] the heuristic being used");
                 Console.WriteLine(@"prune:       [none/bsd/rsd] pruning technique");
                 Console.WriteLine(@"bcc-init:    [true/false] remove non-reachable areas from the graph on init");
                 Console.WriteLine(@"----------");
@@ -81,6 +81,10 @@ namespace Grid
             else if (splitedArgs["heuristic"] == "alternate")
             {
                 heuristic = new AlternateStepsHeuristic();
+            }
+            else if(splitedArgs["heuristic"] == "altbcc")
+            {
+                heuristic = new AlternateStepsBiconnectedComponentsHeuristic();
             }
             else
             {
