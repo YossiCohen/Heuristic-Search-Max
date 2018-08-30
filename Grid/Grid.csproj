@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\BiconnectedComponents.cs" />
+    <Compile Include="Domain\AlternateStepsBiconnectedComponentsHeuristic.cs" />
     <Compile Include="Domain\ReachableSymmetryDetectionPrunning.cs" />
     <Compile Include="Domain\BasicSymmetryDetectionPrunning.cs" />
     <Compile Include="Domain\NoneHeuristic.cs" />

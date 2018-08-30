@@ -55,49 +55,53 @@ namespace Grid.Domain
                 }
             }
 
+            if (!goalReachableFromHead) return 0;
+
             bool firstStepEven = !IsEvenLocation(gridNode.HeadLocation);
             bool goalEven = IsEvenLocation(w.Goal);
-            int h = 0;
 
-            if (goalReachableFromHead)
+            return CalculateAlternateStepHeuristic(firstStepEven, goalEven, odd, even);
+        }
+
+        internal static int CalculateAlternateStepHeuristic(bool firstStepEven, bool goalEven, int oddCount, int evenCount)
+        {
+            int h = 0;
+            if (firstStepEven != goalEven
+            ) // This case is like classic Domino problem: [Head-W]->[FirstStep-B]->[W]->[B]->[Goal-W]
             {
-                if (firstStepEven != goalEven)   // This case is like classic Domino problem: [Head-W]->[FirstStep-B]->[W]->[B]->[Goal-W]
+                h = Math.Min(oddCount, evenCount) * 2;
+            }
+            else // This case FIRST STEP AND GOAL ARE EQUALS: [Head-W]->[FirstStep-B]->[W]->[Goal-B]
+            {
+                if (goalEven)
                 {
-                    h = Math.Min(odd, even) * 2;
-                }
-                else    // This case FIRST STEP AND GOAL ARE EQUALS: [Head-W]->[FirstStep-B]->[W]->[Goal-B]
-                {
-                    if (goalEven)
+                    if (evenCount > oddCount)
                     {
-                        if (even > odd)
-                        {
-                            h = odd * 2 + 1;
-                        }
-                        else
-                        {
-                            h = even * 2 - 1;
-                        }
+                        h = oddCount * 2 + 1;
                     }
-                    else //Goal is odd
+                    else
                     {
-                        if (odd > even)
-                        {
-                            h = even * 2 + 1;
-                        }
-                        else
-                        {
-                            h = odd * 2 - 1;
-                        }
+                        h = evenCount * 2 - 1;
+                    }
+                }
+                else //Goal is odd
+                {
+                    if (oddCount > evenCount)
+                    {
+                        h = evenCount * 2 + 1;
+                    }
+                    else
+                    {
+                        h = oddCount * 2 - 1;
                     }
                 }
             }
-
             return h;
         }
 
         public bool IsEvenLocation(Location loc)
         {
-            return ((loc.X + loc.Y) % 2 == 0);
+            return (loc.X + loc.Y) % 2 == 0;
         }
 
         public string GetName()
