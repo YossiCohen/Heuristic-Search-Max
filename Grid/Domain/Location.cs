@@ -89,6 +89,13 @@ namespace Grid.Domain
         {
             return Y * w.Width + X;
         }
+
+        public static Location BuildLocationFromLinearRepresentation(World w, int linearLocation)
+        {
+            int x = linearLocation % w.Width;
+            int y = linearLocation / w.Width;
+            return new Location(x,y);
+        }
     }
 
     public enum MoveDirection { Up, Down, Left, Right, Wait}

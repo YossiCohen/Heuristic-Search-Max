@@ -63,6 +63,12 @@ namespace MaxSearchAlg
             Log.WriteLineIf("[StepExpanding...] ", TraceLevel.Verbose);
             foreach (var child in currentNode.Children)
             {
+#if DEBUG
+                if (child.h > currentNode.h)
+                {
+                    Log.WriteLineIf($"[HEURISTIC NOT CONSISTENT] Parent: {currentNode.h}, Child:{child.GetBitsString()}", TraceLevel.Error);
+                }
+#endif
                 Log.WriteLineIf($"[GenerateChild...] {child.GetBitsString()}", TraceLevel.Info);
                 if (!PrunningMethod.ShouldPrune(child))
                 {
