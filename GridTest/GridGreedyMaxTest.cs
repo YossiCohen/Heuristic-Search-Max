@@ -8,7 +8,7 @@ using MaxSearchAlg;
 namespace GridTest
 {
     [TestClass]
-    public class GridAStarMaxTest
+    public class GridGreedyMaxTest
     {
         private static World _basicWorld3X3;
         private static World _basicWorld5X5Blocked;

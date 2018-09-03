@@ -6,12 +6,12 @@ using Common;
 namespace MaxSearchAlg
 {
 
-    public class Greedy : Solver
+    public class GreedyMax : Solver
     {
         private static Random rnd = new Random();
         private INode _head;
 
-        public Greedy(INode initailNode, IGoalCheckMethod goalCheckMethod) : base(initailNode, new NoPrunning(), goalCheckMethod)
+        public GreedyMax(INode initailNode, IGoalCheckMethod goalCheckMethod) : base(initailNode, new NoPrunning(), goalCheckMethod)
         {
             var maxComparer = new MaxComparer();
             _head = initailNode;
