@@ -12,7 +12,7 @@ namespace Grid
     class Program
     {
 
-        private static readonly string VERSION = "1.41";
+        private static readonly string VERSION = "1.5";
         private static readonly string TIME_LIMIT = ConfigurationSettings.AppSettings["TimeLimit"] == null ? "120" : ConfigurationSettings.AppSettings["TimeLimit"];
         private static readonly string BCC_INIT = ConfigurationSettings.AppSettings["BccInit"] == null ? "true" : ConfigurationSettings.AppSettings["BccInit"];
 
@@ -26,7 +26,7 @@ namespace Grid
                 Console.WriteLine(@"----------");
                 Console.WriteLine(@"problem:     problem filename");
                 Console.WriteLine(@"time-limit:  limit run time to X minutes (default 120), 0 for no time limit");
-                Console.WriteLine(@"alg:         [astar/dfbnb] the solving algorithm");
+                Console.WriteLine(@"alg:         [astar/dfbnb/greedy] the solving algorithm");
                 Console.WriteLine(@"heuristic:   [none/untouched/bcc/alternate/altbcc] the heuristic being used");
                 Console.WriteLine(@"prune:       [none/bsd/rsd] pruning technique");
                 Console.WriteLine(@"bcc-init:    [true/false] remove non-reachable areas from the graph on init");
@@ -122,6 +122,14 @@ namespace Grid
                     break;
                 case "dfbnb":
                     solver = new DfBnbMax(initialNode, prune, new GoalOnLocation(world.Goal));
+                    break;
+                case "greedy":
+                    solver = new GreedyMax(initialNode, new GoalOnLocation(world.Goal));
+                    if (splitedArgs["prune"] != "none")
+                    {
+                        Log.WriteLineIf("Greedy doesn't support pruning!", TraceLevel.Error);
+                        return;
+                    }
                     break;
                 default:
                     Log.WriteLineIf("Solver algorithm: " + splitedArgs["alg"] + " is not supported!", TraceLevel.Error);

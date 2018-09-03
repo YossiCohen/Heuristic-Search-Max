@@ -1,0 +1,5 @@
+// what args to run for each file
+// if there is no RunningLogs folder - check that all relevant DLL exists
+// must provide all 4 arguments in every line (alg, heuristic, prune, bcc-init)
+alg=astar heuristic=altbcc prune=rsd bcc-init=true
+alg=greedy heuristic=altbcc prune=none bcc-init=true
