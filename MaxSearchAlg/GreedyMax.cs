@@ -21,12 +21,7 @@ namespace MaxSearchAlg
         internal override State Step()
         {
             Log.WriteLineIf($"[StepStart] Head.G:{_head.g}, Head.H:{_head.h}", TraceLevel.Verbose);
-            // stop condition
-            if (_head.Children.Count == 0)
-            {
-                Log.WriteLineIf("[StepEnd] Head.Children.Count == 0 - return Ended-EmptyList", TraceLevel.Verbose);
-                return State.Ended;
-            }
+
 
             //Have we found the goal?
             if (GoalCheckMethod.ValidGoal(_head))
@@ -39,6 +34,13 @@ namespace MaxSearchAlg
                 }
             }
 
+            // stop condition
+            if (_head.Children.Count == 0)
+            {
+                Log.WriteLineIf("[StepEnd] Head.Children.Count == 0 - return Ended-EmptyList", TraceLevel.Verbose);
+                return State.Ended;
+            }
+            
             //Expand head
             Expended++;
             Log.WriteLineIf("[StepExpanding...] ", TraceLevel.Verbose);
