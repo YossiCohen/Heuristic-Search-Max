@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Greedy.cs" />
     <Compile Include="AStarMax.cs" />
     <Compile Include="Combinatorics\Combinations.cs" />
     <Compile Include="Combinatorics\GenerateOption.cs" />
