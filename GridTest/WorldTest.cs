@@ -111,5 +111,38 @@ namespace GridTest
             Assert.AreEqual(new Location(2,3), w.Goal);
         }
 
+        [TestMethod]
+        public void TotalBlocked_OnDifferentMaps_ReturnsCorrectCount()
+        {
+            World w = new World(_gridAstr, new NoneHeuristic());
+            Assert.AreEqual(5, w.TotalBlocked);
+            w = new World(_gridBstr, new NoneHeuristic());
+            Assert.AreEqual(5, w.TotalBlocked);
+            w = new World(_gridCstr, new NoneHeuristic());
+            Assert.AreEqual(5, w.TotalBlocked);
+        }
+
+        [TestMethod]
+        public void EvenBlocked_OnDifferentMaps_ReturnsCorrectCount()
+        {
+            World w = new World(_gridAstr, new NoneHeuristic());
+            Assert.AreEqual(3, w.EvenBlocked);
+            w = new World(_gridBstr, new NoneHeuristic());
+            Assert.AreEqual(3, w.EvenBlocked);
+            w = new World(_gridCstr, new NoneHeuristic());
+            Assert.AreEqual(2, w.EvenBlocked);
+        }
+
+        [TestMethod]
+        public void OddBlocked_OnDifferentMaps_ReturnsCorrectCount()
+        {
+            World w = new World(_gridAstr, new NoneHeuristic());
+            Assert.AreEqual(2, w.OddBlocked);
+            w = new World(_gridBstr, new NoneHeuristic());
+            Assert.AreEqual(2, w.OddBlocked);
+            w = new World(_gridCstr, new NoneHeuristic());
+            Assert.AreEqual(3, w.OddBlocked);
+        }
+
     }
 }

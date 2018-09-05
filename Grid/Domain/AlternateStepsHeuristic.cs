@@ -104,6 +104,16 @@ namespace Grid.Domain
             return (loc.X + loc.Y) % 2 == 0;
         }
 
+        public static int GetNumberOfEvenLocations(int width, int height)
+        {
+            return ((width + 1) / 2) * ((height + 1) / 2) + (width / 2) * (height / 2);
+        }
+
+        public static int GetNumberOfOddLocations(int width, int height)
+        {
+            return width * height - GetNumberOfEvenLocations(width, height);
+        }
+
         public string GetName()
         {
             return "AlternateStepsHeuristic";
