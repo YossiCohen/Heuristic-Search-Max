@@ -60,7 +60,21 @@ namespace MaxSearchAlg
                     sameHeuristicChilds.Add(child);
                 }
             }
-            _head = sameHeuristicChilds[rnd.Next(sameHeuristicChilds.Count)];
+            if (best_h != 0)
+            {
+                _head = sameHeuristicChilds[rnd.Next(sameHeuristicChilds.Count)];
+            }
+            else
+            {
+                for (int i = 0; i < sameHeuristicChilds.Count; i++)
+                {
+                    if (GoalCheckMethod.ValidGoal(sameHeuristicChilds[i]))
+                    {
+                        _head = sameHeuristicChilds[i];
+                        break;
+                    }
+                }
+            }
 
             Log.WriteLineIf("[GreedyMax.StepEnd] - return Searching", TraceLevel.Verbose);
             return State.Searching;

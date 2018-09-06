@@ -26,7 +26,7 @@ namespace MaxSearchAlg
 
         internal override State Step()
         {
-            Log.WriteLineIf($"[StepStart] Solving the Greedy way", TraceLevel.Verbose);
+            Log.WriteLineIf($"[GreedyLoops.StepStart] Solving the Greedy way", TraceLevel.Verbose);
 
             Solver solver = new GreedyMax(_initialNode, GoalCheckMethod);
             solver.Run(15); //TODO: propogate? it's irrelevant in here
@@ -53,7 +53,7 @@ namespace MaxSearchAlg
                 return State.Ended;
             }
             Log.WriteLineIf($"[GreedyLoops.Status] Generated:{Generated}, Expended:{Expended}, IterSinceLast:{_iterationsSinceLastImprovement}, BestFoundG:{_lastBestG}, Loops:{_loops}", TraceLevel.Off);
-            Log.WriteLineIf("[AStarMax.StepEnd] - return Searching", TraceLevel.Verbose);
+            Log.WriteLineIf("[GreedyLoops.StepEnd] - return Searching", TraceLevel.Verbose);
             return State.Searching;
         }
     }
