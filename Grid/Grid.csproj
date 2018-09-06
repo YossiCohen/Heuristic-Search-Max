@@ -72,6 +72,7 @@
     <Compile Include="Domain\GridSearchNode.cs" />
     <Compile Include="Domain\World.cs" />
     <Compile Include="Domain\GoalOnLocation.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
