@@ -26,7 +26,7 @@ namespace Grid
                 Console.WriteLine(@"----------");
                 Console.WriteLine(@"problem:     problem filename");
                 Console.WriteLine(@"time-limit:  limit run time to X minutes (default 120), 0 for no time limit");
-                Console.WriteLine(@"alg:         [astar/dfbnb/greedy] the solving algorithm");
+                Console.WriteLine(@"alg:         [astar/dfbnb/greedy/greedyloops] the solving algorithm");
                 Console.WriteLine(@"heuristic:   [none/untouched/bcc/alternate/altbcc] the heuristic being used");
                 Console.WriteLine(@"prune:       [none/bsd/rsd] pruning technique");
                 Console.WriteLine(@"bcc-init:    [true/false] remove non-reachable areas from the graph on init");
@@ -128,6 +128,14 @@ namespace Grid
                     if (splitedArgs["prune"] != "none")
                     {
                         Log.WriteLineIf("Greedy doesn't support pruning!", TraceLevel.Error);
+                        return;
+                    }
+                    break;
+                case "greedyloops":
+                    solver = new GreedyLoopMax(initialNode, new GoalOnLocation(world.Goal),50);
+                    if (splitedArgs["prune"] != "none")
+                    {
+                        Log.WriteLineIf("GreedyLoops doesn't support pruning!", TraceLevel.Error);
                         return;
                     }
                     break;

@@ -10,15 +10,15 @@ namespace MaxSearchAlg
         
         private SortedList<int, INode> openList;
 
-        public AStarMax(INode initailNode, IGoalCheckMethod goalCheckMethod) : this(initailNode, new NoPrunning(), goalCheckMethod)
+        public AStarMax(INode initialNode, IGoalCheckMethod goalCheckMethod) : this(initialNode, new NoPrunning(), goalCheckMethod)
         {
         }
 
-        public AStarMax(INode initailNode, IPrunningMethod prunningMethod, IGoalCheckMethod goalCheckMethod) :base(initailNode, prunningMethod, goalCheckMethod)
+        public AStarMax(INode initialNode, IPrunningMethod prunningMethod, IGoalCheckMethod goalCheckMethod) :base(initialNode, prunningMethod, goalCheckMethod)
         {
             var maxComparer = new MaxComparer();
             openList = new SortedList<int, INode>(maxComparer);
-            openList.Add(initailNode);
+            openList.Add(initialNode);
         }
 
         public SortedList<int, INode> OpenList

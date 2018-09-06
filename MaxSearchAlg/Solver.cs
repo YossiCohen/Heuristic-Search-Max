@@ -6,7 +6,7 @@ namespace MaxSearchAlg
 {
     public enum State
     {
-        Searching, Ended, StoppedByTime, IllegalStartState, StoppedByMemoryLimit
+        Searching, Ended, StoppedByTime, IllegalStartState, StoppedByMemoryLimit, NoGoalFound
     }
 
     public abstract class Solver
@@ -16,16 +16,16 @@ namespace MaxSearchAlg
         internal IGoalCheckMethod GoalCheckMethod;
         internal static readonly int LogSearchStatusEveryXGenerated = 1;
 
-        public Solver(INode initailNode, IPrunningMethod prunningMethod, IGoalCheckMethod goalCheckMethod)
+        public Solver(INode initialNode, IPrunningMethod prunningMethod, IGoalCheckMethod goalCheckMethod)
         {
             Expended = 0;
             Generated = 0;
             Pruned = 0;
             PrunningMethod = prunningMethod;
             GoalCheckMethod = goalCheckMethod;
-            if (GoalCheckMethod.ValidGoal(initailNode))
+            if (GoalCheckMethod.ValidGoal(initialNode))
             {
-                candidateGoalNode = initailNode;
+                candidateGoalNode = initialNode;
             }
         }
         public int Expended { get; internal set; }
