@@ -154,13 +154,27 @@ namespace Grid
             Log.WriteLineIf(@"[[Prunning:" + prune.GetType().Name + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[BccInit:" + bccInit + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[TimeLimit:" + timelimit + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[Width:" + world.Width + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[Height:" + world.Height + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[BlockedCount:" + world.TotalBlocked + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[NumberOfEvenLocations:" + AlternateStepsHeuristic.GetNumberOfEvenLocations(world.Width, world.Height) + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[NumberOfOddLocations:" + AlternateStepsHeuristic.GetNumberOfOddLocations(world.Width, world.Height) + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[EvenBlockedCount:" + world.EvenBlocked + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[OddBlockedCount:" + world.OddBlocked + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[EvenFreeCount:" + (AlternateStepsHeuristic.GetNumberOfEvenLocations(world.Width, world.Height) - world.EvenBlocked) + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[OddFreeCount:" + (AlternateStepsHeuristic.GetNumberOfOddLocations(world.Width, world.Height) - world.OddBlocked) + "]]", TraceLevel.Off);
 
             var startTime = DateTime.Now;
+            ulong startCycles = NativeMethods.GetThreadCycles();
+
             var howEnded = solver.Run(timelimit);
+
+            ulong totalCycles = NativeMethods.GetThreadCycles() - startCycles;
             var totalTime = DateTime.Now - startTime;
             var goal = (GridSearchNode)solver.GetMaxGoal();
 
             Log.WriteLineIf("[[TotalTime(MS):" + totalTime.TotalMilliseconds + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[CPU Cycles:" + totalCycles + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Expended:" + solver.Expended + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Generated:" + solver.Generated + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Pruned:" + solver.Pruned + "]]", TraceLevel.Off);

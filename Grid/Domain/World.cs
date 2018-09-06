@@ -27,6 +27,62 @@ namespace Grid.Domain
 
         internal readonly BitArray _isBlockedLocations;
         private IGridHeuristic HeuristicFunction { get; }
+        public int TotalBlocked {
+            get
+            {
+                int totalBlocked = 0;
+                for (int i = 0; i < _isBlockedLocations.Count; i++)
+                {
+                    if (_isBlockedLocations[i])
+                    {
+                        totalBlocked++;
+                    }
+                }
+                return totalBlocked + 1; //+1 for start head - start location
+            }
+        }
+
+        public int EvenBlocked
+        {
+            get
+            {
+                int evenBlocked = 0;
+                for (int i = 0; i < Height; i++)
+                {
+                    for (int j = 0; j < Width; j++)
+                    {
+                        if ((i+j)%2 == 0) continue;
+                        if (_isBlockedLocations[Width*i + j])
+                        {
+                            evenBlocked++;
+                        }
+                    }
+                }
+                if ((Start.X + Start.Y) % 2 == 0) evenBlocked++; 
+                return evenBlocked;
+            }
+        }
+
+        public int OddBlocked
+        {
+            get
+            {
+                int oddBlocked = 0;
+                for (int i = 0; i < Height; i++)
+                {
+                    for (int j = 0; j < Width; j++)
+                    {
+                        if ((i+j)%2 == 1) continue;
+                        if (_isBlockedLocations[Width*i + j])
+                        {
+                            oddBlocked++;
+                        }
+                    }
+                }
+                if ((Start.X + Start.Y) % 2 == 1) oddBlocked++;
+                return oddBlocked;
+            }
+        }
 
         public World(string gridString, IGridHeuristic heuristicFunction)
         {

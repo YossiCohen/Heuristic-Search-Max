@@ -127,5 +127,24 @@ namespace GridTest
             Assert.AreEqual(16, initialState.h);
         }
         
+        [TestMethod]
+        public void GetNumberOfEvenLocations_CalculationCorrect()
+        {
+            Assert.AreEqual(1, AlternateStepsHeuristic.GetNumberOfEvenLocations(1, 1));
+            Assert.AreEqual(0, AlternateStepsHeuristic.GetNumberOfOddLocations(1, 1));
+            Assert.AreEqual(2, AlternateStepsHeuristic.GetNumberOfEvenLocations(2, 2));
+            Assert.AreEqual(2, AlternateStepsHeuristic.GetNumberOfOddLocations(2, 2));
+            Assert.AreEqual(5, AlternateStepsHeuristic.GetNumberOfEvenLocations(3, 3));
+            Assert.AreEqual(4, AlternateStepsHeuristic.GetNumberOfOddLocations(3, 3));
+            Assert.AreEqual(8, AlternateStepsHeuristic.GetNumberOfEvenLocations(4, 4));
+            Assert.AreEqual(8, AlternateStepsHeuristic.GetNumberOfOddLocations(4, 4));
+            Assert.AreEqual(13, AlternateStepsHeuristic.GetNumberOfEvenLocations(5, 5));
+            Assert.AreEqual(12, AlternateStepsHeuristic.GetNumberOfOddLocations(5, 5));
+            Assert.AreEqual(25, AlternateStepsHeuristic.GetNumberOfEvenLocations(10, 5));
+            Assert.AreEqual(25, AlternateStepsHeuristic.GetNumberOfOddLocations(10, 5));
+            Assert.AreEqual(23, AlternateStepsHeuristic.GetNumberOfEvenLocations(9, 5));
+            Assert.AreEqual(22, AlternateStepsHeuristic.GetNumberOfOddLocations(9, 5));
+        }
+        
     }
 }
