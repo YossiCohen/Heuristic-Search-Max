@@ -9,14 +9,14 @@ namespace MaxSearchAlg
     {
         private Stack<INode> openList;
 
-        public DfBnbMax(INode initailNode, IGoalCheckMethod goalCheckMethod) : this(initailNode, new NoPrunning(), goalCheckMethod)
+        public DfBnbMax(INode initialNode, IGoalCheckMethod goalCheckMethod) : this(initialNode, new NoPrunning(), goalCheckMethod)
         {
         }
 
-        public DfBnbMax(INode initailNode, IPrunningMethod prunningMethod, IGoalCheckMethod goalCheckMethod) : base(initailNode, prunningMethod, goalCheckMethod)
+        public DfBnbMax(INode initialNode, IPrunningMethod prunningMethod, IGoalCheckMethod goalCheckMethod) : base(initialNode, prunningMethod, goalCheckMethod)
         {
             openList = new Stack<INode>();
-            openList.Push(initailNode);
+            openList.Push(initialNode);
         }
 
         /// <summary>

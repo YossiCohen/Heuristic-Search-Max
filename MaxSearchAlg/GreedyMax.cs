@@ -11,10 +11,10 @@ namespace MaxSearchAlg
         private static Random rnd = new Random();
         private INode _head;
 
-        public GreedyMax(INode initailNode, IGoalCheckMethod goalCheckMethod) : base(initailNode, new NoPrunning(), goalCheckMethod)
+        public GreedyMax(INode initialNode, IGoalCheckMethod goalCheckMethod) : base(initialNode, new NoPrunning(), goalCheckMethod)
         {
             var maxComparer = new MaxComparer();
-            _head = initailNode;
+            _head = initialNode;
         }
 
 
@@ -28,7 +28,7 @@ namespace MaxSearchAlg
             {
                 if (candidateGoalNode == null)
                 {
-                    Log.WriteLineIf("[AStarMax.StepEnd GoalFound] GoalFound:" + _head.GetBitsString(), TraceLevel.Verbose);
+                    Log.WriteLineIf("[GreedyMax.StepEnd GoalFound] GoalFound:" + _head.GetBitsString(), TraceLevel.Verbose);
                     candidateGoalNode = _head;
                     return State.Ended;
                 }
@@ -37,8 +37,8 @@ namespace MaxSearchAlg
             // stop condition
             if (_head.Children.Count == 0)
             {
-                Log.WriteLineIf("[StepEnd] Head.Children.Count == 0 - return Ended-EmptyList", TraceLevel.Verbose);
-                return State.Ended;
+                Log.WriteLineIf("[StepEnd] Head.Children.Count == 0 - return Ended-NoGoalFound", TraceLevel.Verbose);
+                return State.NoGoalFound;
             }
             
             //Expand head
@@ -62,7 +62,7 @@ namespace MaxSearchAlg
             }
             _head = sameHeuristicChilds[rnd.Next(sameHeuristicChilds.Count)];
 
-            Log.WriteLineIf("[AStarMax.StepEnd] - return Searching", TraceLevel.Verbose);
+            Log.WriteLineIf("[GreedyMax.StepEnd] - return Searching", TraceLevel.Verbose);
             return State.Searching;
         }
     }
