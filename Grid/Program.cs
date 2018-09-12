@@ -38,7 +38,7 @@ namespace Grid
                 return;
             }
 
-            Dictionary<string, string> splitedArgs = SplitArguments(args);
+            Dictionary<string, string> splitedArgs = ConsoleAppHelper.SplitArguments(args);
             if (splitedArgs.ContainsKey("memtest") && splitedArgs["memtest"].Equals("true"))
             {
                 MemTest();
@@ -219,22 +219,6 @@ namespace Grid
                 }
             }
             // ReSharper disable once FunctionNeverReturns
-        }
-
-        private static Dictionary<string, string> SplitArguments(string[] args)
-        {
-            Dictionary<string, string> result = new Dictionary<string, string>();
-            foreach (var s in args)
-            {
-                var splitted = s.Split('=');
-                if (splitted.Length != 2)
-                {
-                    Console.WriteLine("WAIT! I can't understand:" + s);
-                    throw new ArgumentException("Bad Argument" + s);
-                }
-                result.Add(splitted[0].ToLower(), splitted[1].ToLower());
-            }
-            return result;
         }
     }
 }
