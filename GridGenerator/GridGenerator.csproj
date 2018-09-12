@@ -45,6 +45,7 @@
     <Compile Include="GridBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BasicGenerator.cs" />
     <Compile Include="RoomsGenerator.cs" />
   </ItemGroup>
   <ItemGroup>

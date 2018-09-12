@@ -75,7 +75,7 @@ namespace GridGenerator
         {
             List<int> childrens = new List<int>();
             int x = spot % GridSizeX;
-            int y = spot / GridSizeY;
+            int y = spot / GridSizeX;
             if (x + 1 < GridSizeX)
             {
                 childrens.Add(spot + 1);

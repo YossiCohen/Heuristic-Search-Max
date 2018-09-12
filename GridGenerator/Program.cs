@@ -8,7 +8,7 @@ namespace GridGenerator
 {
     class Program
     {
-        private static readonly string VERSION = "0.1";
+        private static readonly string VERSION = "0.2";
         private static readonly string ONE_BCC = ConfigurationSettings.AppSettings["OneBcc"] == null ? "false" : ConfigurationSettings.AppSettings["OneBcc"];
         private static readonly string NUM = ConfigurationSettings.AppSettings["NumOfProblemsToGenerate"] == null ? "1" : ConfigurationSettings.AppSettings["NumOfProblemsToGenerate"];
         private static readonly string RETRIES = ConfigurationSettings.AppSettings["NumOfRetries"] == null ? "1000" : ConfigurationSettings.AppSettings["NumOfRetries"];
@@ -36,7 +36,7 @@ namespace GridGenerator
             switch (splitedArgs["type"])
             {
                 case "basic":
-                    throw new NotImplementedException();
+                    generator = new BasicGenerator(splitedArgs);
                     break;
                 case "rooms":
                     generator = new RoomsGenerator(splitedArgs);
@@ -72,7 +72,7 @@ namespace GridGenerator
                 }
                 if (retries == 0)
                 {
-                    System.Console.WriteLine("Couldn't build map for 1000 times - Quiting");
+                    Console.WriteLine("Couldn't build map for 1000 times - Quiting");
                     return;
                 }
             }
@@ -97,7 +97,7 @@ namespace GridGenerator
             if (splitedArgs["type"] == "basic")
             {
                 if (!(splitedArgs.ContainsKey("basic-blocked") && splitedArgs.ContainsKey("basic-width") &&
-                      splitedArgs.ContainsKey("basic-hight")))
+                      splitedArgs.ContainsKey("basic-hight") && splitedArgs.ContainsKey("basic-corners")))
                 {
                     Console.WriteLine(
                         @"Basic grid must have the following arguments: basic-blocked, basic-width & basic-hight");
@@ -163,9 +163,13 @@ namespace GridGenerator
             Console.WriteLine(@"num:                     number of problems to generate (default=1)");
             Console.WriteLine(@"retries:                 number of retries before stop generation of grid (default=1000)");
             Console.WriteLine(@"one-bcc:                 [true/false] one bcc in initial state, Not relevant for Rooms (default=false)");
+            Console.WriteLine(@"- - - - Type specific args:  All mandatory per type");
             Console.WriteLine(@"basic-blocked:           number of blocked locations");
             Console.WriteLine(@"basic-width:             number - basic size");
             Console.WriteLine(@"basic-hight:             number - basic size");
+            Console.WriteLine(@"basic-corners:           [true/false] if true start & goal will be on the top left and bottom right");
+            Console.WriteLine(@"                         corners, otherwise they will be random");
+            Console.WriteLine(@"- - - -");
             Console.WriteLine(@"rooms-num-x:             number of rooms in the X axis (width)");
             Console.WriteLine(@"rooms-num-y:             number of rooms in the Y axis (hight)");
             Console.WriteLine(@"rooms-size-x:            room size in the X axis (width)");
@@ -174,11 +178,18 @@ namespace GridGenerator
             Console.WriteLine(@"rooms-door-count-y:      number of doors on the Y walls (hight)");
             Console.WriteLine(@"rooms-door-open-prob:    probability for door to be open");
             Console.WriteLine(@"rooms-barier-prob:       probability for blocked location inside a room");
+            Console.WriteLine(@"- - - -");
             Console.WriteLine(@"alternate-width:         number - grid size");
             Console.WriteLine(@"alternate-hight:         number - grid size");
             Console.WriteLine(@"alternate-blocked-odd:   number of blocked odd locations");
             Console.WriteLine(@"alternate-blocked-even:  number of blocked even locations");
             Console.WriteLine(@"----------");
+            Console.WriteLine(@"Examples:");
+            Console.WriteLine(@"Generate 10 basic maps:");
+            Console.WriteLine(@"GridGenerator type=basic basic-width=7 basic-hight=5 basic-blocked=9 basic-corners=true num=10");
+            Console.WriteLine(@"Generate 3 Rooms maps:");
+            Console.WriteLine(@"GridGenerator type=rooms rooms-num-x=2 rooms-num-y=2 rooms-size-x=2 rooms-size-y=2 rooms-door-count-x=1 rooms-door-count-y=1 rooms-door-open-prob=0.9 rooms-barier-prob=0.3 num=3");
+
             Console.WriteLine(@"-----------------------------[Version:" + VERSION + "]---------------------------------");
             return;
         }
