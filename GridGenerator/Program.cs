@@ -8,7 +8,7 @@ namespace GridGenerator
 {
     class Program
     {
-        private static readonly string VERSION = "0.2";
+        private static readonly string VERSION = "0.3";
         private static readonly string ONE_BCC = ConfigurationSettings.AppSettings["OneBcc"] == null ? "false" : ConfigurationSettings.AppSettings["OneBcc"];
         private static readonly string NUM = ConfigurationSettings.AppSettings["NumOfProblemsToGenerate"] == null ? "1" : ConfigurationSettings.AppSettings["NumOfProblemsToGenerate"];
         private static readonly string RETRIES = ConfigurationSettings.AppSettings["NumOfRetries"] == null ? "1000" : ConfigurationSettings.AppSettings["NumOfRetries"];
@@ -42,7 +42,7 @@ namespace GridGenerator
                     generator = new RoomsGenerator(splitedArgs);
                     break;
                 case "alternate":
-                    throw new NotImplementedException();
+                    generator = new AlternateGenerator(splitedArgs);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -122,7 +122,7 @@ namespace GridGenerator
             if (splitedArgs["type"] == "alternate")
             {
                 if (!(splitedArgs.ContainsKey("alternate-blocked-odd") && splitedArgs.ContainsKey("alternate-blocked-even") &&
-                      splitedArgs.ContainsKey("alternate-width") && splitedArgs.ContainsKey("alternate-hight")))
+                      splitedArgs.ContainsKey("alternate-width") && splitedArgs.ContainsKey("alternate-hight") && splitedArgs.ContainsKey("alternate-corners")))
                 {
                     Console.WriteLine(@"Alternate grid - one of the arguments is missing - please double check...");
                     WriteOutRelevantArguments();
@@ -183,10 +183,14 @@ namespace GridGenerator
             Console.WriteLine(@"alternate-hight:         number - grid size");
             Console.WriteLine(@"alternate-blocked-odd:   number of blocked odd locations");
             Console.WriteLine(@"alternate-blocked-even:  number of blocked even locations");
+            Console.WriteLine(@"alternate-corners:       [true/false] if true start & goal will be on the top left and bottom right");
+            Console.WriteLine(@"                         corners, otherwise they will be random");
             Console.WriteLine(@"----------");
             Console.WriteLine(@"Examples:");
             Console.WriteLine(@"Generate 10 basic maps:");
             Console.WriteLine(@"GridGenerator type=basic basic-width=7 basic-hight=5 basic-blocked=9 basic-corners=true num=10");
+            Console.WriteLine(@"Generate 5 alternate maps:");
+            Console.WriteLine(@"GridGenerator type=alternate alternate-width=5 alternate-hight=5 alternate-blocked-odd=1 alternate-blocked-even=3 alternate-corners=true num=5");
             Console.WriteLine(@"Generate 3 Rooms maps:");
             Console.WriteLine(@"GridGenerator type=rooms rooms-num-x=2 rooms-num-y=2 rooms-size-x=2 rooms-size-y=2 rooms-door-count-x=1 rooms-door-count-y=1 rooms-door-open-prob=0.9 rooms-barier-prob=0.3 num=3");
 
