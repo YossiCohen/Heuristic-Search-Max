@@ -57,6 +57,10 @@
       <Project>{B53FCCBE-730A-4FE3-BBD3-D92B97EC457C}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Grid\Grid.csproj">
+      <Project>{79FB8D3B-AECD-4BF6-A676-CC8640851D06}</Project>
+      <Name>Grid</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

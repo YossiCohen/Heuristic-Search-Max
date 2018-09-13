@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
 using Common;
+using Grid.Domain;
 
 namespace GridGenerator
 {
@@ -31,6 +32,7 @@ namespace GridGenerator
             }
             num_of_grid_files = int.Parse(splitedArgs["num"]);
             retries = int.Parse(splitedArgs["retries"]);
+            bool oneBcc = bool.Parse(splitedArgs["one-bcc"]);
 
             GridBase generator;
             switch (splitedArgs["type"])
@@ -59,16 +61,24 @@ namespace GridGenerator
                     generator.AddBlockedLocationsStartAndGoal();
                     if (generator.GoalReachable())
                     {
+
                         string outFileContent = generator.GetGrid();
                         string outFileName = generator.GetFileName(gridFileId, num_of_grid_files);
+                        if (oneBcc)
+                        {
+                            World w = new World(outFileContent, new NoneHeuristic());
+                            BiconnectedComponents bcc = new BiconnectedComponents(w);
+                            if (bcc.Blocks.Count > 1)
+                            {
+                                retry_iterations_left--;
+                                continue;
+                            }
+
+                        }
                         System.IO.File.WriteAllText(outFileName, outFileContent, Encoding.ASCII);
                         break;
                     }
-                    else
-                    {
-                        retry_iterations_left--;
-                    }
-
+                    retry_iterations_left--;
                 }
                 if (retries == 0)
                 {
