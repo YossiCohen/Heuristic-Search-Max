@@ -9,7 +9,7 @@ namespace GridGenerator
 {
     class Program
     {
-        private static readonly string VERSION = "0.3";
+        private static readonly string VERSION = "1.0";
         private static readonly string ONE_BCC = ConfigurationSettings.AppSettings["OneBcc"] == null ? "false" : ConfigurationSettings.AppSettings["OneBcc"];
         private static readonly string NUM = ConfigurationSettings.AppSettings["NumOfProblemsToGenerate"] == null ? "1" : ConfigurationSettings.AppSettings["NumOfProblemsToGenerate"];
         private static readonly string RETRIES = ConfigurationSettings.AppSettings["NumOfRetries"] == null ? "1000" : ConfigurationSettings.AppSettings["NumOfRetries"];
@@ -200,7 +200,7 @@ namespace GridGenerator
             Console.WriteLine(@"Generate 10 basic maps:");
             Console.WriteLine(@"GridGenerator type=basic basic-width=7 basic-hight=5 basic-blocked=9 basic-corners=true num=10");
             Console.WriteLine(@"Generate 5 alternate maps:");
-            Console.WriteLine(@"GridGenerator type=alternate alternate-width=5 alternate-hight=5 alternate-blocked-odd=1 alternate-blocked-even=3 alternate-corners=true num=5");
+            Console.WriteLine(@"GridGenerator type=alternate alternate-width=5 alternate-hight=5 alternate-blocked-odd=1 alternate-blocked-even=3 alternate-corners=true one-bcc=true num=5");
             Console.WriteLine(@"Generate 3 Rooms maps:");
             Console.WriteLine(@"GridGenerator type=rooms rooms-num-x=2 rooms-num-y=2 rooms-size-x=2 rooms-size-y=2 rooms-door-count-x=1 rooms-door-count-y=1 rooms-door-open-prob=0.9 rooms-barier-prob=0.3 num=3");
 
