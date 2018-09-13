@@ -128,7 +128,7 @@ namespace GridGenerator
 
         public override string GetFileName(int id, int setSize)
         {
-            string outFileName = "" + id + "-of-" + setSize + "-R[" + _num_rooms_x + 'x' + _num_rooms_y + "]-S[" +
+            string outFileName = "ROOMS-" + id + "-of-" + setSize + "-R[" + _num_rooms_x + 'x' + _num_rooms_y + "]-S[" +
                                  _room_size_x + 'x' + _room_size_y + "]-Wd[" + _wall_doors_x + '_' + _wall_doors_y + "]-Pd[" + _door_open_p + "]-Pb[" + _barier_p + "].grd";
             return outFileName;
         }

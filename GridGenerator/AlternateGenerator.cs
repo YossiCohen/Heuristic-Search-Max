@@ -100,7 +100,7 @@ namespace GridGenerator
 
         public override string GetFileName(int id, int setSize)
         {
-            string outFileName = "" + id + "-of-" + setSize + 
+            string outFileName = "ALTERNATE-" + id + "-of-" + setSize + 
                                  "-Size[" + GridSizeX + "x" + GridSizeY +
                                  "]-EvenBlocked[" + _basicBlockedEven + "]-OddBlocked[" + _basicBlockedOdd + "]-Corners[" + _startGoalCorners+ "].grd";
             return outFileName;
