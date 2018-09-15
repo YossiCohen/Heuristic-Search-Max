@@ -12,7 +12,7 @@ namespace Grid
     class Program
     {
 
-        private static readonly string VERSION = "1.6";
+        private static readonly string VERSION = "1.7";
         private static readonly string TIME_LIMIT = ConfigurationSettings.AppSettings["TimeLimit"] == null ? "120" : ConfigurationSettings.AppSettings["TimeLimit"];
         private static readonly string BCC_INIT = ConfigurationSettings.AppSettings["BccInit"] == null ? "true" : ConfigurationSettings.AppSettings["BccInit"];
 
@@ -171,6 +171,13 @@ namespace Grid
             Log.WriteLineIf(@"[[OddBlockedCount:" + world.OddBlocked + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[EvenFreeCount:" + (AlternateStepsHeuristic.GetNumberOfEvenLocations(world.Width, world.Height) - world.EvenBlocked) + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[OddFreeCount:" + (AlternateStepsHeuristic.GetNumberOfOddLocations(world.Width, world.Height) - world.OddBlocked) + "]]", TraceLevel.Off);
+
+            Log.WriteLineIf(@"[[EvenLocationsPercent:" + (decimal)AlternateStepsHeuristic.GetNumberOfEvenLocations(world.Width, world.Height)/world.LinearSize + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[OddLocationsPercent:" + (decimal)AlternateStepsHeuristic.GetNumberOfOddLocations(world.Width, world.Height) / world.LinearSize + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[EvenBlockedPercent:" + (decimal)world.EvenBlocked / world.LinearSize + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[OddBlockedPercent:" + (decimal)world.OddBlocked / world.LinearSize + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[EvenFreePercent:" + (decimal)(AlternateStepsHeuristic.GetNumberOfEvenLocations(world.Width, world.Height) - world.EvenBlocked) / world.LinearSize + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[OddFreePercent:" + (decimal)(AlternateStepsHeuristic.GetNumberOfOddLocations(world.Width, world.Height) - world.OddBlocked) / world.LinearSize + "]]", TraceLevel.Off);
 
             var startTime = DateTime.Now;
             ulong startCycles = NativeMethods.GetThreadCycles();
