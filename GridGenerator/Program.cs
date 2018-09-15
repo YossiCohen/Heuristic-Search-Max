@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Text;
 using Common;
 using Grid.Domain;
@@ -9,12 +11,12 @@ namespace GridGenerator
 {
     class Program
     {
-        private static readonly string VERSION = "1.0";
+        private static readonly string VERSION = "1.1";
         private static readonly string ONE_BCC = ConfigurationSettings.AppSettings["OneBcc"] == null ? "false" : ConfigurationSettings.AppSettings["OneBcc"];
         private static readonly string NUM = ConfigurationSettings.AppSettings["NumOfProblemsToGenerate"] == null ? "1" : ConfigurationSettings.AppSettings["NumOfProblemsToGenerate"];
         private static readonly string RETRIES = ConfigurationSettings.AppSettings["NumOfRetries"] == null ? "1000" : ConfigurationSettings.AppSettings["NumOfRetries"];
-        private static int num_of_grid_files;
-        private static int retries;
+        private static int _numOfGridFiles;
+        private static int _retries;
 
         static void Main(string[] args)
         {
@@ -30,8 +32,8 @@ namespace GridGenerator
             {
                 return;
             }
-            num_of_grid_files = int.Parse(splitedArgs["num"]);
-            retries = int.Parse(splitedArgs["retries"]);
+            _numOfGridFiles = int.Parse(splitedArgs["num"]);
+            _retries = int.Parse(splitedArgs["retries"]);
             bool oneBcc = bool.Parse(splitedArgs["one-bcc"]);
 
             GridBase generator;
@@ -47,15 +49,16 @@ namespace GridGenerator
                     generator = new AlternateGenerator(splitedArgs);
                     break;
                 default:
-                    throw new NotImplementedException();
+                    Console.WriteLine($"Type \"{splitedArgs["type"]}\" not supported!");
                     return;
             }
+            List<string> createdFiles = new List<string>();
 
 
-            for (int gridFileId = 1; gridFileId <= num_of_grid_files; gridFileId++)
+            for (int gridFileId = 1; gridFileId <= _numOfGridFiles; gridFileId++)
             {
-                int retry_iterations_left = retries;
-                while (retry_iterations_left > 0)
+                int retryIterationsLeft = _retries;
+                while (retryIterationsLeft > 0)
                 {
                     generator.InitBoard();
                     generator.AddBlockedLocationsStartAndGoal();
@@ -63,30 +66,56 @@ namespace GridGenerator
                     {
 
                         string outFileContent = generator.GetGrid();
-                        string outFileName = generator.GetFileName(gridFileId, num_of_grid_files);
+                        string outFileName = generator.GetFileName(gridFileId, _numOfGridFiles);
                         if (oneBcc)
                         {
                             World w = new World(outFileContent, new NoneHeuristic());
                             BiconnectedComponents bcc = new BiconnectedComponents(w);
-                            if (bcc.Blocks.Count > 1)
+                            if (bcc.Blocks.Count != 1) //One block that contains the start& end
                             {
-                                retry_iterations_left--;
+                                retryIterationsLeft--;
                                 continue;
                             }
-
+                            if (!AllFreeAreInThisBlock(w, bcc.Blocks.First.Value))  //check that there are no free spots that are not reachable
+                            {
+                                retryIterationsLeft--;
+                                continue;
+                            }
                         }
-                        System.IO.File.WriteAllText(outFileName, outFileContent, Encoding.ASCII);
+                        File.WriteAllText(outFileName, outFileContent, Encoding.ASCII);
+                        createdFiles.Add(outFileName);
                         break;
                     }
-                    retry_iterations_left--;
+                    retryIterationsLeft--;
                 }
-                if (retries == 0)
+                if (retryIterationsLeft == 0)
                 {
-                    Console.WriteLine("Couldn't build map for 1000 times - Quiting");
+                    Console.WriteLine($"Couldn't build map for {_retries} times - Quiting and removing files created in this session if any");
+                    foreach (var createdFile in createdFiles)
+                    {
+                        File.Delete(createdFile);
+                    }
                     return;
                 }
             }
 
+        }
+
+        private static bool AllFreeAreInThisBlock(World w, HashSet<int> blockToCheck)
+        {
+            BitArray initiallyBlocked = (BitArray) w.GetBlockedOrVisited(w.GetInitialSearchNode<GridSearchNode>()).Clone();
+            foreach (var linearLocation in blockToCheck)
+            {
+                initiallyBlocked[linearLocation] = true;
+            }
+            foreach (bool pos in initiallyBlocked)
+            {
+                if (!pos)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private static bool ValidArguments(Dictionary<string, string> splitedArgs)
