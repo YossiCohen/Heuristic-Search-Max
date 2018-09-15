@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Text;
 using Common;
 using Grid.Domain;
@@ -50,6 +52,7 @@ namespace GridGenerator
                     throw new NotImplementedException();
                     return;
             }
+            List<string> createdFiles = new List<string>();
 
 
             for (int gridFileId = 1; gridFileId <= num_of_grid_files; gridFileId++)
@@ -68,25 +71,52 @@ namespace GridGenerator
                         {
                             World w = new World(outFileContent, new NoneHeuristic());
                             BiconnectedComponents bcc = new BiconnectedComponents(w);
-                            if (bcc.Blocks.Count > 1)
+                            if (bcc.Blocks.Count != 1) //One block that contains the start& end
                             {
                                 retry_iterations_left--;
                                 continue;
                             }
-
+                            if (!AllFreeAreInThisBlock(w, bcc.Blocks.First.Value))  //check that there are no free spots that are not reachable
+                            {
+                                retry_iterations_left--;
+                                System.IO.File.WriteAllText(outFileName, outFileContent, Encoding.ASCII);
+                                continue;
+                            }
                         }
                         System.IO.File.WriteAllText(outFileName, outFileContent, Encoding.ASCII);
+                        createdFiles.Add(outFileName);
                         break;
                     }
                     retry_iterations_left--;
                 }
-                if (retries == 0)
+                if (retry_iterations_left == 0)
                 {
-                    Console.WriteLine("Couldn't build map for 1000 times - Quiting");
+                    Console.WriteLine($"Couldn't build map for {retries} times - Quiting and removing files created in this session if any");
+                    foreach (var createdFile in createdFiles)
+                    {
+                        File.Delete(createdFile);
+                    }
                     return;
                 }
             }
 
+        }
+
+        private static bool AllFreeAreInThisBlock(World w, HashSet<int> blockToCheck)
+        {
+            BitArray initiallyBlocked = (BitArray) w.GetBlockedOrVisited(w.GetInitialSearchNode<GridSearchNode>()).Clone();
+            foreach (var linearLocation in blockToCheck)
+            {
+                initiallyBlocked[linearLocation] = true;
+            }
+            foreach (bool pos in initiallyBlocked)
+            {
+                if (!pos)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private static bool ValidArguments(Dictionary<string, string> splitedArgs)
