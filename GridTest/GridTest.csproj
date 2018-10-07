@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="SeparateBiconnectedComponentsHeuristicTest.cs" />
     <Compile Include="GridGreedyMaxTest.cs" />
     <Compile Include="AlternateStepsBiconnectedComponentsHeuristicTest.cs" />
     <Compile Include="ReachableSymmetryDetectionPrunningTest.cs" />
