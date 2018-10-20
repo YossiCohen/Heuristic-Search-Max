@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 
 namespace Grid.Domain
 {
@@ -15,19 +16,25 @@ namespace Grid.Domain
                 }
                 return 0; //Goal not reachable
             }
-            var valid = bcc.GetValidPlacesForMaxPath(gridNode.HeadLocation, w.Goal);
+            var bct = bcc.GetMaxPathBlockCutTree(gridNode.HeadLocation, w.Goal);
             //instead of g we will count odd and even separatly
-            int odd = 0;
-            int even = 0;
 
-            int head = gridNode.HeadLocation.GetLinearLocationRepresentation(w);
-            for (int i = 0; i < valid.Length; i++)
+            
+            int h = 0;
+            for (int i = 0; i + 1 < bct.Count; i += 2)
             {
-                if (valid[i])
-                {
-                    if (i == head) continue;
+                int head = bct.ElementAt(i)[0];
+                var firstStepEven = !IsEvenLocation(w, head);
+                var goalEven = IsEvenLocation(w, bct.ElementAt(i + 2)[0]);
 
-                    if (IsEvenLocation(w, i))
+                int odd = 0;
+                int even = 0;
+                var currBlk = bct.ElementAt(i+1);
+                for (int j = 0; j < currBlk.Length; j++)
+                {
+                    if (currBlk[j] == head) continue;
+
+                    if (IsEvenLocation(w, currBlk[j]))
                     {
                         even++;
                     }
@@ -36,18 +43,16 @@ namespace Grid.Domain
                         odd++;
                     }
                 }
+
+                h += AlternateStepsHeuristic.CalculateAlternateStepHeuristic(firstStepEven, goalEven, odd, even);
             }
             
-            if (gridNode is RsdGridSearchNode)
-            {
-                ((RsdGridSearchNode)gridNode).Reachable = new BitArray(valid); //TODO: head location valid?
-            }
+            //if (gridNode is RsdGridSearchNode)
+            //{
+            //    ((RsdGridSearchNode)gridNode).Reachable = new BitArray(valid); //TODO: head location valid?
+            //}
 
-
-            bool firstStepEven = !IsEvenLocation(w, head);
-            bool goalEven = IsEvenLocation(w, w.Goal.GetLinearLocationRepresentation(w));
-
-            return AlternateStepsHeuristic.CalculateAlternateStepHeuristic(firstStepEven, goalEven, odd, even);
+            return h;//AlternateStepsHeuristic.CalculateAlternateStepHeuristic(firstStepEven, goalEven, odd, even);
         }
 
         public bool IsEvenLocation(World w, int linearLocation)

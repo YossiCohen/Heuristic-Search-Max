@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -38,7 +39,6 @@ namespace Grid.Domain
             else
             {
                 blockedOrVisited = World.GetBlockedOrVisited(searchNode);
-                //TODO: need to check deeply - deal the head location as non visited place so the BCC can add it to blocks
                 blockedOrVisited[searchNode.HeadLocation.X + (searchNode.HeadLocation.Y * World.Width)] = false;
             }
 
@@ -207,6 +207,23 @@ namespace Grid.Domain
             return validPlaces;
         }
 
+        public LinkedList<int[]> GetMaxPathBlockCutTree(Location startPoint, Location destinationPoint)
+        {
+            return GetMaxPathBlockCutTree(startPoint.GetLinearLocationRepresentation(World),
+                destinationPoint.GetLinearLocationRepresentation(World));
+        }
+
+        public LinkedList<int[]> GetMaxPathBlockCutTree(int startPoint, int destinationPoint)
+        {
+            var relevantBlocks = GetRelevantBlockCutTree(startPoint, destinationPoint);
+            if (relevantBlocks == null)
+            {
+                return null;
+            }
+
+            return relevantBlocks;
+        }
+
         public bool LinearLocationWasVisitedDuringBuild(Location position)
         {
             return _parent[position.GetLinearLocationRepresentation(World)] != -1;
@@ -218,6 +235,18 @@ namespace Grid.Domain
             var startBlocks = GetBlockIdsOfLinearLocation(startPoint);
             var destinationBlocks = GetBlockIdsOfLinearLocation(destinationPoint);
             return GetRelevantBlocksRecursive(startBlocks, destinationBlocks, seenBlocks);
+        }
+
+        public LinkedList<int[]> GetRelevantBlockCutTree(int startPoint, int destinationPoint)
+        {
+            bool[] seenBlocks = new bool[Blocks.Count];
+            var startBlocks = GetBlockIdsOfLinearLocation(startPoint);
+            var destinationBlocks = GetBlockIdsOfLinearLocation(destinationPoint);
+            var blockCutTree = new LinkedList<int[]>();  //[start][block][cut][block][cut][block][cut]...[block][destination]
+            GetRelevantBlockCutTreeRecursive(startBlocks, destinationBlocks, seenBlocks, blockCutTree);
+            blockCutTree.AddFirst(new[] { startPoint });
+            blockCutTree.AddLast(new[] { destinationPoint });
+            return blockCutTree;
         }
 
         private List<int> GetRelevantBlocksRecursive(List<int> startPointBlocks, List<int> destinationPointBlock, bool[] seenBlocks)
@@ -251,12 +280,58 @@ namespace Grid.Domain
                     }
                     if (searchBlocks.Count == 0) continue;
 
-                    var aa = GetRelevantBlocksRecursive(_blockCutTree_CutPointsToBlockId[cutPoint].ToList(),
+                    var builtList = GetRelevantBlocksRecursive(_blockCutTree_CutPointsToBlockId[cutPoint].ToList(),
                         destinationPointBlock, seenBlocks);
-                    if (aa != null)
+                    if (builtList != null)
                     {
-                        aa.Add(startBlock);
-                        return aa;
+                        builtList.Add(startBlock);
+                        return builtList;
+                    }
+                }
+            }
+            return null;
+        }
+
+        private List<int> GetRelevantBlockCutTreeRecursive(List<int> startPointBlocks, List<int> destinationPointBlock, bool[] seenBlocks, LinkedList<int[]> bctList)
+        {
+            //endCondition
+            foreach (var startBlock in startPointBlocks)
+            {
+                foreach (var destBlock in destinationPointBlock)
+                {
+                    if (startBlock == destBlock)
+                    {
+                        bctList.AddFirst(Blocks.ElementAt(startBlock).ToArray());
+                        return new List<int>(){startBlock};
+                    }
+                }
+                seenBlocks[startBlock] = true;
+            }
+
+            foreach (var startBlock in startPointBlocks)
+            {
+                if (!_blockCutTree_BlockIdToCutPoints.ContainsKey(startBlock)) return null; //Block cut tree is disconnected
+                foreach (var cutPoint in _blockCutTree_BlockIdToCutPoints[startBlock])
+                {
+                    var searchBlocks = _blockCutTree_CutPointsToBlockId[cutPoint];
+                    for (int i = 0; i < searchBlocks.Count; i++)
+                    {
+                        if (seenBlocks[searchBlocks[i]])
+                        {
+                            searchBlocks.RemoveAt(i);
+                            i--;
+                        }
+                    }
+                    if (searchBlocks.Count == 0) continue;
+
+                    var builtList = GetRelevantBlockCutTreeRecursive(_blockCutTree_CutPointsToBlockId[cutPoint].ToList(),
+                        destinationPointBlock, seenBlocks, bctList);
+                    if (builtList != null)
+                    {
+                        builtList.Add(startBlock);
+                        bctList.AddFirst(new []{ cutPoint });
+                        bctList.AddFirst(Blocks.ElementAt(startBlock).ToArray());
+                        return builtList;
                     }
                 }
             }
