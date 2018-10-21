@@ -46,11 +46,19 @@ namespace Grid.Domain
 
                 h += AlternateStepsHeuristic.CalculateAlternateStepHeuristic(firstStepEven, goalEven, odd, even);
             }
-            
-            //if (gridNode is RsdGridSearchNode)
-            //{
-            //    ((RsdGridSearchNode)gridNode).Reachable = new BitArray(valid); //TODO: head location valid?
-            //}
+
+            if (gridNode is RsdGridSearchNode)
+            {
+                ((RsdGridSearchNode) gridNode).Reachable = new BitArray(w.LinearSize);
+                for (int i = 0; i + 1 < bct.Count; i += 2)
+                {
+                    var currBlk = bct.ElementAt(i + 1);
+                    for (int j = 0; j < currBlk.Length; j++)
+                    {
+                        ((RsdGridSearchNode) gridNode).Reachable[currBlk[j]] = true;
+                    }
+                }
+            }
 
             return h;//AlternateStepsHeuristic.CalculateAlternateStepHeuristic(firstStepEven, goalEven, odd, even);
         }

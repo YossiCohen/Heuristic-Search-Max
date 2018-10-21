@@ -27,7 +27,7 @@ namespace Grid
                 Console.WriteLine(@"problem:     problem filename");
                 Console.WriteLine(@"time-limit:  limit run time to X minutes (default 120), 0 for no time limit");
                 Console.WriteLine(@"alg:         [astar/dfbnb/greedy/greedyloops] the solving algorithm");
-                Console.WriteLine(@"heuristic:   [none/untouched/bcc/alternate/altbcc] the heuristic being used");
+                Console.WriteLine(@"heuristic:   [none/untouched/bcc/alternate/altbcc/sepaltbcc] the heuristic being used");
                 Console.WriteLine(@"prune:       [none/bsd/rsd] pruning technique");
                 Console.WriteLine(@"bcc-init:    [true/false] remove non-reachable areas from the graph on init");
                 Console.WriteLine(@"----------");
@@ -85,6 +85,10 @@ namespace Grid
             else if(splitedArgs["heuristic"] == "altbcc")
             {
                 heuristic = new AlternateStepsBiconnectedComponentsHeuristic();
+            }
+            else if(splitedArgs["heuristic"] == "sepaltbcc")
+            {
+                heuristic = new SeparateAlternateStepsBiconnectedComponentsHeuristic();
             }
             else
             {
