@@ -21,7 +21,7 @@ namespace Grid.Domain
 
             
             int h = 0;
-            for (int i = 0; i + 1 < bct.Count; i += 2)
+            for (int i = 0; i + 2 < bct.Count; i += 2)
             {
                 int head = bct.ElementAt(i)[0];
                 var firstStepEven = !IsEvenLocation(w, head);
