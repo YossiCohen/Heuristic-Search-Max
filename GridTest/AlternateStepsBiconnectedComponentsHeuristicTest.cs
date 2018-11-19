@@ -135,8 +135,10 @@ namespace GridTest
         public void Integration_altbccWithRsdBug_ShouldFindSolution()
         {
             _specialCase01 = new World(File.ReadAllText(@"..\..\altbcc-rsd-bug001.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
-            AStarMax astar = new AStarMax(_specialCase01.GetInitialSearchNode<RsdGridSearchNode>(), new GoalOnLocation(_specialCase01.Goal));
+            var prune = new ReachableSymmetryDetectionPrunning();
+            AStarMax astar = new AStarMax(_specialCase01.GetInitialSearchNode<RsdGridSearchNode>(), prune, new GoalOnLocation(_specialCase01.Goal));
             Assert.IsNotNull(astar);
+            prune.setAstarOpenList(astar.OpenList);
             astar.Run(Int32.MaxValue);
             var AstarMaxGoal = astar.GetMaxGoal();
             DfBnbMax dfbnb = new DfBnbMax(_specialCase01.GetInitialSearchNode<GridSearchNode>(), new GoalOnLocation(_specialCase01.Goal));

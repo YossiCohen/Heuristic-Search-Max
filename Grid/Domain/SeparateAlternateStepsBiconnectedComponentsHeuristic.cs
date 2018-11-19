@@ -60,7 +60,7 @@ namespace Grid.Domain
                 }
             }
 
-            return h;//AlternateStepsHeuristic.CalculateAlternateStepHeuristic(firstStepEven, goalEven, odd, even);
+            return h;
         }
 
         public bool IsEvenLocation(World w, int linearLocation)
