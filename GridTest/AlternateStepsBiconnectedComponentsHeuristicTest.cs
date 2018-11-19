@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Grid.Domain;
+using MaxSearchAlg;
+using System;
 
 namespace GridTest
 {
@@ -18,6 +20,7 @@ namespace GridTest
         private static World _basicWorld5e;
         private static World _basicWorld5f;
         private static World _basicWorld5g;
+        private static World _specialCase01;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -128,5 +131,19 @@ namespace GridTest
             Assert.AreEqual(14, initialState.h);
         }
 
+        [TestMethod]
+        public void Integration_altbccWithRsdBug_ShouldFindSolution()
+        {
+            _specialCase01 = new World(File.ReadAllText(@"..\..\altbcc-rsd-bug001.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
+            AStarMax astar = new AStarMax(_specialCase01.GetInitialSearchNode<RsdGridSearchNode>(), new GoalOnLocation(_specialCase01.Goal));
+            Assert.IsNotNull(astar);
+            astar.Run(Int32.MaxValue);
+            var AstarMaxGoal = astar.GetMaxGoal();
+            DfBnbMax dfbnb = new DfBnbMax(_specialCase01.GetInitialSearchNode<GridSearchNode>(), new GoalOnLocation(_specialCase01.Goal));
+            Assert.IsNotNull(dfbnb);
+            dfbnb.Run(Int32.MaxValue);
+            var DfbnbMaxGoal = dfbnb.GetMaxGoal();
+            Assert.AreEqual(AstarMaxGoal.g, DfbnbMaxGoal.g);
+        }
     }
 }
