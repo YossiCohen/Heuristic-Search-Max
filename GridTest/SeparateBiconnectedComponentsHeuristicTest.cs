@@ -1,13 +1,13 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Grid.Domain;
 using MaxSearchAlg;
-using System;
 
 namespace GridTest
 {
     [TestClass]
-    public class AlternateStepsBiconnectedComponentsHeuristicTest
+    public class SeparateBiconnectedComponentsHeuristicTest
     {
         private static World _basicWorld2;
         private static World _basicWorld3;
@@ -20,22 +20,23 @@ namespace GridTest
         private static World _basicWorld5e;
         private static World _basicWorld5f;
         private static World _basicWorld5g;
-        private static World _specialCase01;
+        private static World _basicWorldSeparateBccV1;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            _basicWorld2 = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_2x2.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
-            _basicWorld3 = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_3x3.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
-            _basicWorld4a = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_4x4A.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
-            _basicWorld4b = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_4x4B.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
-            _basicWorld5a = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B2_E0_O2.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
-            _basicWorld5b = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B2_E2_O0_V1.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
-            _basicWorld5c = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B2_E2_O0_V2.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
-            _basicWorld5d = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B3_E1_O2.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
-            _basicWorld5e = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B3_E3_O0.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
-            _basicWorld5f = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B4_E0_O4.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
-            _basicWorld5g = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B4_E4_O0.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
+            _basicWorld2 = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_2x2.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
+            _basicWorld3 = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_3x3.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
+            _basicWorld4a = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_4x4A.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
+            _basicWorld4b = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_4x4B.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
+            _basicWorld5a = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B2_E0_O2.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
+            _basicWorld5b = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B2_E2_O0_V1.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
+            _basicWorld5c = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B2_E2_O0_V2.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
+            _basicWorld5d = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B3_E1_O2.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
+            _basicWorld5e = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B3_E3_O0.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
+            _basicWorld5f = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B4_E0_O4.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
+            _basicWorld5g = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B4_E4_O0.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
+            _basicWorldSeparateBccV1 = new World(File.ReadAllText(@"..\..\Grid_size_SeparateBCC_V1.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
         }
 
         [TestMethod]
@@ -44,11 +45,11 @@ namespace GridTest
             var h = new AlternateStepsBiconnectedComponentsHeuristic();
             //when grid is oddXodd we get alternate linear location all the way
             bool shouldBeEven = true;
-            for(int i = 0; i < _basicWorld5a.Height; i++)
+            for (int i = 0; i < _basicWorld5a.Height; i++)
             {
                 for (int j = 0; j < _basicWorld5a.Width; j++)
                 {
-                    int linearLoc = i* _basicWorld5a.Width + j;
+                    int linearLoc = i * _basicWorld5a.Width + j;
                     Assert.AreEqual(shouldBeEven, h.IsEvenLocation(_basicWorld5a, linearLoc));
                     shouldBeEven = !shouldBeEven;
                 }
@@ -131,21 +132,13 @@ namespace GridTest
             Assert.AreEqual(14, initialState.h);
         }
 
+
         [TestMethod]
-        public void Integration_altbccWithRsdBug_ShouldFindSolution()
+        public void hValue_basicWorldSeparateBccV1_Equals20()
         {
-            _specialCase01 = new World(File.ReadAllText(@"..\..\altbcc-rsd-bug001.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
-            var prune = new ReachableSymmetryDetectionPrunning();
-            AStarMax astar = new AStarMax(_specialCase01.GetInitialSearchNode<RsdGridSearchNode>(), prune, new GoalOnLocation(_specialCase01.Goal));
-            Assert.IsNotNull(astar);
-            prune.setAstarOpenList(astar.OpenList);
-            astar.Run(Int32.MaxValue);
-            var AstarMaxGoal = astar.GetMaxGoal();
-            DfBnbMax dfbnb = new DfBnbMax(_specialCase01.GetInitialSearchNode<GridSearchNode>(), new GoalOnLocation(_specialCase01.Goal));
-            Assert.IsNotNull(dfbnb);
-            dfbnb.Run(Int32.MaxValue);
-            var DfbnbMaxGoal = dfbnb.GetMaxGoal();
-            Assert.AreEqual(AstarMaxGoal.g, DfbnbMaxGoal.g);
+            GridSearchNode initialState = _basicWorldSeparateBccV1.GetInitialSearchNode<GridSearchNode>();
+            Assert.AreEqual(14, initialState.h);
         }
+
     }
 }

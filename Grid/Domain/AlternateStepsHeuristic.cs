@@ -65,11 +65,10 @@ namespace Grid.Domain
 
         internal static int CalculateAlternateStepHeuristic(bool firstStepEven, bool goalEven, int oddCount, int evenCount)
         {
-            int h = 0;
-            if (firstStepEven != goalEven
-            ) // This case is like classic Domino problem: [Head-W]->[FirstStep-B]->[W]->[B]->[Goal-W]
+            if (oddCount == 0 && evenCount == 0) return 0;
+            if (firstStepEven != goalEven) // This case is like classic Domino problem: [Head-W]->[FirstStep-B]->[W]->[B]->[Goal-W]
             {
-                h = Math.Min(oddCount, evenCount) * 2;
+                return Math.Min(oddCount, evenCount) * 2;
             }
             else // This case FIRST STEP AND GOAL ARE EQUALS: [Head-W]->[FirstStep-B]->[W]->[Goal-B]
             {
@@ -77,26 +76,25 @@ namespace Grid.Domain
                 {
                     if (evenCount > oddCount)
                     {
-                        h = oddCount * 2 + 1;
+                        return oddCount * 2 + 1;
                     }
                     else
                     {
-                        h = evenCount * 2 - 1;
+                        return evenCount * 2 - 1;
                     }
                 }
                 else //Goal is odd
                 {
                     if (oddCount > evenCount)
                     {
-                        h = evenCount * 2 + 1;
+                        return evenCount * 2 + 1;
                     }
                     else
                     {
-                        h = oddCount * 2 - 1;
+                        return oddCount * 2 - 1;
                     }
                 }
             }
-            return h;
         }
 
         public bool IsEvenLocation(Location loc)

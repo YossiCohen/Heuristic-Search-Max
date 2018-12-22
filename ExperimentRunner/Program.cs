@@ -17,6 +17,7 @@ namespace ExperimentRunner
         private static List<string> fileNames = new List<string>();
         private static FileInfo[] grdFileList;
         private static int numOfProcess = int.Parse(ConfigurationSettings.AppSettings["NumberOfGridProcess"] == null ? "2" : ConfigurationSettings.AppSettings["NumberOfGridProcess"]);
+        private static bool retryStoppedByTime = bool.Parse(ConfigurationSettings.AppSettings["RetryStoppedByTime"] == null ? "false" : ConfigurationSettings.AppSettings["RetryStoppedByTime"]);
 
         private static Dictionary<string, Dictionary<string, string>> logsData =
             new Dictionary<string, Dictionary<string, string>>();
@@ -249,6 +250,7 @@ namespace ExperimentRunner
                                                 needToAdd = false;
                                                 break;
                                             case "StoppedByTime":
+                                                needToAdd = retryStoppedByTime;
                                                 Console.Out.WriteLine($"StoppedByTime: {file}, {alg}, {prune}");
                                                 break;
                                             case "IllegalStartState":
