@@ -175,6 +175,7 @@ namespace ExperimentRunner
                     foreach (var str in profileArg)
                     {
                         var kv = str.Split('=');
+                        kv[1] = kv[1].ToLower();
                         if (kv[0] == "alg")
                         {
                             switch (kv[1])
@@ -230,11 +231,11 @@ namespace ExperimentRunner
                         {
                             switch (kv[1])
                             {
-                                case "True":
+                                case "true":
                                     bccinit = "True";
                                     break;
-                                case "False":
-                                    bccinit = "Flase";
+                                case "false":
+                                    bccinit = "False";
                                     break;
                             }
                         }
