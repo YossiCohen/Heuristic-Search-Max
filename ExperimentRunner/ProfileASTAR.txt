@@ -1,0 +1,37 @@
+// what args to run for each file
+// if there is no RunningLogs folder - check that all relevant DLL exists
+// must provide all 4 arguments in every line (alg, heuristic, prune, bcc-init)
+alg=astar heuristic=untouched prune=none bcc-init=false
+alg=astar heuristic=untouched prune=bsd bcc-init=false
+alg=astar heuristic=untouched prune=rsd bcc-init=false
+alg=astar heuristic=bcc prune=none bcc-init=false
+alg=astar heuristic=bcc prune=bsd bcc-init=false
+alg=astar heuristic=bcc prune=rsd bcc-init=false
+alg=astar heuristic=alternate prune=none bcc-init=false
+alg=astar heuristic=alternate prune=bsd bcc-init=false
+alg=astar heuristic=alternate prune=rsd bcc-init=false
+alg=astar heuristic=altbcc prune=none bcc-init=false
+alg=astar heuristic=altbcc prune=bsd bcc-init=false
+alg=astar heuristic=altbcc prune=rsd bcc-init=false
+alg=astar heuristic=sepaltbcc prune=none bcc-init=false
+alg=astar heuristic=sepaltbcc prune=bsd bcc-init=false
+alg=astar heuristic=sepaltbcc prune=rsd bcc-init=false
+alg=astar heuristic=untouched prune=none bcc-init=true
+alg=astar heuristic=untouched prune=bsd bcc-init=true
+alg=astar heuristic=untouched prune=rsd bcc-init=true
+alg=astar heuristic=bcc prune=none bcc-init=true
+alg=astar heuristic=bcc prune=bsd bcc-init=true
+alg=astar heuristic=bcc prune=rsd bcc-init=true
+alg=astar heuristic=alternate prune=none bcc-init=true
+alg=astar heuristic=alternate prune=bsd bcc-init=true
+alg=astar heuristic=alternate prune=rsd bcc-init=true
+alg=astar heuristic=altbcc prune=none bcc-init=true
+alg=astar heuristic=altbcc prune=bsd bcc-init=true
+alg=astar heuristic=altbcc prune=rsd bcc-init=true
+alg=astar heuristic=sepaltbcc prune=none bcc-init=true
+alg=astar heuristic=sepaltbcc prune=bsd bcc-init=true
+alg=astar heuristic=sepaltbcc prune=rsd bcc-init=true
+
+
+
+

@@ -44,7 +44,7 @@ namespace MaxSearchAlg
             }
 
             //store best candidate if we seeing it
-            if (GoalCheckMethod.ValidGoal(currentNode))
+            if (GoalCheckMethod.ValidGoal(currentNode)) ///TODO: if this is a valid goal - dont try to expand id
             {
                 if (candidateGoalNode == null || currentNode.g > candidateGoalNode.g)
                 {

@@ -9,7 +9,7 @@ copy Grid\bin\Release\*.config ExperimentEnv
 copy Grid\bin\Release\*.dll ExperimentEnv
 copy ExperimentRunner\bin\Release\*.exe ExperimentEnv
 copy ExperimentRunner\bin\Release\*.config ExperimentEnv
-copy ExperimentRunner\profile.txt ExperimentEnv
+copy ExperimentRunner\profile*.txt ExperimentEnv
 copy LogUtils\ExperimentSummarizer\bin\Release\*.exe ExperimentEnv
 copy LogUtils\DrawSolution\bin\Release\*.exe ExperimentEnv
 copy FoldersExp.bat ExperimentEnv

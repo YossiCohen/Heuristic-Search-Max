@@ -1,0 +1,23 @@
+// what args to run for each file
+// if there is no RunningLogs folder - check that all relevant DLL exists
+// must provide all 4 arguments in every line (alg, heuristic, prune, bcc-init)
+alg=dfbnb heuristic=untouched prune=none bcc-init=false
+alg=dfbnb heuristic=untouched prune=bsd bcc-init=false
+alg=dfbnb heuristic=bcc prune=none bcc-init=false
+alg=dfbnb heuristic=bcc prune=bsd bcc-init=false
+alg=dfbnb heuristic=alternate prune=none bcc-init=false
+alg=dfbnb heuristic=alternate prune=bsd bcc-init=false
+alg=dfbnb heuristic=altbcc prune=none bcc-init=false
+alg=dfbnb heuristic=altbcc prune=bsd bcc-init=false
+alg=dfbnb heuristic=sepaltbcc prune=none bcc-init=false
+alg=dfbnb heuristic=sepaltbcc prune=bsd bcc-init=false
+alg=dfbnb heuristic=untouched prune=none bcc-init=true
+alg=dfbnb heuristic=untouched prune=bsd bcc-init=true
+alg=dfbnb heuristic=bcc prune=none bcc-init=true
+alg=dfbnb heuristic=bcc prune=bsd bcc-init=true
+alg=dfbnb heuristic=alternate prune=none bcc-init=true
+alg=dfbnb heuristic=alternate prune=bsd bcc-init=true
+alg=dfbnb heuristic=altbcc prune=none bcc-init=true
+alg=dfbnb heuristic=altbcc prune=bsd bcc-init=true
+alg=dfbnb heuristic=sepaltbcc prune=none bcc-init=true
+alg=dfbnb heuristic=sepaltbcc prune=bsd bcc-init=true
