@@ -81,6 +81,7 @@ namespace ExperimentRunner
             p.EnableRaisingEvents = true;
             p.Exited += StartNewCommand;
             p.Start();
+            p.PriorityClass = ProcessPriorityClass.RealTime;
             Console.WriteLine($"Grid.exe Started: {p.StartInfo.Arguments}");
         }
         
@@ -213,6 +214,15 @@ namespace ExperimentRunner
                                     break;
                                 case "bcc":
                                     heuristic = "BiconnectedComponentsHeuristic";
+                                    break;
+                                case "alternate":
+                                    heuristic = "AlternateStepsHeuristic";
+                                    break;
+                                case "altbcc":
+                                    heuristic = "AlternateStepsBiconnectedComponentsHeuristic";
+                                    break;
+                                case "sepaltbcc":
+                                    heuristic = "SeparateAlternateStepsBiconnectedComponentsHeuristic";
                                     break;
                             }
                         }
