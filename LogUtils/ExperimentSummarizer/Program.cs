@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -82,6 +83,8 @@ namespace ExpSum
                 sbProblemEndedForAll.Append(Environment.NewLine);
             }
             File.WriteAllText(GetTimestampFileName(DateTime.Now, "SolvedByAll"), sbProblemEndedForAll.ToString());
+
+            ExportSortedResults();
         }
 
         public static string GetTimestampFileName(DateTime value, string summaryType)
@@ -110,5 +113,103 @@ namespace ExpSum
                 data[file].Add(kvp[0], kvp[1]);
             }
         }
+
+        public static void ExportSortedResults()
+        {
+            //NOTICE! this method assumes that all the DATA is loaded already
+
+            //pass 1 - arrange the data
+            Dictionary<string, List<int>> HeuristicPruningExpanded = new Dictionary<string, List<int>>();
+            Dictionary<string, List<double>> HeuristicPruningTime = new Dictionary<string, List<double>>();
+            List<string> headers = new List<string>();
+            foreach (var fn in fileNames) 
+            {
+                if (data[fn]["HowEnded"] != "Ended")
+                {
+                    continue;
+                }
+                var heuristic = data[fn]["Heuristic"];
+                var pruning = data[fn]["Prunning"];
+                var heuristicPruning = heuristic + "_" + pruning;
+                var expanded = int.Parse(data[fn]["Expended"]);
+                var time = double.Parse(data[fn]["TotalTime(MS)"]);
+                if (!headers.Contains(heuristic))
+                {
+                    headers.Add(heuristic);
+                }
+                if (!headers.Contains(pruning))
+                {
+                    headers.Add(pruning);
+                }
+                if (!headers.Contains(heuristicPruning))
+                {
+                    headers.Add(heuristicPruning);
+                }
+                if (!HeuristicPruningExpanded.ContainsKey(heuristic))
+                {
+                    HeuristicPruningExpanded.Add(heuristic, new List<int>());
+                    HeuristicPruningTime.Add(heuristic, new List<double>());
+                }
+                if (!HeuristicPruningExpanded.ContainsKey(pruning))
+                {
+                    HeuristicPruningExpanded.Add(pruning, new List<int>());
+                    HeuristicPruningTime.Add(pruning, new List<double>());
+                }
+                if (!HeuristicPruningExpanded.ContainsKey(heuristicPruning))
+                {
+                    HeuristicPruningExpanded.Add(heuristicPruning, new List<int>());
+                    HeuristicPruningTime.Add(heuristicPruning, new List<double>());
+                }
+                HeuristicPruningExpanded[heuristic].Add(expanded);
+                HeuristicPruningTime[heuristic].Add(time);
+                HeuristicPruningExpanded[pruning].Add(expanded);
+                HeuristicPruningTime[pruning].Add(time);
+                HeuristicPruningExpanded[heuristicPruning].Add(expanded);
+                HeuristicPruningTime[heuristicPruning].Add(time);
+            }
+
+            //Pass 2 : output
+            if (headers.Count > 1)
+            {
+                StringBuilder sortedResultsExpanded = new StringBuilder();
+                StringBuilder sortedResultsTime = new StringBuilder();
+                //init csv headers and sort
+                for (int i = 0; i < headers.Count; i++)
+                {
+                    sortedResultsExpanded.Append(headers[i] + "," );
+                    sortedResultsTime.Append(headers[i] + ",");
+                    HeuristicPruningTime[headers[i]].Sort();
+                    HeuristicPruningExpanded[headers[i]].Sort();
+                }
+                sortedResultsExpanded.Append(Environment.NewLine);
+                sortedResultsTime.Append(Environment.NewLine);
+
+                bool atleastOneFound = true;
+                var listIndex = 0;
+                while (atleastOneFound)
+                {
+                    atleastOneFound = false;
+                    listIndex++;
+                    for (int i = 0; i < headers.Count; i++)
+                    {
+                        if (HeuristicPruningExpanded[headers[i]].Count > listIndex)
+                        {
+                            atleastOneFound = true;
+                            sortedResultsExpanded.Append(HeuristicPruningExpanded[headers[i]][listIndex]);
+                            sortedResultsTime.Append(HeuristicPruningTime[headers[i]][listIndex]);
+                        }
+                        sortedResultsExpanded.Append(",");
+                        sortedResultsTime.Append(",");
+                    }
+                    sortedResultsExpanded.Append(Environment.NewLine);
+                    sortedResultsTime.Append(Environment.NewLine);
+                }
+
+                File.WriteAllText(GetTimestampFileName(DateTime.Now, "PerHeuristicAndPruningResults-Expanded"), sortedResultsExpanded.ToString());
+                File.WriteAllText(GetTimestampFileName(DateTime.Now, "PerHeuristicAndPruningResults-Time"), sortedResultsTime.ToString());
+            }
+
+        }
     }
+
 }

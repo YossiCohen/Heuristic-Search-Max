@@ -21,6 +21,7 @@ namespace GridTest
         private static World _basicWorld5f;
         private static World _basicWorld5g;
         private static World _specialCase01;
+        private static World _basicWorldSeparateBccV2;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -36,6 +37,8 @@ namespace GridTest
             _basicWorld5e = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B3_E3_O0.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
             _basicWorld5f = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B4_E0_O4.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
             _basicWorld5g = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B4_E4_O0.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
+            _basicWorldSeparateBccV2 = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_7x6v1.grd"), new AlternateStepsBiconnectedComponentsHeuristic());
+
         }
 
         [TestMethod]
@@ -129,6 +132,13 @@ namespace GridTest
         {
             GridSearchNode initialState = _basicWorld5g.GetInitialSearchNode<GridSearchNode>();
             Assert.AreEqual(14, initialState.h);
+        }
+
+        [TestMethod]
+        public void hValue_heuristicFor5x5G_Equals33()
+        {
+            GridSearchNode initialState = _basicWorldSeparateBccV2.GetInitialSearchNode<GridSearchNode>();
+            Assert.AreEqual(33, initialState.h);
         }
 
         [TestMethod]

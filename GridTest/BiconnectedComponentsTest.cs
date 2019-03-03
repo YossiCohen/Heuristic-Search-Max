@@ -9,6 +9,7 @@ namespace GridTest
     {
         private static World _basicWorldV1;
         private static World _basicWorldV2;
+        private static World _basicWorldV3;
         private static World _basicWorldT1S0;
         private static World _basicWorldT1S1;
         private static World _basicWorldT1S2D;
@@ -35,6 +36,8 @@ namespace GridTest
             _basicWorldV1 = new World(basicBccV1, new NoneHeuristic());
             var basicBccV2 = File.ReadAllText(@"..\..\Grid_5x5BiconnectedComponentsHeuristicV2.grd");
             _basicWorldV2 = new World(basicBccV2, new NoneHeuristic());
+            var basicBccV3 = File.ReadAllText(@"..\..\Grid_5x5BiconnectedComponentsHeuristicV3.grd");
+            _basicWorldV3 = new World(basicBccV3, new NoneHeuristic());
             _basicWorldT1S0 = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step0.grd"), new NoneHeuristic());
             _basicWorldT1S1 = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step1.grd"), new NoneHeuristic());
             _basicWorldT1S2D = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step2D.grd"), new NoneHeuristic());
@@ -190,6 +193,19 @@ namespace GridTest
         public void CutPoints_AreAllValid_Count6()
         {
             var biconnectedComponents = new BiconnectedComponents(_basicWorldV1);
+            Assert.AreEqual(6,biconnectedComponents.CutPoints.Count);
+            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(1));
+            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(2));
+            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(3));
+            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(23));
+            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(22));
+            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(21));
+        }
+
+        [TestMethod]
+        public void CutPoints_AreAllValid_Count3()
+        {
+            var biconnectedComponents = new BiconnectedComponents(_basicWorldV3);
             Assert.AreEqual(6,biconnectedComponents.CutPoints.Count);
             Assert.IsTrue(biconnectedComponents.CutPoints.Contains(1));
             Assert.IsTrue(biconnectedComponents.CutPoints.Contains(2));

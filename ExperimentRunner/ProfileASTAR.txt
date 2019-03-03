@@ -31,7 +31,3 @@ alg=astar heuristic=altbcc prune=rsd bcc-init=true
 alg=astar heuristic=sepaltbcc prune=none bcc-init=true
 alg=astar heuristic=sepaltbcc prune=bsd bcc-init=true
 alg=astar heuristic=sepaltbcc prune=rsd bcc-init=true
-
-
-
-

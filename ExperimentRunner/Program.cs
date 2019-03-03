@@ -252,24 +252,30 @@ namespace ExperimentRunner
                                 {
                                     if (existingLoggedRuns[file.Name.ToLower()][alg][heuristic].Keys.Contains(bccinit))
                                     {
-                                        var howEnded = existingLoggedRuns[file.Name.ToLower()][alg][heuristic][bccinit][prune];
-                                        switch (howEnded)
+                                        if (existingLoggedRuns[file.Name.ToLower()][alg][heuristic][bccinit].Keys
+                                            .Contains(prune))
                                         {
-                                            case "Searching":
-                                                break;
-                                            case "Ended":
-                                                needToAdd = false;
-                                                break;
-                                            case "StoppedByTime":
-                                                needToAdd = retryStoppedByTime;
-                                                Console.Out.WriteLine($"StoppedByTime: {file}, {alg}, {prune}");
-                                                break;
-                                            case "IllegalStartState":
-                                                Console.Out.WriteLine($"IllegalStartState: {file}, {alg}, {prune}");
-                                                break;
-                                            case "StoppedByMemoryLimit":
-                                                Console.Out.WriteLine($"StoppedByMemoryLimit: {file}, {alg}, {prune}");
-                                                break;
+                                            var howEnded =
+                                                existingLoggedRuns[file.Name.ToLower()][alg][heuristic][bccinit][prune];
+                                            switch (howEnded)
+                                            {
+                                                case "Searching":
+                                                    break;
+                                                case "Ended":
+                                                    needToAdd = false;
+                                                    break;
+                                                case "StoppedByTime":
+                                                    needToAdd = retryStoppedByTime;
+                                                    Console.Out.WriteLine($"StoppedByTime: {file}, {alg}, {prune}");
+                                                    break;
+                                                case "IllegalStartState":
+                                                    Console.Out.WriteLine($"IllegalStartState: {file}, {alg}, {prune}");
+                                                    break;
+                                                case "StoppedByMemoryLimit":
+                                                    Console.Out.WriteLine(
+                                                        $"StoppedByMemoryLimit: {file}, {alg}, {prune}");
+                                                    break;
+                                            }
                                         }
 
                                     }

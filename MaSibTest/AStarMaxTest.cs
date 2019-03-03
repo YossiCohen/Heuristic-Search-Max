@@ -24,11 +24,11 @@ namespace MaSibTest
         [TestMethod]
         public void Run_NewAStarSnake()
         {
-            World w = new World(5, 3);
-            var heuristicFunc = new SnakeNoneHeuristic();
+            World w = new World(4, 2);
+            var heuristicFunc = new SnakeLegalHeuristic();
             Snake snake = new Snake(w, 0, heuristicFunc);
             AStarMax astar = new AStarMax(snake, new ImplicitGoal());
-            astar.Run(1);
+            astar.Run(100);
             var maxGoal = astar.GetMaxGoal();
             Assert.IsNotNull(maxGoal);
         }
