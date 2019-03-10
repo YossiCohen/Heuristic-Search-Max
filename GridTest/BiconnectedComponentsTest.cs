@@ -206,13 +206,11 @@ namespace GridTest
         public void CutPoints_AreAllValid_Count3()
         {
             var biconnectedComponents = new BiconnectedComponents(_basicWorldV3);
-            Assert.AreEqual(6,biconnectedComponents.CutPoints.Count);
+            Assert.AreEqual(4,biconnectedComponents.CutPoints.Count);
             Assert.IsTrue(biconnectedComponents.CutPoints.Contains(1));
             Assert.IsTrue(biconnectedComponents.CutPoints.Contains(2));
-            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(3));
-            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(23));
-            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(22));
-            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(21));
+            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(11));
+            Assert.IsTrue(biconnectedComponents.CutPoints.Contains(12));
         }
 
         [TestMethod]

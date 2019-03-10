@@ -12,7 +12,7 @@ namespace Grid
     class Program
     {
 
-        private static readonly string VERSION = "1.94";
+        private static readonly string VERSION = "1.95";
         private static readonly string TIME_LIMIT = ConfigurationSettings.AppSettings["TimeLimit"] == null ? "120" : ConfigurationSettings.AppSettings["TimeLimit"];
         private static readonly string BCC_INIT = ConfigurationSettings.AppSettings["BccInit"] == null ? "true" : ConfigurationSettings.AppSettings["BccInit"];
 
@@ -28,7 +28,7 @@ namespace Grid
                 Console.WriteLine(@"time-limit:  limit run time to X minutes (default 120), 0 for no time limit");
                 Console.WriteLine(@"alg:         [astar/dfbnb/greedy/greedyloops] the solving algorithm");
                 Console.WriteLine(@"heuristic:   [none/untouched/bcc/alternate/altbcc/sepaltbcc] the heuristic being used");
-                Console.WriteLine(@"prune:       [none/bsd/rsd] pruning technique");
+                Console.WriteLine(@"prune:       [none/bsd/rsd/hbsd] pruning technique");
                 Console.WriteLine(@"bcc-init:    [true/false] remove non-reachable areas from the graph on init");
                 Console.WriteLine(@"----------");
                 Console.WriteLine(@"memTest:     if set to true, will not solve nothing, only fill memory");
@@ -107,6 +107,10 @@ namespace Grid
                     break;
                 case "bsd":
                     prune = new BasicSymmetryDetectionPrunning();
+                    initialNode = world.GetInitialSearchNode<GridSearchNode>();
+                    break;
+                case "hbsd":
+                    prune = new HashedBasicSymmetryDetectionPrunning();
                     initialNode = world.GetInitialSearchNode<GridSearchNode>();
                     break;
                 case "rsd":

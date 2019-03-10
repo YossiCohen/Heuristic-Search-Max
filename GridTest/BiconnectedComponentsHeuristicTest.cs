@@ -84,6 +84,34 @@ namespace GridTest
             Assert.AreEqual(State.Ended, howEnded);
         }
 
+
+        [TestMethod]
+        public void AStarGrid_BasicRun_BCCHeuristicsHBSD_Success()
+        {
+            GridSearchNode initialState = _basicWorldT1S0.GetInitialSearchNode<GridSearchNode>();
+            AStarMax astar = new AStarMax(initialState, new HashedBasicSymmetryDetectionPrunning(), new GoalOnLocation(_basicWorldV1.Goal));
+            Assert.IsNotNull(astar);
+            var howEnded = astar.Run(Int32.MaxValue);
+            var maxGoal = astar.GetMaxGoal();
+            Assert.IsNotNull(maxGoal);
+            Assert.AreEqual(State.Ended, howEnded);
+        }
+
+        [TestMethod]
+        public void AStarGrid_BasicRun_BCCHeuristicsHBSD_Success2()
+        {
+            GridSearchNode initialState = _basicWorldBccAndPruningCheck.GetInitialSearchNode<GridSearchNode>();
+            AStarMax astar = new AStarMax(initialState, new HashedBasicSymmetryDetectionPrunning(), new GoalOnLocation(_basicWorldV1.Goal));
+            Assert.IsNotNull(astar);
+            var howEnded = astar.Run(Int32.MaxValue);
+            var maxGoal = astar.GetMaxGoal();
+            Assert.IsNotNull(maxGoal);
+            Assert.AreEqual(State.Ended, howEnded);
+        }
+
+
+
+
         [TestMethod]
         public void AStarGrid_BasicRun_BCCHeuristicsRSD_Success()
         {

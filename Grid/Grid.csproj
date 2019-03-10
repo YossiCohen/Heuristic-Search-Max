@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\HashedBasicSymmetryDetectionPrunning.cs" />
     <Compile Include="Domain\SeparateAlternateStepsBiconnectedComponentsHeuristic.cs" />
     <Compile Include="Domain\BiconnectedComponents.cs" />
     <Compile Include="Domain\AlternateStepsBiconnectedComponentsHeuristic.cs" />
