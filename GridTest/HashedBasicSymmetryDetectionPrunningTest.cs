@@ -11,11 +11,13 @@ namespace GridTest
     {
 
         private static World _basicClean5X5World;
+        private static World _basicBlocked5X5World;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             _basicClean5X5World = new World(File.ReadAllText(@"..\..\Clean_Grid_5x5.grd"), new UntouchedAroundTheGoalHeuristic());
+            _basicBlocked5X5World = new World(File.ReadAllText(@"..\..\Clean_Grid_5x5BasicBlocked.grd"), new UntouchedAroundTheGoalHeuristic());
         }
 
         [TestMethod]
@@ -64,6 +66,31 @@ namespace GridTest
             Assert.IsFalse(prunningMethod.ShouldPrune(Flow2Node));
             Flow2Node = new GridSearchNode(Flow2Node, MoveDirection.Right);
             Assert.IsTrue(prunningMethod.ShouldPrune(Flow2Node));
+        }
+
+
+        [TestMethod]
+        public void Basic_Hbsd_findPathDfBnB()
+        {
+            GridSearchNode initialState = _basicBlocked5X5World.GetInitialSearchNode<GridSearchNode>();
+            IPrunningMethod prunningMethod = new HashedBasicSymmetryDetectionPrunning();
+            Solver solver = new DfBnbMax(initialState, prunningMethod,  new GoalOnLocation(_basicBlocked5X5World.Goal));
+            Assert.IsNotNull(solver);
+            solver.Run(Int32.MaxValue); //Prevent stoping by time, should stop only when goal found
+            var maxGoal = solver.GetMaxGoal();
+            Assert.AreEqual(20, maxGoal.g);
+        }
+
+        [TestMethod]
+        public void Basic_Hbsd_findPathAstar()
+        {
+            GridSearchNode initialState = _basicBlocked5X5World.GetInitialSearchNode<GridSearchNode>();
+            IPrunningMethod prunningMethod = new HashedBasicSymmetryDetectionPrunning();
+            Solver solver = new AStarMax(initialState, prunningMethod,  new GoalOnLocation(_basicBlocked5X5World.Goal));
+            Assert.IsNotNull(solver);
+            solver.Run(Int32.MaxValue); //Prevent stoping by time, should stop only when goal found
+            var maxGoal = solver.GetMaxGoal();
+            Assert.AreEqual(20, maxGoal.g);
         }
     }
 }
