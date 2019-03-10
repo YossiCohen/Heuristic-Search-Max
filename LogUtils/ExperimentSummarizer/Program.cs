@@ -84,7 +84,10 @@ namespace ExpSum
             }
             File.WriteAllText(GetTimestampFileName(DateTime.Now, "SolvedByAll"), sbProblemEndedForAll.ToString());
 
-            ExportSortedResults();
+            ExportSortedResults("AStarMax", "False");
+            ExportSortedResults("AStarMax", "True");
+            ExportSortedResults("DfBnbMax", "False");
+            ExportSortedResults("DfBnbMax", "True");
         }
 
         public static string GetTimestampFileName(DateTime value, string summaryType)
@@ -114,7 +117,7 @@ namespace ExpSum
             }
         }
 
-        public static void ExportSortedResults()
+        public static void ExportSortedResults(string alg, string initbcc)
         {
             //NOTICE! this method assumes that all the DATA is loaded already
 
@@ -125,6 +128,14 @@ namespace ExpSum
             foreach (var fn in fileNames) 
             {
                 if (data[fn]["HowEnded"] != "Ended")
+                {
+                    continue;
+                }
+                if (data[fn]["Algorithm"] != alg)
+                {
+                    continue;
+                }
+                if (data[fn]["BccInit"] != initbcc)
                 {
                     continue;
                 }
@@ -205,8 +216,8 @@ namespace ExpSum
                     sortedResultsTime.Append(Environment.NewLine);
                 }
 
-                File.WriteAllText(GetTimestampFileName(DateTime.Now, "PerHeuristicAndPruningResults-Expanded"), sortedResultsExpanded.ToString());
-                File.WriteAllText(GetTimestampFileName(DateTime.Now, "PerHeuristicAndPruningResults-Time"), sortedResultsTime.ToString());
+                File.WriteAllText(GetTimestampFileName(DateTime.Now, "PerHeuristicAndPruningResults-Expanded-alg-" + alg + "-initbcc-" + initbcc), sortedResultsExpanded.ToString());
+                File.WriteAllText(GetTimestampFileName(DateTime.Now, "PerHeuristicAndPruningResults-Time-alg-" + alg + "-initbcc-" + initbcc), sortedResultsTime.ToString());
             }
 
         }
