@@ -193,13 +193,16 @@ namespace ExperimentRunner
                             switch (kv[1])
                             {
                                 case "none":
-                                    prune = "NoPrunning";
+                                    prune = "A None_Pr";
                                     break;
                                 case "bsd":
-                                    prune = "BasicSymmetryDetectionPrunning";
+                                    prune = "B BSD_Pr";
+                                    break;
+                                case "hbsd":
+                                    prune = "C HBSD_Pr";
                                     break;
                                 case "rsd":
-                                    prune = "ReachableSymmetryDetectionPrunning";
+                                    prune = "D RSD_Pr";
                                     break;
                             }
                         }
@@ -208,22 +211,22 @@ namespace ExperimentRunner
                             switch (kv[1])
                             {
                                 case "none":
-                                    heuristic = "NoneHeuristic";
+                                    heuristic = "A None_H";
                                     break;
                                 case "untouched":
-                                    heuristic = "UntouchedAroundTheGoalHeuristic";
-                                    break;
-                                case "bcc":
-                                    heuristic = "BiconnectedComponentsHeuristic";
+                                    heuristic = "B Reachable_H";
                                     break;
                                 case "alternate":
-                                    heuristic = "AlternateStepsHeuristic";
+                                    heuristic = "C Alt_Reachable_H";
+                                    break;
+                                case "bcc":
+                                    heuristic = "D BCC_H";
                                     break;
                                 case "altbcc":
-                                    heuristic = "AlternateStepsBiconnectedComponentsHeuristic";
+                                    heuristic = "E Alt_BCC_H";
                                     break;
                                 case "sepaltbcc":
-                                    heuristic = "SeparateAlternateStepsBiconnectedComponentsHeuristic";
+                                    heuristic = "F SEP_ALT_BCC_H";
                                     break;
                             }
                         }
