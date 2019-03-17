@@ -13,3 +13,4 @@ copy ExperimentRunner\profile*.txt ExperimentEnv
 copy LogUtils\ExperimentSummarizer\bin\Release\*.exe ExperimentEnv
 copy LogUtils\DrawSolution\bin\Release\*.exe ExperimentEnv
 copy FoldersExp.bat ExperimentEnv
+copy SumFolders.bat ExperimentEnv
