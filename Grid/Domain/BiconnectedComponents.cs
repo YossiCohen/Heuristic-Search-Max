@@ -32,7 +32,7 @@ namespace Grid.Domain
             _blockCutTree_BlockIdToCutPoints = new Dictionary<int, List<int>>();
             if (null == searchNode)
             {
-                blockedOrVisited = World._isBlockedLocations;
+                blockedOrVisited = World._isPostBccInitBlockedLocations;
             }
             else
             {

@@ -174,8 +174,10 @@ namespace Grid
             Log.WriteLineIf(@"[[Width:" + world.Width + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Height:" + world.Height + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[TotalLocations:" + world.Height * world.Width + "]]", TraceLevel.Off);
-            Log.WriteLineIf(@"[[TotalFreeLocations:" + ((world.Height * world.Width) - world.TotalBlocked) + "]]", TraceLevel.Off);
-            Log.WriteLineIf(@"[[BlockedCount:" + world.TotalBlocked + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[TotalFreeLocationsPreBcc:" + ((world.Height * world.Width) - world.TotalBlockedPreBccInit) + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[TotalFreeLocationsPostBcc:" + ((world.Height * world.Width) - world.TotalBlockedPostBccInit) + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[BlockedCountPreBccInit:" + world.TotalBlockedPreBccInit + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[BlockedCountPostBccInit:" + world.TotalBlockedPostBccInit + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[NumberOfEvenLocations:" + AlternateStepsHeuristic.GetNumberOfEvenLocations(world.Width, world.Height) + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[NumberOfOddLocations:" + AlternateStepsHeuristic.GetNumberOfOddLocations(world.Width, world.Height) + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[EvenBlockedCount:" + world.EvenBlocked + "]]", TraceLevel.Off);
