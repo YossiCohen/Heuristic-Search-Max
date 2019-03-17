@@ -20,15 +20,18 @@ namespace MaxSearchAlg
 
         internal override State Step()
         {
+#if DEBUG
             Log.WriteLineIf($"[StepStart] Head.G:{_head.g}, Head.H:{_head.h}", TraceLevel.Verbose);
-
+#endif
 
             //Have we found the goal?
             if (GoalCheckMethod.ValidGoal(_head))
             {
                 if (candidateGoalNode == null)
                 {
+#if DEBUG
                     Log.WriteLineIf("[GreedyMax.StepEnd GoalFound] GoalFound:" + _head.GetBitsString(), TraceLevel.Verbose);
+#endif
                     candidateGoalNode = _head;
                     return State.Ended;
                 }
@@ -43,12 +46,16 @@ namespace MaxSearchAlg
             
             //Expand head
             Expended++;
+#if DEBUG
             Log.WriteLineIf("[StepExpanding...] ", TraceLevel.Verbose);
-            int best_h=-1;
+#endif
+            int best_h =-1;
             List<INode> sameHeuristicChilds = new List<INode>();
             foreach (var child in _head.Children)
             {
+#if DEBUG
                 Log.WriteLineIf($"[GenerateChild...] {child.GetBitsString()}", TraceLevel.Info);
+#endif
                 Generated++;
                 if (child.h > best_h)
                 {
@@ -75,8 +82,9 @@ namespace MaxSearchAlg
                     }
                 }
             }
-
+#if DEBUG
             Log.WriteLineIf("[GreedyMax.StepEnd] - return Searching", TraceLevel.Verbose);
+#endif
             return State.Searching;
         }
     }

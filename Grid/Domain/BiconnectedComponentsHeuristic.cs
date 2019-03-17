@@ -31,7 +31,7 @@ namespace Grid.Domain
         
         public string GetName()
         {
-            return "BiconnectedComponentsHeuristic";
+            return "D BCC_H";
         }
     }
 }

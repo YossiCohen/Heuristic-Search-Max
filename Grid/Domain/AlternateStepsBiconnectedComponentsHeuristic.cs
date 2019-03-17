@@ -59,7 +59,7 @@ namespace Grid.Domain
 
         public string GetName()
         {
-            return "AlternateStepsBiconnectedComponentsHeuristic";
+            return "E Alt_BCC_H";
         }
     }
 }

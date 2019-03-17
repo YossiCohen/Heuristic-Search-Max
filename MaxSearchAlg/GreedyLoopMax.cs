@@ -26,8 +26,9 @@ namespace MaxSearchAlg
 
         internal override State Step()
         {
+#if DEBUG
             Log.WriteLineIf($"[GreedyLoops.StepStart] Solving the Greedy way", TraceLevel.Verbose);
-
+#endif
             Solver solver = new GreedyMax(_initialNode, GoalCheckMethod);
             solver.Run(15); //TODO: propogate? it's irrelevant in here
             Expended += solver.Expended;
@@ -45,15 +46,21 @@ namespace MaxSearchAlg
             {
                 if (candidateGoalNode == null)
                 {
+#if DEBUG
                     Log.WriteLineIf("[GreedyLoops.StepEnd] candidateGoalNode == null - return Ended.NoGoalFound", TraceLevel.Verbose);
+#endif
                     return State.NoGoalFound;
                 }
                 //Have we found the goal? - Greedy will check that :)
+#if DEBUG
                 Log.WriteLineIf("[GreedyLoops.StepEnd LoopsEnded] GoalFound:" + candidateGoalNode.GetBitsString(), TraceLevel.Verbose);
+#endif
                 return State.Ended;
             }
+#if DEBUG
             Log.WriteLineIf($"[GreedyLoops.Status] Generated:{Generated}, Expended:{Expended}, IterSinceLast:{_iterationsSinceLastImprovement}, BestFoundG:{_lastBestG}, Loops:{_loops}", TraceLevel.Off);
             Log.WriteLineIf("[GreedyLoops.StepEnd] - return Searching", TraceLevel.Verbose);
+#endif
             return State.Searching;
         }
     }

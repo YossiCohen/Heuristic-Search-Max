@@ -114,7 +114,7 @@ namespace Grid.Domain
 
         public string GetName()
         {
-            return "AlternateStepsHeuristic";
+            return "C Alt_Reachable_H";
         }
     }
 }

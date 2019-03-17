@@ -6,5 +6,10 @@
         {
             return false;
         }
+
+        public string GetName()
+        {
+            return "A None_Pr";
+        }
     }
 }

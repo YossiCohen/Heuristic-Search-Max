@@ -35,7 +35,7 @@ namespace MaxSearchAlg
             //do Prune if needed
             if (candidateGoalNode != null && currentNode.f < candidateGoalNode.g)
             {
-                Pruned++;
+                AlgPruned++;
                 return State.Searching;
             }
             //Expand what is not pruned
@@ -46,7 +46,9 @@ namespace MaxSearchAlg
                 if (candidateGoalNode == null || currentNode.g > candidateGoalNode.g)
                 {
                     candidateGoalNode = currentNode;
+#if DEBUG
                     Log.WriteLineIf("[AStarMax] Best Candidate:" + candidateGoalNode, TraceLevel.Verbose);
+#endif
                 }
             }
 
@@ -59,7 +61,7 @@ namespace MaxSearchAlg
                 }
                 else
                 {
-                    Pruned++;//TODO: should separate the prune counter - BnB vs. PruningMethod
+                    ExternalPruned++;
                 }
 
             }

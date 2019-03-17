@@ -8,16 +8,18 @@ namespace Grid.Domain
 {
     public class HashedBasicSymmetryDetectionPrunning : IPrunningMethod
     {
-        private Dictionary<long, Dictionary<int, List<GridSearchNode>>> HistoryNodes;
+        private Dictionary<int, Dictionary<int, List<GridSearchNode>>> HistoryNodes;
         public HashedBasicSymmetryDetectionPrunning()
         {
-            HistoryNodes = new Dictionary<long, Dictionary<int, List<GridSearchNode>>>();
+            HistoryNodes = new Dictionary<int, Dictionary<int, List<GridSearchNode>>>();
         }
 
         public bool ShouldPrune(INode node)
         {
             var newGridNode = node as GridSearchNode;
+#if DEBUG
             Log.WriteLineIf($"[ShouldPrune - new node] {newGridNode.GetBitsString()}", TraceLevel.Info);
+#endif
             var head = GetLinearHeadLocation(newGridNode);
             var hash = GetHashValue(newGridNode);
             if (!HistoryNodes.ContainsKey(head))
@@ -25,7 +27,9 @@ namespace Grid.Domain
                 HistoryNodes[head] = new Dictionary<int, List<GridSearchNode>>();
                 HistoryNodes[head].Add(hash, new List<GridSearchNode>());
                 HistoryNodes[head][hash].Add(newGridNode);
+#if DEBUG
                 Log.WriteLineIf("[ShouldPrune - No list for head] - creating new", TraceLevel.Info);
+#endif
             }
             else
             {
@@ -33,7 +37,9 @@ namespace Grid.Domain
                 {
                     HistoryNodes[head].Add(hash, new List<GridSearchNode>());
                     HistoryNodes[head][hash].Add(newGridNode);
+#if DEBUG
                     Log.WriteLineIf("[ShouldPrune - No list for hash] - creating new", TraceLevel.Info);
+#endif
                 }
                 else
                 {
@@ -43,18 +49,22 @@ namespace Grid.Domain
                         //Log.WriteLineIf($"[ShouldPrune] - checking history node{historyNode.GetBitsString()}", TraceLevel.Info);
                         if (EqualBitArray(historyNode.Visited, newGridNode.Visited))
                         {
+#if DEBUG
                             Log.WriteLineIf("[ShouldPrune]- true", TraceLevel.Info);
+#endif
                             return true;
                         }
                     }
                     relevantList.Add(newGridNode);
                 }
             }
+#if DEBUG
             Log.WriteLineIf("[ShouldPrune] - false", TraceLevel.Info);
+#endif
             return false;
         }
 
-        private long GetLinearHeadLocation(GridSearchNode node)
+        private int GetLinearHeadLocation(GridSearchNode node)
         {
             return node.HeadLocation.Y * node.World.Width + node.HeadLocation.X;
         }
@@ -101,6 +111,12 @@ namespace Grid.Domain
                 hash += hash << 5;
                 return hash;
             }
+        }
+
+
+        public string GetName()
+        {
+            return "C HBSD_Pr";
         }
     }
 }
