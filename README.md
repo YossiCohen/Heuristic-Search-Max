@@ -1,14 +1,26 @@
 # Heuristic Search for Maximization Problems
-In this project you can find C# implementation for:
+This solution (HeuristicSearchMax.sln) is compund of multiple projects. They all cover two main domains GRID & MASIB. 
+In Grid we search for the longest simple path on 2D grid.
+in MASIB we solve the Multi-Agent version variant of Snake in the Box problem.
 
-Grid - 2D Grid basic maximization problem
+Projects structure:
+MaxSearchAlg - Implementation of search algorithms (A*, DFBnB, Greedy)
 
-MA-SIB - Multi Agent Snake In the Box
+Masib related:
+- MaSib - Multi agent snake in the box code
+- Lab - Python environment that runs multiple MASIB experiments
 
-Ref:
+Grid related:
+- Grid - Longest simple path on 2D grid code
+- GridGenerator - tool to generate varaity of grid problems
+- ExperimentRunner - tool to run experiments with multiple configuration (algorithm/pruning/heuristic/init-bcc)
+- LogUtils\DrawSolution - given an experiment result (in RunningLogs folder) this tool will draw the solution on the grid
+- LogUtils\ExperimentSummarizer - given an experiment results files (RunningLogs folder) this tool will create a collection of CSV files that summarize the results in different perspectives
+- LogUtils\LogClean - given a verbose log, this tool will remove various lines to make it more readable (for debugging purpose)
 
-'Finding Optimal Solutions to Cooperative Pathfinding Problems.' by Trevor Standley, 2010 - https://pdfs.semanticscholar.org/2529/f40c4f79ef24165dbb1a8327770e37cced2d.pdf
-
-'Solving the Snake in the Box Problem with Heuristic Search - First Results' by Palombo et al. - http://www.bgu.ac.il/~felner/2015/SoCS/solving-snake-box.pdf
+Test projects:
+- CommotTest
+- GridTest
+- MasibTest
 
 Have fun!
