@@ -6,10 +6,6 @@ in MASIB we solve the Multi-Agent version variant of Snake in the Box problem.
 Projects structure:
 MaxSearchAlg - Implementation of search algorithms (A*, DFBnB, Greedy)
 
-Masib related:
-- MaSib - Multi agent snake in the box code
-- Lab - Python environment that runs multiple MASIB experiments
-
 Grid related:
 - Grid - Longest simple path on 2D grid code
 - GridGenerator - tool to generate varaity of grid problems
@@ -17,6 +13,10 @@ Grid related:
 - LogUtils\DrawSolution - given an experiment result (in RunningLogs folder) this tool will draw the solution on the grid
 - LogUtils\ExperimentSummarizer - given an experiment results files (RunningLogs folder) this tool will create a collection of CSV files that summarize the results in different perspectives
 - LogUtils\LogClean - given a verbose log, this tool will remove various lines to make it more readable (for debugging purpose)
+
+Masib related:
+- MaSib - Multi agent snake in the box code
+- Lab - Python environment that runs multiple MASIB experiments
 
 Test projects:
 - CommotTest
