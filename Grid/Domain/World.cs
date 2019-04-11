@@ -25,15 +25,32 @@ namespace Grid.Domain
             get { return Width * Height; }
         }
 
-        internal readonly BitArray _isBlockedLocations;
+        internal readonly BitArray _isPreBccInitBlockedLocations;
+        internal readonly BitArray _isPostBccInitBlockedLocations;
         private IGridHeuristic HeuristicFunction { get; }
-        public int TotalBlocked {
+        public int TotalBlockedPreBccInit {
             get
             {
                 int totalBlocked = 0;
-                for (int i = 0; i < _isBlockedLocations.Count; i++)
+                for (int i = 0; i < _isPreBccInitBlockedLocations.Count; i++)
                 {
-                    if (_isBlockedLocations[i])
+                    if (_isPreBccInitBlockedLocations[i])
+                    {
+                        totalBlocked++;
+                    }
+                }
+                return totalBlocked + 1; //+1 for start head - start location
+            }
+        }
+
+        public int TotalBlockedPostBccInit
+        {
+            get
+            {
+                int totalBlocked = 0;
+                for (int i = 0; i < _isPostBccInitBlockedLocations.Count; i++)
+                {
+                    if (_isPostBccInitBlockedLocations[i])
                     {
                         totalBlocked++;
                     }
@@ -52,7 +69,7 @@ namespace Grid.Domain
                     for (int j = 0; j < Width; j++)
                     {
                         if ((i+j)%2 == 0) continue;
-                        if (_isBlockedLocations[Width*i + j])
+                        if (_isPostBccInitBlockedLocations[Width*i + j])
                         {
                             evenBlocked++;
                         }
@@ -73,7 +90,7 @@ namespace Grid.Domain
                     for (int j = 0; j < Width; j++)
                     {
                         if ((i+j)%2 == 1) continue;
-                        if (_isBlockedLocations[Width*i + j])
+                        if (_isPostBccInitBlockedLocations[Width*i + j])
                         {
                             oddBlocked++;
                         }
@@ -94,7 +111,7 @@ namespace Grid.Domain
             }
             Height = lines.Length - 1; //Last line has Enter - allways
             Width = lines[0].Length;
-            _isBlockedLocations = new BitArray(Width*Height);
+            _isPreBccInitBlockedLocations = new BitArray(Width*Height);
             for (int i = 0; i < lines.Length; i++)
             {
                 if (i != lines.Length-1 && lines[i].Length != Width)
@@ -113,10 +130,11 @@ namespace Grid.Domain
                     }
                     else if (lines[i][j] == '#')
                     {
-                        _isBlockedLocations[i * Width + j] = true;
+                        _isPreBccInitBlockedLocations[i * Width + j] = true;
                     }
                 }
             }
+            _isPostBccInitBlockedLocations = new BitArray(_isPreBccInitBlockedLocations);
             if (Start == null)
             {
                 throw new GridStartNotFoundException();
@@ -133,7 +151,7 @@ namespace Grid.Domain
             var valid = bcc.GetValidPlacesForMaxPath(Start, Goal);
             for (int i = 0; i < valid.Length; i++)
             {
-                if (!valid[i]) _isBlockedLocations[i] = true;
+                if (!valid[i]) _isPostBccInitBlockedLocations[i] = true;
             }
         }
 
@@ -144,13 +162,13 @@ namespace Grid.Domain
 
         public bool IsBlocked(Location loc)
         {
-            return _isBlockedLocations[loc.Y * Width + loc.X];
+            return _isPostBccInitBlockedLocations[loc.Y * Width + loc.X];
         }
 
         public BitArray GetBlockedOrVisited(GridSearchNode searchNode)
         {
-            BitArray mergedArrays = new BitArray(_isBlockedLocations.Count);
-            mergedArrays.Or(_isBlockedLocations);
+            BitArray mergedArrays = new BitArray(_isPostBccInitBlockedLocations.Count);
+            mergedArrays.Or(_isPostBccInitBlockedLocations);
             mergedArrays.Or(searchNode.Visited);
             return mergedArrays;
         }

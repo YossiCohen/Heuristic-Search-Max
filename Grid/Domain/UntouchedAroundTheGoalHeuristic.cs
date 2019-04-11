@@ -37,7 +37,7 @@ namespace Grid.Domain
         }
         public string GetName()
         {
-            return "UntouchedAroundTheGoalHeuristic";
+            return "B Reachable_H";
         }
     }
 }

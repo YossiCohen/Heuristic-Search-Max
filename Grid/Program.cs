@@ -12,8 +12,8 @@ namespace Grid
     class Program
     {
 
-        private static readonly string VERSION = "1.95";
-        private static readonly string TIME_LIMIT = ConfigurationSettings.AppSettings["TimeLimit"] == null ? "120" : ConfigurationSettings.AppSettings["TimeLimit"];
+        private static readonly string VERSION = "2.01";
+        private static readonly string TIME_LIMIT = ConfigurationSettings.AppSettings["TimeLimit"] == null ? "15" : ConfigurationSettings.AppSettings["TimeLimit"];
         private static readonly string BCC_INIT = ConfigurationSettings.AppSettings["BccInit"] == null ? "true" : ConfigurationSettings.AppSettings["BccInit"];
 
         static void Main(string[] args)
@@ -164,15 +164,20 @@ namespace Grid
             }
 
             Log.WriteLineIf(@"Solviong 2D-Grid problem from file:", TraceLevel.Off);
+            Log.WriteLineIf(@"[[Folder:" + Path.GetFileName(Environment.CurrentDirectory) + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Problem:" + problemFileName + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Algorithm:" + solver.GetType().Name + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Heuristic:" + heuristic.GetName() + "]]", TraceLevel.Off);
-            Log.WriteLineIf(@"[[Prunning:" + prune.GetType().Name + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[Prunning:" + prune.GetName() + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[BccInit:" + bccInit + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[TimeLimit:" + timelimit + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Width:" + world.Width + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Height:" + world.Height + "]]", TraceLevel.Off);
-            Log.WriteLineIf(@"[[BlockedCount:" + world.TotalBlocked + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[TotalLocations:" + world.Height * world.Width + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[TotalFreeLocationsPreBcc:" + ((world.Height * world.Width) - world.TotalBlockedPreBccInit) + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[TotalFreeLocationsPostBcc:" + ((world.Height * world.Width) - world.TotalBlockedPostBccInit) + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[BlockedCountPreBccInit:" + world.TotalBlockedPreBccInit + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[BlockedCountPostBccInit:" + world.TotalBlockedPostBccInit + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[NumberOfEvenLocations:" + AlternateStepsHeuristic.GetNumberOfEvenLocations(world.Width, world.Height) + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[NumberOfOddLocations:" + AlternateStepsHeuristic.GetNumberOfOddLocations(world.Width, world.Height) + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[EvenBlockedCount:" + world.EvenBlocked + "]]", TraceLevel.Off);
@@ -200,7 +205,9 @@ namespace Grid
             Log.WriteLineIf("[[CPU Cycles:" + totalCycles + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Expended:" + solver.Expended + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Generated:" + solver.Generated + "]]", TraceLevel.Off);
-            Log.WriteLineIf("[[Pruned:" + solver.Pruned + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[AlgPruned:" + solver.AlgPruned + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[ExternalPruned:" + solver.ExternalPruned + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[TotalPruned:" + solver.ExternalPruned + solver.AlgPruned + "]]", TraceLevel.Off);
             if (goal != null)
             {
                 Log.WriteLineIf("[[G-Value:" + goal.g + "]]", TraceLevel.Off);

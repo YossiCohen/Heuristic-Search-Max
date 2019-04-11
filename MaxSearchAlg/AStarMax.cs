@@ -28,11 +28,15 @@ namespace MaxSearchAlg
 
         internal override State Step()
         {
-            Log.WriteLineIf($"[StepStart] Open.Count:{OpenList.Count}, Exp:{Expended}, Gen:{Generated}, Prune:{Pruned}", TraceLevel.Verbose);
+#if DEBUG
+            Log.WriteLineIf($"[StepStart] Open.Count:{OpenList.Count}, Exp:{Expended}, Gen:{Generated}, AlgPruned:{AlgPruned}, ExternalPruned:{ExternalPruned}", TraceLevel.Verbose);
+#endif
             // stop condition
             if (openList.IsEmpty())
             {
-                Log.WriteLineIf($"[StepEnd] Open.Count:{OpenList.Count}, Exp:{Expended}, Gen:{Generated}, Prune:{Pruned} - return Ended-EmptyList", TraceLevel.Verbose);
+#if DEBUG
+                Log.WriteLineIf($"[StepEnd] Open.Count:{OpenList.Count}, Exp:{Expended}, Gen:{Generated}, AlgPruned:{AlgPruned}, ExternalPruned:{ExternalPruned} - return Ended-EmptyList", TraceLevel.Verbose);
+#endif
                 return State.Ended;
             }
             // Check the next best node in OPEN and set it to current
@@ -40,7 +44,9 @@ namespace MaxSearchAlg
 
             if (Generated % LogSearchStatusEveryXGenerated == 0)
             {
+#if DEBUG
                 Log.WriteLineIf($"[AStarMax] OpenListSize:{openList.Count}", TraceLevel.Verbose);
+#endif
             }
 
             //store best candidate if we seeing it
@@ -49,18 +55,24 @@ namespace MaxSearchAlg
                 if (candidateGoalNode == null || currentNode.g > candidateGoalNode.g)
                 {
                     candidateGoalNode = currentNode;
+#if DEBUG
                     Log.WriteLineIf("[ValidCandidate] Best Candidate:" + candidateGoalNode, TraceLevel.Verbose);
+#endif
                 }
             }
 
             if (candidateGoalNode != null && currentNode.f < candidateGoalNode.g)
             {
-                Log.WriteLineIf($"[BestCandidate] Open.Count:{OpenList.Count}, Exp:{Expended}, Gen:{Generated}, Prune:{Pruned} - return Ended-BestFound!!!", TraceLevel.Verbose);
+#if DEBUG
+                Log.WriteLineIf($"[BestCandidate] Open.Count:{OpenList.Count}, Exp:{Expended}, Gen:{Generated}, AlgPruned:{AlgPruned}, ExternalPruned:{ExternalPruned} - return Ended-BestFound!!!", TraceLevel.Verbose);
+#endif
                 return State.Ended;
             }
             //Expand current node
             Expended++;
+#if DEBUG
             Log.WriteLineIf("[StepExpanding...] ", TraceLevel.Verbose);
+#endif
             foreach (var child in currentNode.Children)
             {
 #if DEBUG
@@ -69,20 +81,28 @@ namespace MaxSearchAlg
                     Log.WriteLineIf($"[HEURISTIC NOT CONSISTENT] Parent: {currentNode.h}, Child:{child.GetBitsString()}", TraceLevel.Error);
                 }
 #endif
+#if DEBUG
                 Log.WriteLineIf($"[GenerateChild...] {child.GetBitsString()}", TraceLevel.Info);
+#endif
                 if (!PrunningMethod.ShouldPrune(child))
                 {
+#if DEBUG
                     Log.WriteLineIf("[Prune] false", TraceLevel.Verbose);
+#endif
                     openList.Add(child);
                     Generated++;
                 }
                 else
                 {
+#if DEBUG
                     Log.WriteLineIf("[Prune] true", TraceLevel.Verbose);
-                    Pruned++;
+#endif
+                    ExternalPruned++;
                 }
             }
-            Log.WriteLineIf($"[AStarMax.StepEnd] Open.Count:{OpenList.Count}, Exp:{Expended}, Gen:{Generated}, Prune:{Pruned} - return Searching", TraceLevel.Verbose);
+#if DEBUG
+            Log.WriteLineIf($"[AStarMax.StepEnd] Open.Count:{OpenList.Count}, Exp:{Expended}, Gen:{Generated}, AlgPruned:{AlgPruned}, ExternalPruned:{ExternalPruned} - return Searching", TraceLevel.Verbose);
+#endif
             return State.Searching;
         }
     }

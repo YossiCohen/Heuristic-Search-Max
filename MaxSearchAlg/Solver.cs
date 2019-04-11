@@ -20,7 +20,8 @@ namespace MaxSearchAlg
         {
             Expended = 0;
             Generated = 0;
-            Pruned = 0;
+            AlgPruned = 0;
+            ExternalPruned = 0;
             PrunningMethod = prunningMethod;
             GoalCheckMethod = goalCheckMethod;
             if (GoalCheckMethod.ValidGoal(initialNode))
@@ -30,7 +31,8 @@ namespace MaxSearchAlg
         }
         public int Expended { get; internal set; }
         public int Generated { get; internal set; }
-        public int Pruned { get; internal set; }
+        public int AlgPruned { get; internal set; }
+        public int ExternalPruned { get; internal set; }
 
         /// <summary>
         /// Steps the solver algorithm forward until it finds the goal node or time is up
@@ -69,7 +71,9 @@ namespace MaxSearchAlg
                 //Periodic Log prints
                 if (Generated % LogSearchStatusEveryXGenerated == 0)
                 {
-                    Log.WriteLineIf($"[SolverStatus] Generated:{Generated}, Expended:{Expended}, Pruned:{Pruned}, Time(min):{DateTime.Now.Subtract(startTime).TotalMinutes}, Memory:{Process.GetCurrentProcess().WorkingSet64}", TraceLevel.Verbose);
+#if DEBUG
+                    Log.WriteLineIf($"[SolverStatus] Generated:{Generated}, Expended:{Expended}, AlgPruned:{AlgPruned}, ExternalPruned:{ExternalPruned}, Time(min):{DateTime.Now.Subtract(startTime).TotalMinutes}, Memory:{Process.GetCurrentProcess().WorkingSet64}", TraceLevel.Verbose);
+#endif
                 }
             }
         }

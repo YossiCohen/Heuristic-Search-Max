@@ -208,7 +208,8 @@ namespace MaSib
             Log.WriteLineIf("[[TotalTime(MS):" + totalTime.TotalMilliseconds + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Expended:" + solver.Expended + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Generated:" + solver.Generated + "]]", TraceLevel.Off);
-            Log.WriteLineIf("[[Pruned:" + solver.Pruned + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[AlgPruned:" + solver.AlgPruned + "]]", TraceLevel.Off);
+            Log.WriteLineIf("[[ExternalPruned:" + solver.ExternalPruned + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[G-Value:" + goal.g + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[GoalBits:" + goal.GetBitsString() + "]]", TraceLevel.Off);
             Log.WriteLineIf("[[Goal:" + goal.GetNodeStringV2() + "]]", TraceLevel.Off);

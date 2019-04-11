@@ -8,7 +8,7 @@
         }
         public string GetName()
         {
-            return "NoneHeuristic";
+            return "A None_H";
         }
     }
 }

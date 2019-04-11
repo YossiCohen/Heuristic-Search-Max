@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Grid.Domain
 {
@@ -34,7 +32,7 @@ namespace Grid.Domain
             _blockCutTree_BlockIdToCutPoints = new Dictionary<int, List<int>>();
             if (null == searchNode)
             {
-                blockedOrVisited = World._isBlockedLocations;
+                blockedOrVisited = World._isPostBccInitBlockedLocations;
             }
             else
             {
@@ -351,8 +349,6 @@ namespace Grid.Domain
             }
             return retVal;
         }
-
-        
     }
 
     public class Edge
