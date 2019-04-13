@@ -181,8 +181,9 @@ namespace DrawSolution
                 {
                     if (_mazeFileName==null && line.Contains("[[Problem:") )
                     {
-                        var split = line.Split(new char[] {':', ']'});
-                        _mazeFileName = Path.Combine("..",split[4]);
+                        var split = line.Split(new char[] {':'});
+                        var currentFilename = split[3].Remove(split[3].Length - 2);
+                        _mazeFileName = Path.Combine("..", currentFilename);
                     }
                     else if (line.Contains("[[Goal:"))
                     {
