@@ -62,10 +62,10 @@ namespace MaxSearchAlg
                     return State.StoppedByTime;
                 }
 
-                //Stop accorting to memory limitation
-                if (memoryLimit != 0 && Process.GetCurrentProcess().WorkingSet64 > memoryLimit)
+                //flush accorting to memory limitation
+                if (memoryLimit != 0 && Expended % 100000 == 0 && Process.GetCurrentProcess().WorkingSet64 > memoryLimit)
                 {
-                    return State.StoppedByMemoryLimit;
+                    PrunningMethod.MemFlush();
                 }
 
                 //Periodic Log prints

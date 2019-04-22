@@ -14,6 +14,7 @@ namespace Grid
 
         private static readonly string VERSION = "2.01";
         private static readonly string TIME_LIMIT = ConfigurationSettings.AppSettings["TimeLimit"] == null ? "15" : ConfigurationSettings.AppSettings["TimeLimit"];
+        private static readonly string MEM_LIMIT = ConfigurationSettings.AppSettings["MemLimit"] == null ? "4096" : ConfigurationSettings.AppSettings["MemLimit"];
         private static readonly string BCC_INIT = ConfigurationSettings.AppSettings["BccInit"] == null ? "true" : ConfigurationSettings.AppSettings["BccInit"];
 
         static void Main(string[] args)
@@ -26,6 +27,7 @@ namespace Grid
                 Console.WriteLine(@"----------");
                 Console.WriteLine(@"problem:     problem filename");
                 Console.WriteLine(@"time-limit:  limit run time to X minutes (default 120), 0 for no time limit");
+                Console.WriteLine(@"mem-limit:   After how many GB we should flush pruning lists (For DFBNB fork)");
                 Console.WriteLine(@"alg:         [astar/dfbnb/greedy/greedyloops] the solving algorithm");
                 Console.WriteLine(@"heuristic:   [none/untouched/bcc/alternate/altbcc/sepaltbcc] the heuristic being used");
                 Console.WriteLine(@"prune:       [none/bsd/rsd/hbsd] pruning technique");
@@ -47,6 +49,10 @@ namespace Grid
             {
                 splitedArgs.Add("time-limit", TIME_LIMIT);
             }
+            if (!splitedArgs.ContainsKey("mem-limit")) //default mem limit
+            {
+                splitedArgs.Add("mem-limit", MEM_LIMIT);
+            }
 
             if (!splitedArgs.ContainsKey("bcc-init")) //default pre-bcc
             {
@@ -54,6 +60,7 @@ namespace Grid
             }
 
             int timelimit = Int32.Parse(splitedArgs["time-limit"]);
+            int memlimit = Int32.Parse(splitedArgs["mem-limit"]);
             bool bccInit = Boolean.Parse(splitedArgs["bcc-init"]);
 
             string problemFileName = splitedArgs["problem"];
@@ -171,6 +178,7 @@ namespace Grid
             Log.WriteLineIf(@"[[Prunning:" + prune.GetName() + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[BccInit:" + bccInit + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[TimeLimit:" + timelimit + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[MemLimit:" + memlimit + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Width:" + world.Width + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Height:" + world.Height + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[TotalLocations:" + world.Height * world.Width + "]]", TraceLevel.Off);
@@ -195,7 +203,7 @@ namespace Grid
             var startTime = DateTime.Now;
             ulong startCycles = NativeMethods.GetThreadCycles();
 
-            var howEnded = solver.Run(timelimit);
+            var howEnded = solver.Run(timelimit,memlimit);
 
             ulong totalCycles = NativeMethods.GetThreadCycles() - startCycles;
             var totalTime = DateTime.Now - startTime;

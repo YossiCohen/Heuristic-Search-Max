@@ -4,5 +4,6 @@
     {
         bool ShouldPrune(INode node);
         string GetName();
+        void MemFlush();
     }
 }

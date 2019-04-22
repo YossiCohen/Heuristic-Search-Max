@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Common;
@@ -117,6 +118,16 @@ namespace Grid.Domain
         public string GetName()
         {
             return "C HBSD_Pr";
+        }
+
+        public void MemFlush()
+        {
+            HistoryNodes = null;
+            GC.Collect();
+            GC.WaitForFullGCComplete();
+            GC.WaitForPendingFinalizers();
+
+            HistoryNodes = new Dictionary<int, Dictionary<int, List<GridSearchNode>>>();
         }
     }
 }

@@ -130,5 +130,11 @@ namespace Grid.Domain
         {
             return "D RSD_Pr";
         }
+
+
+        public void MemFlush()
+        {
+
+        }
     }
 }

@@ -11,5 +11,10 @@
         {
             return "A None_Pr";
         }
+
+        public void MemFlush()
+        {
+
+        }
     }
 }

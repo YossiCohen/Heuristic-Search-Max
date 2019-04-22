@@ -75,5 +75,10 @@ namespace Grid.Domain
         {
             return "B BSD_Pr";
         }
+
+        public void MemFlush()
+        {
+
+        }
     }
 }
