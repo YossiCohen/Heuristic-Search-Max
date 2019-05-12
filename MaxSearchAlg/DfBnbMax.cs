@@ -33,7 +33,7 @@ namespace MaxSearchAlg
             // Check the next node in the queue and pop it
             var currentNode = openList.Pop();
             //do Prune if needed
-            if (candidateGoalNode != null && currentNode.f < candidateGoalNode.g)
+            if (candidateGoalNode != null && currentNode.f <= candidateGoalNode.g)
             {
                 AlgPruned++;
                 return State.Searching;

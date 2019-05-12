@@ -29,10 +29,10 @@ namespace MaxSearchAlg
                 candidateGoalNode = initialNode;
             }
         }
-        public int Expended { get; internal set; }
-        public int Generated { get; internal set; }
-        public int AlgPruned { get; internal set; }
-        public int ExternalPruned { get; internal set; }
+        public long Expended { get; internal set; }
+        public long Generated { get; internal set; }
+        public long AlgPruned { get; internal set; }
+        public long ExternalPruned { get; internal set; }
 
         /// <summary>
         /// Steps the solver algorithm forward until it finds the goal node or time is up
@@ -40,7 +40,7 @@ namespace MaxSearchAlg
         /// <returns>Returns the state the algorithm finished in</returns>
         public State Run(int timelimit, int memoryLimit_MB = 0)
         {
-            long memoryLimit = memoryLimit_MB * 1024 * 1024;  //B -> KB -> MB
+            long memoryLimit = (long)memoryLimit_MB * 1024 * 1024;  //B -> KB -> MB
             var startTime = DateTime.Now;
             while (true)
             {
@@ -65,6 +65,9 @@ namespace MaxSearchAlg
                 //flush accorting to memory limitation
                 if (memoryLimit != 0 && Expended % 100000 == 0 && Process.GetCurrentProcess().WorkingSet64 > memoryLimit)
                 {
+                    Log.WriteLineIf($"[Memory flush!] ", TraceLevel.Off);
+                    Log.WriteLineIf($"[SolverStatus] Generated:{Generated}, Expended:{Expended}, AlgPruned:{AlgPruned}, ExternalPruned:{ExternalPruned}, Time(min):{DateTime.Now.Subtract(startTime).TotalMinutes}, Memory:{Process.GetCurrentProcess().WorkingSet64}", TraceLevel.Off);
+                    Log.WriteLineIf("Best Candidate:" + candidateGoalNode, TraceLevel.Off);
                     PrunningMethod.MemFlush();
                 }
 
