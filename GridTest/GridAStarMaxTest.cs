@@ -15,6 +15,7 @@ namespace GridTest
         private static World _basicWorld6X50;
         private static World _basicWorld6X51;
         private static World _basicWorld4X416;
+        private static World _basicWorld14X14;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -24,6 +25,7 @@ namespace GridTest
             _basicWorld6X50 = new World(File.ReadAllText(@"..\..\Grid-10-6-5-4-0.grd"), new UntouchedAroundTheGoalHeuristic());
             _basicWorld6X51 = new World(File.ReadAllText(@"..\..\Grid-10-6-5-4-1.grd"), new UntouchedAroundTheGoalHeuristic());
             _basicWorld4X416 = new World(File.ReadAllText(@"..\..\Grid-20-4-4-2-16.grd"), new UntouchedAroundTheGoalHeuristic());
+            _basicWorld14X14 = new World(File.ReadAllText(@"..\..\14x14.grd"), new UntouchedAroundTheGoalHeuristic());
         }
 
         [TestMethod]
@@ -82,7 +84,7 @@ namespace GridTest
         }
 
         [TestMethod]
-        public void Run_AStarGrid4X4WithBlocked16_StopsByMemoryConstraint()
+        public void Run_AStarGrid4X4WithBlocked16_StopsByMemoryConstraint()  //TODO: fix
         {
             GridSearchNode initialState = _basicWorld4X416.GetInitialSearchNode<GridSearchNode>();
             AStarMax astar = new AStarMax(initialState, new GoalOnLocation(_basicWorld4X416.Goal));

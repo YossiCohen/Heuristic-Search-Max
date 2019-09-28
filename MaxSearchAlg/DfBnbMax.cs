@@ -54,6 +54,10 @@ namespace MaxSearchAlg
 
             foreach (var child in currentNode.Children)
             {
+                if (child.h == 0 && !GoalCheckMethod.ValidGoal(child))
+                {
+                    continue;
+                }
                 if (!PrunningMethod.ShouldPrune(child))
                 {
                     openList.Push(child);

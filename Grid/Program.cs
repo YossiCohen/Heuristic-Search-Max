@@ -12,7 +12,7 @@ namespace Grid
     class Program
     {
 
-        private static readonly string VERSION = "2.02";
+        private static readonly string VERSION = "2.03";
         private static readonly string TIME_LIMIT = ConfigurationSettings.AppSettings["TimeLimit"] == null ? "15" : ConfigurationSettings.AppSettings["TimeLimit"];
         private static readonly string MEM_LIMIT = ConfigurationSettings.AppSettings["MemLimit"] == null ? "4096" : ConfigurationSettings.AppSettings["MemLimit"];
         private static readonly string BCC_INIT = ConfigurationSettings.AppSettings["BccInit"] == null ? "true" : ConfigurationSettings.AppSettings["BccInit"];

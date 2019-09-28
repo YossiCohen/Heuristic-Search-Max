@@ -82,7 +82,7 @@ namespace GridTest
         }
 
         [TestMethod]
-        public void Run_Grid4X4WithBlocked16_StopsByMemoryConstraint()
+        public void Run_Grid4X4WithBlocked16_StopsByMemoryConstraint()  //TODO:fix
         {
             GridSearchNode initialState = _basicWorld4X416.GetInitialSearchNode<GridSearchNode>();
             GreedyMax greedy = new GreedyMax(initialState, new GoalOnLocation(_basicWorld4X416.Goal));
