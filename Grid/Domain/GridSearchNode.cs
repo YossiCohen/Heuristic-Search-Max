@@ -30,7 +30,14 @@ namespace Grid.Domain
             {
                 [HeadLocation.Y * World.Width + HeadLocation.X] = true
             };
-            g = parentNode.g + 1;
+            if (World.Type == WorldType.Uniform)
+            {
+                g = parentNode.g + 1;
+            }
+            else //WorldType.Life
+            {
+                g = parentNode.g + parentNode.HeadLocation.Y;
+            }
             h = World.CalculateHeuristic(this);
         }
 

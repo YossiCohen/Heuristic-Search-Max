@@ -12,7 +12,7 @@ namespace Grid
     class Program
     {
 
-        private static readonly string VERSION = "2.01";
+        private static readonly string VERSION = "3.01";
         private static readonly string TIME_LIMIT = ConfigurationSettings.AppSettings["TimeLimit"] == null ? "15" : ConfigurationSettings.AppSettings["TimeLimit"];
         private static readonly string BCC_INIT = ConfigurationSettings.AppSettings["BccInit"] == null ? "true" : ConfigurationSettings.AppSettings["BccInit"];
 
@@ -30,6 +30,7 @@ namespace Grid
                 Console.WriteLine(@"heuristic:   [none/untouched/bcc/alternate/altbcc/sepaltbcc] the heuristic being used");
                 Console.WriteLine(@"prune:       [none/bsd/rsd/hbsd] pruning technique");
                 Console.WriteLine(@"bcc-init:    [true/false] remove non-reachable areas from the graph on init");
+                Console.WriteLine(@"world:       [uniform/life] uniform cost or life grid world, uniform is default");
                 Console.WriteLine(@"----------");
                 Console.WriteLine(@"memTest:     if set to true, will not solve nothing, only fill memory");
                 Console.WriteLine(@"             allocation to check 64bit issue");
@@ -51,6 +52,12 @@ namespace Grid
             if (!splitedArgs.ContainsKey("bcc-init")) //default pre-bcc
             {
                 splitedArgs.Add("bcc-init", BCC_INIT);
+            }
+
+
+            if (!splitedArgs.ContainsKey("world")) //default pre-bcc
+            {
+                splitedArgs.Add("world", "uniform");
             }
 
             int timelimit = Int32.Parse(splitedArgs["time-limit"]);
@@ -95,7 +102,21 @@ namespace Grid
                 throw new NotImplementedException();
             }
 
-            World world = new World(File.ReadAllText(problemFileName), heuristic);
+            WorldType wType;
+            if (splitedArgs["world"] == "uniform")
+            {
+                wType = WorldType.Uniform;
+            }
+            else if (splitedArgs["world"] == "life")
+            {
+                wType = WorldType.Life;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+
+            World world = new World(File.ReadAllText(problemFileName), heuristic, wType);
 
             IPrunningMethod prune;
             GridSearchNode initialNode;

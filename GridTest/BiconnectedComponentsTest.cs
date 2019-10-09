@@ -33,15 +33,15 @@ namespace GridTest
              * |---|---|---|---|---| 
              * 
              */
-            _basicWorldV1 = new World(basicBccV1, new NoneHeuristic());
+            _basicWorldV1 = new World(basicBccV1, new NoneHeuristic(), WorldType.Uniform);
             var basicBccV2 = File.ReadAllText(@"..\..\Grid_5x5BiconnectedComponentsHeuristicV2.grd");
-            _basicWorldV2 = new World(basicBccV2, new NoneHeuristic());
+            _basicWorldV2 = new World(basicBccV2, new NoneHeuristic(), WorldType.Uniform);
             var basicBccV3 = File.ReadAllText(@"..\..\Grid_5x5BiconnectedComponentsHeuristicV3.grd");
-            _basicWorldV3 = new World(basicBccV3, new NoneHeuristic());
-            _basicWorldT1S0 = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step0.grd"), new NoneHeuristic());
-            _basicWorldT1S1 = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step1.grd"), new NoneHeuristic());
-            _basicWorldT1S2D = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step2D.grd"), new NoneHeuristic());
-            _basicWorldT1S2R = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step2R.grd"), new NoneHeuristic());
+            _basicWorldV3 = new World(basicBccV3, new NoneHeuristic(), WorldType.Uniform);
+            _basicWorldT1S0 = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step0.grd"), new NoneHeuristic(), WorldType.Uniform);
+            _basicWorldT1S1 = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step1.grd"), new NoneHeuristic(), WorldType.Uniform);
+            _basicWorldT1S2D = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step2D.grd"), new NoneHeuristic(), WorldType.Uniform);
+            _basicWorldT1S2R = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step2R.grd"), new NoneHeuristic(), WorldType.Uniform);
         }
 
 

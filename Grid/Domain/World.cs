@@ -101,9 +101,12 @@ namespace Grid.Domain
             }
         }
 
-        public World(string gridString, IGridHeuristic heuristicFunction)
+        public WorldType Type;
+
+        public World(string gridString, IGridHeuristic heuristicFunction, WorldType type)
         {
             HeuristicFunction = heuristicFunction;
+            Type = type;
             var lines =  gridString.Split( new[] { Environment.NewLine },StringSplitOptions.None);
             if (lines.Length < 3)
             {
@@ -192,5 +195,10 @@ namespace Grid.Domain
     }
     public class GridWithDifferentLinesSize : Exception
     {
+    }
+
+    public enum WorldType
+    {
+        Uniform, Life
     }
 }

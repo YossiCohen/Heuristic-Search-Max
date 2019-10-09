@@ -115,11 +115,11 @@ namespace GridTest
         public void TotalBlocked_OnDifferentMaps_ReturnsCorrectCount()
         {
             World w = new World(_gridAstr, new NoneHeuristic());
-            Assert.AreEqual(5, w.TotalBlocked);
+            Assert.AreEqual(5, w.TotalBlockedPreBccInit);
             w = new World(_gridBstr, new NoneHeuristic());
-            Assert.AreEqual(5, w.TotalBlocked);
+            Assert.AreEqual(5, w.TotalBlockedPreBccInit);
             w = new World(_gridCstr, new NoneHeuristic());
-            Assert.AreEqual(5, w.TotalBlocked);
+            Assert.AreEqual(5, w.TotalBlockedPreBccInit);
         }
 
         [TestMethod]
