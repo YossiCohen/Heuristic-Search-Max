@@ -69,7 +69,7 @@ namespace GridGenerator
                         string outFileName = generator.GetFileName(gridFileId, _numOfGridFiles);
                         if (oneBcc)
                         {
-                            World w = new World(outFileContent, new NoneHeuristic());
+                            World w = new World(outFileContent, new NoneHeuristic(), WorldType.Uniform);
                             BiconnectedComponents bcc = new BiconnectedComponents(w);
                             if (bcc.Blocks.Count != 1) //One block that contains the start& end
                             {
