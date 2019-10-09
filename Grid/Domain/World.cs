@@ -160,7 +160,14 @@ namespace Grid.Domain
 
         public int CalculateHeuristic(GridSearchNode node)
         {
-            return HeuristicFunction.Calc_H(this, node);
+            if (Type == WorldType.Uniform)
+            {
+                return HeuristicFunction.Calc_H(this, node);
+            }
+            else  //WorldType.Life
+            {
+                return HeuristicFunction.Calc_Life_H(this, node);
+            }
         }
 
         public bool IsBlocked(Location loc)

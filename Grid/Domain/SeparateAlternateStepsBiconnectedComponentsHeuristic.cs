@@ -70,6 +70,11 @@ namespace Grid.Domain
             return (x + y) % 2 == 0;
         }
 
+        public int Calc_Life_H(World w, GridSearchNode gridNode)
+        {
+            return -1; //TODO: FIX!
+        }
+
         public string GetName()
         {
             return "F SEP_ALT_BCC_H";

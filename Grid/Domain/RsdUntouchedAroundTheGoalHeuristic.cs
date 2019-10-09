@@ -42,6 +42,11 @@ namespace Grid.Domain
             return goalReachableFromHead ? g:0;
         }
 
+        public int Calc_Life_H(World w, GridSearchNode gridNode)
+        {
+            return -1; //TODO: FIX!
+        }
+
         public string GetName()
         {
             return "B Reachable_H";

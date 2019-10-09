@@ -112,6 +112,11 @@ namespace Grid.Domain
             return width * height - GetNumberOfEvenLocations(width, height);
         }
 
+        public int Calc_Life_H(World w, GridSearchNode gridNode)
+        {
+            return -1; //TODO: FIX!
+        }
+
         public string GetName()
         {
             return "C Alt_Reachable_H";

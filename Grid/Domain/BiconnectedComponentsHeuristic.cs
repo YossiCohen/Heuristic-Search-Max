@@ -29,6 +29,11 @@ namespace Grid.Domain
             return validCount; //Minus 1 because we are counting the head location too
         }
         
+        public int Calc_Life_H(World w, GridSearchNode gridNode)
+        {
+            return -1; //TODO: FIX!
+        }
+        
         public string GetName()
         {
             return "D BCC_H";
