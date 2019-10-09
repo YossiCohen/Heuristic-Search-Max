@@ -19,11 +19,11 @@ namespace GridTest
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            _basicWorld3X3 = new World(File.ReadAllText(@"..\..\33.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
-            _basicWorld5X5Blocked = new World(File.ReadAllText(@"..\..\Clean_Grid_5x5BasicBlocked.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
-            _basicWorld6X50 = new World(File.ReadAllText(@"..\..\Grid-10-6-5-4-0.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
-            _basicWorld6X51 = new World(File.ReadAllText(@"..\..\Grid-10-6-5-4-1.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
-            _basicWorld4X416 = new World(File.ReadAllText(@"..\..\Grid-20-4-4-2-16.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic());
+            _basicWorld3X3 = new World(File.ReadAllText(@"..\..\33.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic(), WorldType.Uniform);
+            _basicWorld5X5Blocked = new World(File.ReadAllText(@"..\..\Clean_Grid_5x5BasicBlocked.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic(), WorldType.Uniform);
+            _basicWorld6X50 = new World(File.ReadAllText(@"..\..\Grid-10-6-5-4-0.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic(), WorldType.Uniform);
+            _basicWorld6X51 = new World(File.ReadAllText(@"..\..\Grid-10-6-5-4-1.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic(), WorldType.Uniform);
+            _basicWorld4X416 = new World(File.ReadAllText(@"..\..\Grid-20-4-4-2-16.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic(), WorldType.Uniform);
         }
 
         [TestMethod]

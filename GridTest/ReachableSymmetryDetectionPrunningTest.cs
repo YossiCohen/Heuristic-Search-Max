@@ -17,9 +17,9 @@ namespace GridTest
         [TestInitialize]
         public void ClassInitialize()
         {
-            _basicClean5X5World = new World(File.ReadAllText(@"..\..\Clean_Grid_5x5.grd"), new RsdUntouchedAroundTheGoalHeuristic());
-            _basicWorld5X5Blocked = new World(File.ReadAllText(@"..\..\Clean_Grid_5x5BasicBlocked.grd"), new RsdUntouchedAroundTheGoalHeuristic());
-            _basicWorld4x4 = new World(File.ReadAllText(@"..\..\Clean_Grid_4x4.grd"), new RsdUntouchedAroundTheGoalHeuristic());
+            _basicClean5X5World = new World(File.ReadAllText(@"..\..\Clean_Grid_5x5.grd"), new RsdUntouchedAroundTheGoalHeuristic(), WorldType.Uniform);
+            _basicWorld5X5Blocked = new World(File.ReadAllText(@"..\..\Clean_Grid_5x5BasicBlocked.grd"), new RsdUntouchedAroundTheGoalHeuristic(), WorldType.Uniform);
+            _basicWorld4x4 = new World(File.ReadAllText(@"..\..\Clean_Grid_4x4.grd"), new RsdUntouchedAroundTheGoalHeuristic(), WorldType.Uniform);
         }
         
         [TestMethod]

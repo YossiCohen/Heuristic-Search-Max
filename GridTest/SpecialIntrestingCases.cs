@@ -18,13 +18,13 @@ namespace GridTest
         public static void ClassInitialize(TestContext context)
         {
             _worlds = new LinkedList<World>();
-            _worlds.AddLast(new World(File.ReadAllText(@"..\..\33.grd"), new UntouchedAroundTheGoalHeuristic()));
-            _worlds.AddLast(new World(File.ReadAllText(@"..\..\Clean_Grid_5x5.grd"), new UntouchedAroundTheGoalHeuristic()));
-            _worlds.AddLast(new World(File.ReadAllText(@"..\..\Clean_Grid_5x5BasicBlocked.grd"), new UntouchedAroundTheGoalHeuristic()));
-            _worlds.AddLast(new World(File.ReadAllText(@"..\..\Grid-10-6-5-4-0.grd"), new UntouchedAroundTheGoalHeuristic()));
-            _worlds.AddLast(new World(File.ReadAllText(@"..\..\Grid-10-6-5-4-1.grd"), new UntouchedAroundTheGoalHeuristic()));
-            _worlds.AddLast(new World(File.ReadAllText(@"..\..\Grid-20-4-4-2-16.grd"), new UntouchedAroundTheGoalHeuristic()));
-            _worlds.AddLast(new World(File.ReadAllText(@"..\..\Grid-40-4-4-3-2.grd"), new UntouchedAroundTheGoalHeuristic()));
+            _worlds.AddLast(new World(File.ReadAllText(@"..\..\33.grd"), new UntouchedAroundTheGoalHeuristic(), WorldType.Uniform));
+            _worlds.AddLast(new World(File.ReadAllText(@"..\..\Clean_Grid_5x5.grd"), new UntouchedAroundTheGoalHeuristic(), WorldType.Uniform));
+            _worlds.AddLast(new World(File.ReadAllText(@"..\..\Clean_Grid_5x5BasicBlocked.grd"), new UntouchedAroundTheGoalHeuristic(), WorldType.Uniform));
+            _worlds.AddLast(new World(File.ReadAllText(@"..\..\Grid-10-6-5-4-0.grd"), new UntouchedAroundTheGoalHeuristic(), WorldType.Uniform));
+            _worlds.AddLast(new World(File.ReadAllText(@"..\..\Grid-10-6-5-4-1.grd"), new UntouchedAroundTheGoalHeuristic(), WorldType.Uniform));
+            _worlds.AddLast(new World(File.ReadAllText(@"..\..\Grid-20-4-4-2-16.grd"), new UntouchedAroundTheGoalHeuristic(), WorldType.Uniform));
+            _worlds.AddLast(new World(File.ReadAllText(@"..\..\Grid-40-4-4-3-2.grd"), new UntouchedAroundTheGoalHeuristic(), WorldType.Uniform));
         }
 
         [TestMethod]

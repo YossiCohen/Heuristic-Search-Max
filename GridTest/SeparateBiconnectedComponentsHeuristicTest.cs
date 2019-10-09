@@ -27,7 +27,7 @@ namespace GridTest
         public static void ClassInitialize(TestContext context)
         {
             _basicWorld2 = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_2x2.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic(), WorldType.Uniform);
-            _basicWorld3 = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_3x3.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic(), WorldType.Uniform;
+            _basicWorld3 = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_3x3.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic(), WorldType.Uniform);
             _basicWorld4a = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_4x4A.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic(), WorldType.Uniform);
             _basicWorld4b = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_4x4B.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic(), WorldType.Uniform);
             _basicWorld5a = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B2_E0_O2.grd"), new SeparateAlternateStepsBiconnectedComponentsHeuristic(), WorldType.Uniform);

@@ -18,13 +18,13 @@ namespace GridTest
         public static void ClassInitialize(TestContext context)
         {
             _basicWorldV1 = new World(File.ReadAllText(@"..\..\Grid_5x5BiconnectedComponentsHeuristicV1.grd"), 
-                new BiconnectedComponentsHeuristic());
+                new BiconnectedComponentsHeuristic(), WorldType.Uniform);
             _basicWorldV1unTouched = new World(File.ReadAllText(@"..\..\Grid_5x5BCCHV1asReachable.grd"), 
-                new UntouchedAroundTheGoalHeuristic());
+                new UntouchedAroundTheGoalHeuristic(), WorldType.Uniform);
             _basicWorldT1S0 = new World(File.ReadAllText(@"..\..\Grid_5x5BccH_try1step0.grd"),
-                new BiconnectedComponentsHeuristic());
+                new BiconnectedComponentsHeuristic(), WorldType.Uniform);
             _basicWorldBccAndPruningCheck = new World(File.ReadAllText(@"..\..\Clean_Grid_5x5BccAndPruning.grd"),
-                new BiconnectedComponentsHeuristic());
+                new BiconnectedComponentsHeuristic(), WorldType.Uniform);
         }
 
         [TestMethod]

@@ -30,14 +30,14 @@ namespace GridTest
         [TestMethod]
         public void Constructor_ReturnsValue_NotNull()
         {
-            World w = new World(_gridAstr, new NoneHeuristic());
+            World w = new World(_gridAstr, new NoneHeuristic(), WorldType.Uniform);
             Assert.IsNotNull(w);
         }
 
         [TestMethod]
         public void Constructor_GetRightDimentions_SizeOK()
         {
-            World w = new World(_gridAstr, new NoneHeuristic());
+            World w = new World(_gridAstr, new NoneHeuristic(), WorldType.Uniform);
             Assert.AreEqual(w.Height,5);
             Assert.AreEqual(w.Width, 6);
         }
@@ -46,34 +46,34 @@ namespace GridTest
         [ExpectedException(typeof(GridTooSmallException), "Grid too small")]
         public void Constructor_TinyIrrelevantGrid_TooSmallException()
         {
-            World unused = new World(_badGridSmall, new NoneHeuristic());
+            World unused = new World(_badGridSmall, new NoneHeuristic(), WorldType.Uniform);
         }
 
         [TestMethod]
         [ExpectedException(typeof(GridWithDifferentLinesSize))]
         public void Constructor_BadInput_BadGridSizesException()
         {
-            World unused = new World(_badGridSizes, new NoneHeuristic());
+            World unused = new World(_badGridSizes, new NoneHeuristic(), WorldType.Uniform);
         }
 
         [TestMethod]
         [ExpectedException(typeof(GridGoalNotFoundException))]
         public void Constructor_BadInput_BadGridNoGoalException()
         {
-            World unused = new World(_badGridNoGoal, new NoneHeuristic());
+            World unused = new World(_badGridNoGoal, new NoneHeuristic(), WorldType.Uniform);
         }
 
         [TestMethod]
         [ExpectedException(typeof(GridStartNotFoundException))]
         public void Constructor_BadInput_BadGridNoStartException()
         {
-            World unused = new World(_badGridNoStart, new NoneHeuristic());
+            World unused = new World(_badGridNoStart, new NoneHeuristic(), WorldType.Uniform);
         }
 
         [TestMethod]
         public void IsBlocked_RecognizeBlockedAndNonBlockeLocations_AllOK()
         {
-            World w = new World(_gridAstr, new NoneHeuristic());
+            World w = new World(_gridAstr, new NoneHeuristic(), WorldType.Uniform);
             Assert.AreEqual(w.Height, 5);
             Assert.AreEqual(w.Width, 6);
             Assert.IsFalse(w.IsBlocked(new Location(3, 0)));
@@ -84,7 +84,7 @@ namespace GridTest
         [TestMethod]
         public void GetInitialLocation_Sanity_ReturnsInitialState()
         {
-            World w = new World(_gridAstr, new NoneHeuristic());
+            World w = new World(_gridAstr, new NoneHeuristic(), WorldType.Uniform);
             GridSearchNode s = w.GetInitialSearchNode<GridSearchNode>();
             Assert.IsNotNull(s);
         }
@@ -92,21 +92,21 @@ namespace GridTest
         [TestMethod]
         public void LinearSize_Sanity_ReturnsRightValue30()
         {
-            World w = new World(_gridAstr, new NoneHeuristic());
+            World w = new World(_gridAstr, new NoneHeuristic(), WorldType.Uniform);
             Assert.AreEqual(30, w.LinearSize);
         }
 
         [TestMethod]
         public void LinearSize_Sanity_ReturnsRightValue25()
         {
-            World w = new World(_gridBstr, new NoneHeuristic());
+            World w = new World(_gridBstr, new NoneHeuristic(), WorldType.Uniform);
             Assert.AreEqual(25, w.LinearSize);
         }
 
         [TestMethod]
         public void GoalAndStart_PositionReadCorrectly_PositionGood()
         {
-            World w = new World(_gridCstr, new NoneHeuristic());
+            World w = new World(_gridCstr, new NoneHeuristic(), WorldType.Uniform);
             Assert.AreEqual(new Location(1,2), w.Start);
             Assert.AreEqual(new Location(2,3), w.Goal);
         }
@@ -114,33 +114,33 @@ namespace GridTest
         [TestMethod]
         public void TotalBlocked_OnDifferentMaps_ReturnsCorrectCount()
         {
-            World w = new World(_gridAstr, new NoneHeuristic());
+            World w = new World(_gridAstr, new NoneHeuristic(), WorldType.Uniform);
             Assert.AreEqual(5, w.TotalBlockedPreBccInit);
-            w = new World(_gridBstr, new NoneHeuristic());
+            w = new World(_gridBstr, new NoneHeuristic(), WorldType.Uniform);
             Assert.AreEqual(5, w.TotalBlockedPreBccInit);
-            w = new World(_gridCstr, new NoneHeuristic());
+            w = new World(_gridCstr, new NoneHeuristic(), WorldType.Uniform);
             Assert.AreEqual(5, w.TotalBlockedPreBccInit);
         }
 
         [TestMethod]
         public void EvenBlocked_OnDifferentMaps_ReturnsCorrectCount()
         {
-            World w = new World(_gridAstr, new NoneHeuristic());
+            World w = new World(_gridAstr, new NoneHeuristic(), WorldType.Uniform);
             Assert.AreEqual(3, w.EvenBlocked);
-            w = new World(_gridBstr, new NoneHeuristic());
+            w = new World(_gridBstr, new NoneHeuristic(), WorldType.Uniform);
             Assert.AreEqual(3, w.EvenBlocked);
-            w = new World(_gridCstr, new NoneHeuristic());
+            w = new World(_gridCstr, new NoneHeuristic(), WorldType.Uniform);
             Assert.AreEqual(2, w.EvenBlocked);
         }
 
         [TestMethod]
         public void OddBlocked_OnDifferentMaps_ReturnsCorrectCount()
         {
-            World w = new World(_gridAstr, new NoneHeuristic());
+            World w = new World(_gridAstr, new NoneHeuristic(), WorldType.Uniform);
             Assert.AreEqual(2, w.OddBlocked);
-            w = new World(_gridBstr, new NoneHeuristic());
+            w = new World(_gridBstr, new NoneHeuristic(), WorldType.Uniform);
             Assert.AreEqual(2, w.OddBlocked);
-            w = new World(_gridCstr, new NoneHeuristic());
+            w = new World(_gridCstr, new NoneHeuristic(), WorldType.Uniform);
             Assert.AreEqual(3, w.OddBlocked);
         }
 
