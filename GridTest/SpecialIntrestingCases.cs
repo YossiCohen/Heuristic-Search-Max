@@ -43,6 +43,22 @@ namespace GridTest
                 Assert.AreEqual(AstarMaxGoal.g, DfbnbMaxGoal.g);
             }
         }
-        
+
+        //TODO: Add test: foreach:
+        //[Uniform/Life]
+        //Compare that all below get the same Goal!
+        //[A*,DFBNB]
+        //[Heuristics]
+        //[Pruning]
+        //
+
+
+        [TestMethod]
+        public void HugeCompare_ALG_HEUR_PRUN_PER_DOMAIN()
+        {
+
+
+        }
+
     }
 }

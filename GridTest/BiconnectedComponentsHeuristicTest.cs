@@ -13,6 +13,7 @@ namespace GridTest
         private static World _basicWorldV1unTouched;
         private static World _basicWorldT1S0;
         private static World _basicWorldBccAndPruningCheck;
+        private static World _basicWorld5x5BlockedLife;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -25,6 +26,7 @@ namespace GridTest
                 new BiconnectedComponentsHeuristic(), WorldType.Uniform);
             _basicWorldBccAndPruningCheck = new World(File.ReadAllText(@"..\..\Clean_Grid_5x5BccAndPruning.grd"),
                 new BiconnectedComponentsHeuristic(), WorldType.Uniform);
+            _basicWorld5x5BlockedLife = new World(File.ReadAllText(@"..\..\Clean_Grid_5x5BasicBlocked.grd"), new BiconnectedComponentsHeuristic(), WorldType.Life);
         }
 
         [TestMethod]
@@ -140,6 +142,16 @@ namespace GridTest
             Assert.AreEqual(State.Ended, howEnded);
         }
 
+        [TestMethod]
+        public void Create_NewAStarGrid5X5ThreeBlocked_FindPathLife()
+        {
+            GridSearchNode initialState = _basicWorld5x5BlockedLife.GetInitialSearchNode<GridSearchNode>();
+            AStarMax astar = new AStarMax(initialState, new GoalOnLocation(_basicWorld5x5BlockedLife.Goal));
+            Assert.IsNotNull(astar);
+            astar.Run(Int32.MaxValue);
+            var maxGoal = astar.GetMaxGoal();
+            Assert.AreEqual(63, maxGoal.g);
+        }
 
     }
 }

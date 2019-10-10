@@ -18,6 +18,8 @@ namespace GridTest
         private static World _basicWorld6X51;
         private static World _basicWorld6X51Life;
         private static World _basicWorld4X416;
+        private static World _basicWorld5X5ThreeBlockedLife;
+        private static World _basicWorld7x6MiddleWallLife;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -30,6 +32,8 @@ namespace GridTest
             _basicWorld6X51 = new World(File.ReadAllText(@"..\..\Grid-10-6-5-4-1.grd"), new UntouchedAroundTheGoalHeuristic(), WorldType.Uniform);
             _basicWorld6X51Life = new World(File.ReadAllText(@"..\..\Grid-10-6-5-4-1.grd"), new UntouchedAroundTheGoalHeuristic(), WorldType.Life);
             _basicWorld4X416 = new World(File.ReadAllText(@"..\..\Grid-20-4-4-2-16.grd"), new UntouchedAroundTheGoalHeuristic(), WorldType.Uniform);
+            _basicWorld5X5ThreeBlockedLife = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_5x5_B3_E1_O2.grd"), new UntouchedAroundTheGoalHeuristic(), WorldType.Life);
+            _basicWorld7x6MiddleWallLife = new World(File.ReadAllText(@"..\..\AlternateStepsHeuristic_Test_7x6v1.grd"), new UntouchedAroundTheGoalHeuristic(), WorldType.Life);
         }
 
         [TestMethod]
@@ -107,6 +111,28 @@ namespace GridTest
             astar.Run(Int32.MaxValue);
             var maxGoal = astar.GetMaxGoal();
             Assert.AreEqual(74, maxGoal.g);
+        }
+
+        [TestMethod]
+        public void Create_NewAStarGrid5X5ThreeBlocked_FindPathLife()
+        {
+            GridSearchNode initialState = _basicWorld5X5ThreeBlockedLife.GetInitialSearchNode<GridSearchNode>();
+            AStarMax astar = new AStarMax(initialState, new GoalOnLocation(_basicWorld5X5ThreeBlockedLife.Goal));
+            Assert.IsNotNull(astar);
+            astar.Run(Int32.MaxValue);
+            var maxGoal = astar.GetMaxGoal();
+            Assert.AreEqual(63, maxGoal.g);
+        }
+
+        [TestMethod]
+        public void Create_NewAStarGrid7X6MiddleWallLife_FindPathLife()
+        {
+            GridSearchNode initialState = _basicWorld7x6MiddleWallLife.GetInitialSearchNode<GridSearchNode>();
+            AStarMax astar = new AStarMax(initialState, new GoalOnLocation(_basicWorld7x6MiddleWallLife.Goal));
+            Assert.IsNotNull(astar);
+            astar.Run(Int32.MaxValue);
+            var maxGoal = astar.GetMaxGoal();
+            Assert.AreEqual(112, maxGoal.g);
         }
 
         [TestMethod]
