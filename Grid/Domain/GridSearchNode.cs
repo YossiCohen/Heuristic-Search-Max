@@ -36,7 +36,7 @@ namespace Grid.Domain
             }
             else //WorldType.Life
             {
-                g = parentNode.g + parentNode.HeadLocation.Y;
+                g = parentNode.g + HeadLocation.Y + 1; //HeadLocation instead of parend head - for fix price regardless of origin parent
             }
             h = World.CalculateHeuristic(this);
         }
