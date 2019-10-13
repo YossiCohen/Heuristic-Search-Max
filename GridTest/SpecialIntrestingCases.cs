@@ -1,7 +1,9 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Grid.Domain;
 using MaxSearchAlg;
@@ -56,7 +58,150 @@ namespace GridTest
         [TestMethod]
         public void HugeCompare_ALG_HEUR_PRUN_PER_DOMAIN()
         {
+            var sanityFiles = Directory.GetFiles(@"..\..\SanityGrids\","*.grd");
+            var solvers = new string[] { "AStarMax","DfBnbMax" };
+            //none/untouched/bcc/alternate/altbcc/sepaltbcc
+            var heuristics = new string[]
+            {   "NoneHeuristic",
+                "UntouchedAroundTheGoalHeuristic",
+                "BiconnectedComponentsHeuristic",
+                "AlternateStepsHeuristic",
+                "AlternateStepsBiconnectedComponentsHeuristic",
+                "SeparateAlternateStepsBiconnectedComponentsHeuristic"
+            };
+            var prunings = new string[]
+            {
+                "NoPrunning",
+                "BasicSymmetryDetectionPrunning",
+                "HashedBasicSymmetryDetectionPrunning",
+                "ReachableSymmetryDetectionPrunning"
+            };
+            IGridHeuristic heuristic;
+            foreach (var sanityFile in sanityFiles)
+            {
+                int maxLength = -1;
+                foreach (WorldType wrldType in (WorldType[])Enum.GetValues(typeof(WorldType)))
+                {
+                    if (wrldType == WorldType.Life) continue; //TODO - enable this when life works
+                    
+                    foreach (var solverName in solvers)
+                    {
+                        foreach (var pruneName in prunings)
+                        {
+                            if (solverName == "DfBnbMax" && pruneName == "ReachableSymmetryDetectionPrunning") continue;
 
+                            foreach (var heuristicName in heuristics)
+                            {
+                                IPrunningMethod prune;
+                                GridSearchNode initialNode;
+
+                                if (heuristicName == "NoneHeuristic")
+                                {
+                                    heuristic = new NoneHeuristic();
+                                    if (pruneName == "ReachableSymmetryDetectionPrunning")
+                                    {
+                                        //Some issues here - we will pass this test
+                                        continue;
+                                    }
+                                }
+                                else if (heuristicName == "UntouchedAroundTheGoalHeuristic")
+                                {
+                                    if (pruneName == "ReachableSymmetryDetectionPrunning")
+                                    {
+                                        heuristic = new RsdUntouchedAroundTheGoalHeuristic();
+                                    }
+                                    else
+                                    {
+                                        heuristic = new UntouchedAroundTheGoalHeuristic();
+                                    }
+                                }
+                                else if (heuristicName == "BiconnectedComponentsHeuristic")
+                                {  //TODO: finish impl. + support RSD
+                                    heuristic = new BiconnectedComponentsHeuristic();
+                                }
+                                else if (heuristicName == "AlternateStepsHeuristic")
+                                {
+                                    heuristic = new AlternateStepsHeuristic();
+                                }
+                                else if (heuristicName == "AlternateStepsBiconnectedComponentsHeuristic")
+                                {
+                                    heuristic = new AlternateStepsBiconnectedComponentsHeuristic();
+                                }
+                                else if (heuristicName == "SeparateAlternateStepsBiconnectedComponentsHeuristic")
+                                {
+                                    heuristic = new SeparateAlternateStepsBiconnectedComponentsHeuristic();
+                                }
+                                else
+                                {
+                                    throw new Exception("heuristic not found");
+                                }
+
+                                World world = new World(File.ReadAllText(sanityFile), heuristic, wrldType);
+                                
+
+                                switch (pruneName)
+                                {
+                                    case "NoPrunning":
+                                        prune = new NoPrunning();
+                                        initialNode = world.GetInitialSearchNode<GridSearchNode>();
+                                        break;
+                                    case "BasicSymmetryDetectionPrunning":
+                                        prune = new BasicSymmetryDetectionPrunning();
+                                        initialNode = world.GetInitialSearchNode<GridSearchNode>();
+                                        break;
+                                    case "HashedBasicSymmetryDetectionPrunning":
+                                        prune = new HashedBasicSymmetryDetectionPrunning();
+                                        initialNode = world.GetInitialSearchNode<GridSearchNode>();
+                                        break;
+                                    case "ReachableSymmetryDetectionPrunning":
+                                        prune = new ReachableSymmetryDetectionPrunning();
+                                        initialNode = world.GetInitialSearchNode<RsdGridSearchNode>();
+                                        break;
+                                    default:
+                                        return;
+                                }
+
+                                Solver solver;
+                                switch (solverName)
+                                {
+                                    case "AStarMax":
+                                        solver = new AStarMax(initialNode, prune, new GoalOnLocation(world.Goal));
+                                        break;
+                                    case "DfBnbMax":
+                                        solver = new DfBnbMax(initialNode, prune, new GoalOnLocation(world.Goal));
+                                        break;
+                                    default:
+                                        return;
+                                }
+
+                                if (pruneName == "ReachableSymmetryDetectionPrunning")
+                                {
+                                    //Sorry but RSD must use AStarMax - DFBnB not supported
+                                    ((ReachableSymmetryDetectionPrunning)prune).setAstarOpenList(((AStarMax)solver).OpenList);
+                                }
+
+                                Log.WriteLineIf(string.Format("[File:{0},WorldType:{1},SearchAlg:{2},Heuristic:{3},Pruning:{4}]",sanityFile.Substring(18),wrldType,solverName,heuristicName,pruneName),TraceLevel.Off);
+                                var howEnded = solver.Run(0);
+                                Assert.AreEqual(howEnded, State.Ended);
+                                var goal = solver.GetMaxGoal().g;
+                                if (maxLength == -1)
+                                {
+                                    maxLength = goal;
+                                }
+                                else
+                                {
+                                    Assert.AreEqual(maxLength, goal);
+                                }
+                                
+                            }
+
+                        }
+
+                    }
+
+                }
+            }
+;
 
         }
 
