@@ -1,4 +1,6 @@
-﻿namespace Grid.Domain
+﻿using System;
+
+namespace Grid.Domain
 {
     public class NoneHeuristic : IGridHeuristic
     {
@@ -9,7 +11,7 @@
 
         public int Calc_Life_H(World w, GridSearchNode gridNode)
         {
-            return -1; //TODO: FIX!
+            return (w.Height*(w.Height+1)/2)*w.Width;
         }
 
         public string GetName()

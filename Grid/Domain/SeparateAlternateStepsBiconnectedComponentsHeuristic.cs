@@ -72,7 +72,48 @@ namespace Grid.Domain
 
         public int Calc_Life_H(World w, GridSearchNode gridNode)
         {
-            return -1; //TODO: FIX!
+            var bcc = new BiconnectedComponents(w, gridNode);
+            if (!bcc.LinearLocationWasVisitedDuringBuild(w.Goal))
+            {
+                return 0; //Goal not reachable
+            }
+            var bct = bcc.GetMaxPathBlockCutTree(gridNode.HeadLocation, w.Goal);
+            //instead of g we will count odd and even separatly
+            
+            int h = 0;
+            for (int i = 0; i + 2 < bct.Count; i += 2)
+            {
+                int head = bct.ElementAt(i)[0];
+                var firstStepEven = !IsEvenLocation(w, head);
+                var goalEven = IsEvenLocation(w, bct.ElementAt(i + 2)[0]);
+
+                int[] odd = new int[w.Height];
+                int[] even = new int[w.Height];
+                int oddCount = 0;
+                int evenCount = 0;
+
+                var currBlk = bct.ElementAt(i + 1);
+                for (int j = 0; j < currBlk.Length; j++)
+                {
+                    if (currBlk[j] == head) continue;
+                    int y = currBlk[j] / w.Width;
+
+                    if (IsEvenLocation(w, currBlk[j]))
+                    {
+                        even[y]++;
+                        evenCount++;
+                    }
+                    else
+                    {
+                        odd[y]++;
+                        oddCount++;
+                    }
+                }
+
+                h += AlternateStepsHeuristic.CalculateAlternateStepHeuristicLife(firstStepEven, goalEven, odd, even, oddCount, evenCount);
+            }
+            
+            return h;
         }
 
         public string GetName()

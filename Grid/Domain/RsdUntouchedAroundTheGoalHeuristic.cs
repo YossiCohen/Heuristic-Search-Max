@@ -44,7 +44,7 @@ namespace Grid.Domain
 
         public int Calc_Life_H(World w, GridSearchNode gridNode)
         {
-            return -1; //TODO: FIX!
+            return -1; //No implemented in Life - will not fit here
         }
 
         public string GetName()

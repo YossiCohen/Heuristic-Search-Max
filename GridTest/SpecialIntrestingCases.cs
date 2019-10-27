@@ -79,16 +79,17 @@ namespace GridTest
             IGridHeuristic heuristic;
             foreach (var sanityFile in sanityFiles)
             {
-                int maxLength = -1;
+
                 foreach (WorldType wrldType in (WorldType[])Enum.GetValues(typeof(WorldType)))
                 {
-                    if (wrldType == WorldType.Life) continue; //TODO - enable this when life works
-                    
+                    //if (wrldType == WorldType.Life) continue; //TODO - enable this when life works
+                    int maxLength = -1;
                     foreach (var solverName in solvers)
                     {
                         foreach (var pruneName in prunings)
                         {
                             if (solverName == "DfBnbMax" && pruneName == "ReachableSymmetryDetectionPrunning") continue;
+                            if (wrldType == WorldType.Life && pruneName == "ReachableSymmetryDetectionPrunning") continue;
 
                             foreach (var heuristicName in heuristics)
                             {
