@@ -32,12 +32,8 @@ namespace Grid.Domain
         public int Calc_Life_H(World w, GridSearchNode gridNode)
         {
             var bcc = new BiconnectedComponents(w, gridNode);
-            if (!bcc.LinearLocationWasVisitedDuringBuild(w.Goal))
+            if (!bcc.LinearLocationWasVisitedDuringBuild(w.Goal)) //TODO: FIX When GOAL IS NOT ON THE CORNER
             {
-                if (gridNode is RsdGridSearchNode)
-                {
-                    ((RsdGridSearchNode)gridNode).Reachable = new BitArray(w.LinearSize);
-                }
                 return 0; //Goal not reachable
             }
             var valid = bcc.GetValidPlacesForMaxPath(gridNode.HeadLocation, w.Goal);
@@ -48,10 +44,6 @@ namespace Grid.Domain
             }
 
             if (validSum > 0) validSum -= (gridNode.HeadLocation.Y + 1); //Minus the head location 
-            if (gridNode is RsdGridSearchNode)
-            {
-                ((RsdGridSearchNode)gridNode).Reachable = new BitArray(valid); 
-            }
             return validSum; 
         }
         

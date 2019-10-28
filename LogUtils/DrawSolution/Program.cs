@@ -27,6 +27,7 @@ namespace DrawSolution
         private static string _mazeFileName;
         private static string _algorithm;
         private static string _prunning;
+        private static string _heuristic;
         private static string _solutionLength;
         private static int _numberOfFree;
         private static int _numberOfBlocked;
@@ -104,7 +105,10 @@ namespace DrawSolution
             all.Append("Prunning:");
             all.Append(_prunning);
             all.Append(Environment.NewLine);
-            all.Append("Length:");
+            all.Append("Heuristic:");
+            all.Append(_heuristic);
+            all.Append(Environment.NewLine);
+            all.Append("G-Value:");
             all.Append(_solutionLength);
             all.Append(Environment.NewLine);
             all.Append("Number Of Free:");
@@ -208,6 +212,10 @@ namespace DrawSolution
                     else if (line.Contains("[[Prunning:"))
                     {
                         _prunning = line.Split(new char[] { ':', ']' })[4];
+                    }
+                    else if (line.Contains("[[Heuristic:"))
+                    {
+                        _heuristic = line.Split(new char[] { ':', ']' })[4];
                     }
                 }
             }

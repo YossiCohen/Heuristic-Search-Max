@@ -21,7 +21,7 @@ namespace Common
             "3" Information, gives Error, Warning and Information messages
             "4" Verbose, gives Error, Warning, Information and Verbose messages
          */
-        private static readonly string SWITCH_VALUE = ConfigurationSettings.AppSettings["LogUpToLevel"]==null?"3": ConfigurationSettings.AppSettings["LogUpToLevel"];
+        private static readonly string SWITCH_VALUE = ConfigurationSettings.AppSettings["LogUpToLevel"]==null?"4": ConfigurationSettings.AppSettings["LogUpToLevel"];
         private const string LOG_FOLDER = "RunningLogs";
 
         private static readonly string fileName;
