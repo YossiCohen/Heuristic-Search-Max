@@ -62,7 +62,7 @@ namespace GridTest
             var solvers = new string[] { "AStarMax","DfBnbMax" };
             //none/untouched/bcc/alternate/altbcc/sepaltbcc
             var heuristics = new string[]
-            {   "NoneHeuristic",
+            {   //"NoneHeuristic",
                 "UntouchedAroundTheGoalHeuristic",
                 "BiconnectedComponentsHeuristic",
                 "AlternateStepsHeuristic",
@@ -82,7 +82,7 @@ namespace GridTest
 
                 foreach (WorldType wrldType in (WorldType[])Enum.GetValues(typeof(WorldType)))
                 {
-                    //if (wrldType == WorldType.Life) continue; //TODO - enable this when life works
+                    if (wrldType == WorldType.Uniform) continue; //TODO - enable this when life works
                     int maxLength = -1;
                     foreach (var solverName in solvers)
                     {

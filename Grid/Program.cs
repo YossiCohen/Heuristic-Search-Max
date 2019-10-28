@@ -15,6 +15,7 @@ namespace Grid
         private static readonly string VERSION = "3.01";
         private static readonly string TIME_LIMIT = ConfigurationSettings.AppSettings["TimeLimit"] == null ? "15" : ConfigurationSettings.AppSettings["TimeLimit"];
         private static readonly string BCC_INIT = ConfigurationSettings.AppSettings["BccInit"] == null ? "true" : ConfigurationSettings.AppSettings["BccInit"];
+        private static readonly string WORLD_TYPE = ConfigurationSettings.AppSettings["WorldType"] == null ? "uniform" : ConfigurationSettings.AppSettings["WorldType"];
 
         static void Main(string[] args)
         {
@@ -55,9 +56,9 @@ namespace Grid
             }
 
 
-            if (!splitedArgs.ContainsKey("world")) //default pre-bcc
+            if (!splitedArgs.ContainsKey("world")) //default world type
             {
-                splitedArgs.Add("world", "uniform");
+                splitedArgs.Add("world", WORLD_TYPE);
             }
 
             int timelimit = Int32.Parse(splitedArgs["time-limit"]);
@@ -187,6 +188,7 @@ namespace Grid
             Log.WriteLineIf(@"Solviong 2D-Grid problem from file:", TraceLevel.Off);
             Log.WriteLineIf(@"[[Folder:" + Path.GetFileName(Environment.CurrentDirectory) + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Problem:" + problemFileName + "]]", TraceLevel.Off);
+            Log.WriteLineIf(@"[[WorldType:" + splitedArgs["world"] + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Algorithm:" + solver.GetType().Name + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Heuristic:" + heuristic.GetName() + "]]", TraceLevel.Off);
             Log.WriteLineIf(@"[[Prunning:" + prune.GetName() + "]]", TraceLevel.Off);
