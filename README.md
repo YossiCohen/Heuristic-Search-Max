@@ -4,7 +4,11 @@ In Grid we search for the longest simple path on 2D grid.
 in MASIB we solve the Multi-Agent version variant of Snake in the Box problem.
 
 Projects structure:
+
+https://deepwiki.com/YossiCohen/Heuristic-Search-Max/4-masib-domain-system
+
 MaxSearchAlg - Implementation of search algorithms (A*, DFBnB, Greedy)
+
 
 Grid related:
 - Grid - Longest simple path on 2D grid code
