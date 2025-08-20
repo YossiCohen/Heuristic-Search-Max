@@ -5,7 +5,7 @@ in MASIB we solve the Multi-Agent version variant of Snake in the Box problem.
 
 Projects structure:
 
-https://deepwiki.com/YossiCohen/Heuristic-Search-Max/4-masib-domain-system
+https://deepwiki.com/YossiCohen/Heuristic-Search-Max
 
 MaxSearchAlg - Implementation of search algorithms (A*, DFBnB, Greedy)
 
